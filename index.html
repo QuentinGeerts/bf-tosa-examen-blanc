@@ -168,6 +168,9 @@ pre.code { background: var(--code-bg); color: var(--code-ink); padding: 14px 16p
 .meter { height: 8px; background: var(--line); border-radius: 4px; overflow: hidden; }
 .meter span { display: block; height: 100%; background: currentColor; }
 .cat-row .n { font-family: "IBM Plex Mono", monospace; text-align: right; }
+.envoi { margin: 0 0 12px; font-size: 14px; }
+.envoi-ok { color: var(--ok); font-weight: 600; }
+.envoi-ko { color: var(--ko); }
 .copy-box { width: 100%; min-height: 150px; font-size: 13px; border: 1px solid var(--line); border-radius: 8px; padding: 10px; background: var(--surface-2); color: var(--ink); resize: vertical; }
 .review { display: grid; gap: 12px; margin-top: 14px; }
 .rv { border: 1px solid var(--line); border-left: 4px solid var(--ok); border-radius: 8px; padding: 16px 18px; background: var(--surface); }
@@ -374,9 +377,49 @@ function nouvelExamen(nom) {
     if (pratOK && PRAT_POS.includes(i)) seq.push({ c: pc.pop(), p: true });
     else seq.push({ c: qcm.pop(), p: false });
   }
-  S = { nom, seq, idx: 0, level: 2, used: [], answers: [], cur: null, start: Date.now(), end: Date.now() + DUREE, fini: false };
+  S = { id: token().slice(0, 6), nom, seq, idx: 0, level: 2, used: [], answers: [], cur: null, start: Date.now(), end: Date.now() + DUREE, fini: false };
   preparer();
   save();
+  envoyer({ type: "debut", id: S.id, nom });
+}
+
+// ─── Envoi automatique au formateur (fonction Vercel → webhook Discord) ───
+let envoiEnCours = false;
+async function envoyer(data) {
+  try {
+    const rep = await fetch("api/resultat", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+    return rep.ok && (await rep.json()).ok === true;
+  } catch (e) {
+    return false;
+  }
+}
+async function envoyerResultat() {
+  if (!S || !S.fini || S.envoi === "ok" || envoiEnCours) return;
+  envoiEnCours = true;
+  majStatut();
+  const sc = score(S.answers);
+  const st = stats();
+  const ok = await envoyer({
+    type: "fin", id: S.id, nom: S.nom, score: sc, niveau: niveau(sc), ok: st.ok, total: TOTAL,
+    cats: Object.fromEntries(Object.keys(CATS).map((c) => [c, [st.parCat[c].ok, st.parCat[c].n]])),
+    pOk: st.pOk, pN: st.pN,
+    duree: Math.round(((S.endedAt || Date.now()) - S.start) / 60000),
+    timeout: S.answers.some((a) => a.timeout),
+    erreurs: S.answers.map((a, i) => ({ a, i })).filter(({ a }) => !a.ok).map(({ a, i }) => ({ i: i + 1, c: a.c, n: a.id != null ? BANK[a.id].n : a.level })),
+  });
+  envoiEnCours = false;
+  S.envoi = ok ? "ok" : "echec";
+  save();
+  majStatut();
+}
+function majStatut() {
+  const el = document.getElementById("envoi-statut");
+  if (!el) return;
+  if (envoiEnCours) el.replaceChildren(h("span", { class: "muted" }, "Envoi du résultat au formateur…"));
+  else if (S.envoi === "ok") el.replaceChildren(h("span", { class: "envoi-ok" }, "✓ Résultat envoyé automatiquement au formateur."));
+  else el.replaceChildren(
+    h("span", { class: "envoi-ko" }, "Envoi automatique impossible. Copie le résumé et poste-le sur ton canal Discord. "),
+    h("button", { class: "btn small", onclick: envoyerResultat }, "Réessayer"));
 }
 function choisir(slot) {
   const libre = (i) => !S.used.includes(i);
@@ -707,13 +750,16 @@ function renderResultats() {
           return h("div", { class: "cat-row" }, chip(c), h("div", { class: "meter c-" + c }, h("span", { style: `width:${pct}%` })), h("span", { class: "n" }, `${v.ok}/${v.n}`));
         })),
       h("section", { class: "card" },
-        h("h3", {}, "À poster sur ton canal Discord"),
+        h("h3", {}, "Résumé"),
+        h("p", { id: "envoi-statut", class: "envoi" }),
         h("textarea", { id: "copy-box", class: "copy-box mono", readonly: true }, txt),
         h("div", { class: "row", style: "margin-top:10px" }, copyBtn, again))),
     h("div", { class: "section-title" },
       h("h2", {}, "Correction"),
       h("label", { class: "toggle" }, onlyErr, "Seulement mes erreurs")),
     review);
+  majStatut();
+  envoyerResultat();
 }
 
 function carteCorrection(a, i) {

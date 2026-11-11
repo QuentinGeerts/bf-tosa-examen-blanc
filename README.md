@@ -12,6 +12,14 @@ Simulation de l'examen de certification (HTML, CSS, JavaScript, Intégration) po
 | --- | --- |
 | `index.html` | La plateforme (affichage, chrono, score, correction) |
 | `questions.json` | La banque de questions, chargée par `index.html` |
+| `api/resultat.js` | Fonction Vercel : envoie le début et le résultat de chaque examen sur Discord |
+
+## Envoi automatique des résultats (Vercel + Discord)
+
+1. Discord : dans un salon privé, Paramètres du salon → Intégrations → Webhooks → Nouveau webhook → copier l'URL.
+2. Vercel : Project → Settings → Environment Variables → `DISCORD_WEBHOOK_URL` = l'URL du webhook, puis redéployer.
+
+La page envoie un message au début de l'examen et un message à la fin (score, détail par domaine, liste des erreurs). Si l'envoi échoue (hors Vercel, pas de réseau), la page propose de réessayer et le résumé reste copiable à la main.
 
 ⚠️ La page charge `questions.json` avec `fetch` : elle doit être servie par un serveur (GitHub Pages, Live Server…). Un double-clic sur `index.html` ne fonctionne pas.
 
