@@ -322,8 +322,9 @@ function fmt(ms) {
 function shim(t, apercu) {
   return '<script>(function(){var T="' + t + '";function s(v){try{if(v===undefined)return"undefined";if(typeof v==="string")return v;if(v instanceof Error)return v.name+": "+v.message;if(v&&v.nodeType===1)return"<"+v.tagName.toLowerCase()+(v.id?"#"+v.id:"")+">";return JSON.stringify(v)}catch(e){return String(v)}}function p(k,a){try{parent.postMessage({__ex:T,log:[k,Array.prototype.map.call(a,s).join(" ")]},"*")}catch(e){}}["log","info","warn","error","table"].forEach(function(k){var o=console[k];console[k]=function(){p(k,arguments);try{o.apply(console,arguments)}catch(e){}}});window.addEventListener("error",function(e){p("error",[(e.message||"Erreur")+(e.lineno?" (ligne "+e.lineno+")":"")])})' + (apercu ? ';window.addEventListener("submit",function(e){if(!e.defaultPrevented){e.preventDefault();try{parent.postMessage({__ex:T,reload:true},"*")}catch(x){}}})' : '') + '})()<\/script>';
 }
-function checkScript(body, t) {
-  return '<script>window.addEventListener("load",function(){setTimeout(function(){var ok=false;try{ok=!!(function(){' + body + '})()}catch(e){}parent.postMessage({__ex:"' + t + '",ok:ok},"*")},60)})<\/script>';
+function checkScript(body, t, code) {
+  const src = JSON.stringify(code || "").replace(/</g, "\\u003c");
+  return '<script>window.addEventListener("load",function(){setTimeout(function(){var ok=false;try{ok=!!(function(code){' + body + '})(' + src + ')}catch(e){}parent.postMessage({__ex:"' + t + '",ok:ok},"*")},60)})<\/script>';
 }
 function buildDoc(q, code, extra, t, apercu) {
   if (q.p === "js") {
@@ -359,7 +360,7 @@ function runInSandbox(html, t) {
 }
 function runCheck(q, code) {
   const t = token();
-  return runInSandbox(buildDoc(q, code, checkScript(q.check, t), t), t);
+  return runInSandbox(buildDoc(q, code, checkScript(q.check, t, code), t), t);
 }
 function probe() {
   const t = token();

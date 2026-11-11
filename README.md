@@ -75,7 +75,7 @@ Les champs de texte long (`code`, `enonce`, `depart`, `solution`) acceptent une 
 | `fichier` | `html` : le stagiaire édite un document HTML complet / `js` : il écrit uniquement un script |
 | `enonce` | Les lignes qui commencent par `1.`, `2.`… deviennent une liste numérotée |
 | `depart` | Le code affiché au départ dans l'éditeur |
-| `verification` | Corps d'une fonction JS exécutée dans la page du stagiaire après le chargement : elle doit retourner `true` si l'exercice est réussi |
+| `verification` | Corps d'une fonction JS exécutée dans la page du stagiaire après le chargement : elle doit retourner `true` si l'exercice est réussi. La variable `code` contient le code source tel qu'écrit par le stagiaire (utile quand le navigateur corrige le HTML tout seul, par exemple en ajoutant un `<tbody>` absent) |
 | `solution` | Affichée dans la correction |
 
 Le code du stagiaire et la vérification s'exécutent dans une iframe isolée (`sandbox="allow-scripts"`), avec 3 secondes maximum.

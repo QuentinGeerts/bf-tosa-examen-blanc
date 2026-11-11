@@ -2243,7 +2243,7 @@
         "</body>",
         "</html>"
       ],
-      "verification": "return document.querySelectorAll('table thead th').length === 2 && document.querySelectorAll('table tbody tr').length === 2 && !!document.querySelector('table tfoot td[colspan=\"2\"]');",
+      "verification": "const src = code.toLowerCase(); const pied = document.querySelectorAll('table tfoot td, table tfoot th'); return /<thead[^>]*>\\s*<tr/.test(src) && /<tbody/.test(src) && document.querySelectorAll('table thead th').length === 2 && document.querySelectorAll('table tbody tr').length === 2 && pied.length === 1 && pied[0].colSpan === 2;",
       "solution": [
         "<!DOCTYPE html>",
         "<html lang=\"fr\">",
