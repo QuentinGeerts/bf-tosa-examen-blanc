@@ -37,6 +37,8 @@ a { color: var(--accent); }
 .bar-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
 .bar strong { font-size: 17px; }
 .bar a { margin-left: auto; font-size: 14px; }
+.theme-btn { font: inherit; font-size: 13px; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); cursor: pointer; white-space: nowrap; }
+
 main { max-width: 900px; margin: 0 auto; padding: 28px 16px 64px; }
 h1 { font-size: 28px; line-height: 1.2; margin: 0 0 8px; }
 .intro { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 22px 24px; margin-bottom: 28px; }
@@ -79,6 +81,7 @@ details[open] summary::before { content: "▾ "; }
     <strong>Épreuve blanche commentée</strong>
     <span class="muted">Développement web</span>
     <a href="./">← Examen blanc</a>
+    <button type="button" class="theme-btn" id="theme">☾ Sombre</button>
   </div>
 </header>
 <main>
@@ -513,6 +516,23 @@ function afficher() {
   </article>
 </main>
 <script>
+// ─── Bouton de thème (clair par défaut, choix mémorisé) ───
+(function () {
+  const btn = document.getElementById("theme");
+  let theme = "light";
+  try { theme = localStorage.getItem("examen-theme") || "light"; } catch (e) {}
+  const appliquer = () => {
+    document.documentElement.dataset.theme = theme;
+    btn.textContent = theme === "dark" ? "☀ Clair" : "☾ Sombre";
+    btn.setAttribute("aria-label", theme === "dark" ? "Passer en thème clair" : "Passer en thème sombre");
+  };
+  appliquer();
+  btn.addEventListener("click", () => {
+    theme = theme === "dark" ? "light" : "dark";
+    appliquer();
+    try { localStorage.setItem("examen-theme", theme); } catch (e) {}
+  });
+})();
   document.getElementById("tout-ouvrir").addEventListener("click", () => document.querySelectorAll("details").forEach((d) => { d.open = true; }));
   document.getElementById("tout-fermer").addEventListener("click", () => document.querySelectorAll("details").forEach((d) => { d.open = false; }));
 </script>

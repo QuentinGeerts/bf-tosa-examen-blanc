@@ -76,6 +76,7 @@ button:disabled { cursor: not-allowed; opacity: .5; }
 .q-timer-note { margin-left: auto; font-size: 13px; }
 .q-timer { font-family: "IBM Plex Mono", monospace; font-weight: 600; padding: 2px 10px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface-2); }
 .q-timer.low { color: var(--ko); border-color: currentColor; }
+.theme-btn { font: inherit; font-size: 13px; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); cursor: pointer; white-space: nowrap; }
 .progress { height: 3px; background: var(--line); }
 .progress span { display: block; height: 100%; width: 0; background: var(--accent); transition: width .3s; }
 
@@ -259,6 +260,7 @@ table.vf tr.picked td { background: var(--ko-soft); }
     <div class="stat" id="who"></div>
     <div class="stat" id="count"></div>
     <div class="timer" id="timer" hidden>90:00</div>
+    <button type="button" class="theme-btn" id="theme">☾ Sombre</button>
   </div>
 </header>
 <div class="progress"><span id="bar"></span></div>
@@ -357,6 +359,25 @@ let previewSink = null;
 let previewReload = null;
 
 const app = document.getElementById("app");
+
+// ─── Bouton de thème (clair par défaut, choix mémorisé) ───
+(function () {
+  const btn = document.getElementById("theme");
+  let theme = "light";
+  try { theme = localStorage.getItem("examen-theme") || "light"; } catch (e) {}
+  const appliquer = () => {
+    document.documentElement.dataset.theme = theme;
+    btn.textContent = theme === "dark" ? "☀ Clair" : "☾ Sombre";
+    btn.setAttribute("aria-label", theme === "dark" ? "Passer en thème clair" : "Passer en thème sombre");
+  };
+  appliquer();
+  btn.addEventListener("click", () => {
+    theme = theme === "dark" ? "light" : "dark";
+    appliquer();
+    try { localStorage.setItem("examen-theme", theme); } catch (e) {}
+  });
+})();
+
 
 // ─── Outils ───
 function h(tag, attrs, ...kids) {
