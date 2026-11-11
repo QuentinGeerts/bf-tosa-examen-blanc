@@ -210,6 +210,12 @@ pre.code { background: var(--code-bg); color: var(--code-ink); padding: 14px 16p
 .console .repete { display: inline-block; min-width: 18px; padding: 0 5px; margin-right: 6px; border-radius: 9px; background: var(--ko); color: #fff; font-size: 11px; text-align: center; }
 .rv .fichier { font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--muted); margin: 10px 0 0; }
 
+.filtres { display: flex; gap: 10px; flex-wrap: wrap; margin: 14px 0 6px; }
+.filtres select, .filtres input { font: inherit; font-size: 14px; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); }
+.filtres input { flex: 1; min-width: 220px; }
+.rv.banque { border-left-color: var(--accent); }
+.rv .verdict.niveau { color: var(--muted); }
+
 /* Questions interactives */
 .inter { margin-top: 18px; }
 .aide { font-size: 13px; color: var(--muted); margin: 0 0 10px; }
@@ -1182,6 +1188,96 @@ function carteCorrection(a, i) {
   return el;
 }
 
+// ─── Mode formateur (caché) : toutes les questions avec leurs réponses — adresse de la page + #banque ───
+const NOMS_TYPES = { qcm: "QCM", vf: "Vrai / Faux", liste: "Listes déroulantes", relier: "Relier", glisser: "Glisser-déposer", pratique: "Exercice pratique" };
+const typeDe = (q) => (q.p ? "pratique" : q.t || "qcm");
+
+function carteBanque(q) {
+  const code = (c) => h("pre", { class: "code" }, h("code", {}, c));
+  const fichiers = (obj, verrous) => FICHIERS.filter((k) => obj[k] != null).flatMap((k) => [
+    h("p", { class: "fichier" }, (verrous && verrous[k] ? "🔒 " : "") + NOMS_FICHIERS[k]), code(obj[k])]);
+  const el = h("article", { class: "rv banque" },
+    h("div", { class: "head" }, h("span", { class: "mono" }, q.id), chip(q.c), h("span", { class: "tag" }, NOMS_TYPES[typeDe(q)]), h("span", { class: "verdict niveau" }, "Niveau " + q.n)));
+
+  if (q.p) {
+    el.append(block(q.q),
+      h("details", {}, h("summary", {}, "Fichiers de départ"), ...fichiers(q.start, q.lock)),
+      h("details", { open: true }, h("summary", {}, "Solution"), ...fichiers(q.sol)),
+      h("details", {}, h("summary", {}, "Vérification automatique"), code(q.check)));
+    return el;
+  }
+  el.append(q.t ? block(q.q) : rich("p", q.q));
+  if (q.code) el.append(code(q.code));
+
+  if (!q.t) {
+    el.append(h("ul", {}, q.o.map((o, k) => {
+      const li = h("li", { class: k === q.a ? "good" : "" }, h("span", { class: "mark" }, k === q.a ? "✓" : "ABCDE"[k]));
+      return inline(li, o);
+    })));
+  }
+  if (q.t === "vf") {
+    el.append(h("table", { class: "vf rv-table" },
+      h("thead", {}, h("tr", {}, h("th", {}, "Affirmation"), h("th", {}, "Réponse"))),
+      h("tbody", {}, q.aff.map((a) => h("tr", {}, rich("td", a[0]), h("td", {}, h("strong", {}, a[1] ? "Vrai" : "Faux")))))));
+  }
+  if (q.t === "liste") {
+    el.append(h("ul", {}, q.phr.map((p) => h("li", { class: "good" }, rich("span", p[0]), h("br"),
+      h("span", { class: "mark" }, "✓"), inline(h("span"), "`" + p[2] + "`"),
+      h("span", { class: "muted" }, " — choix : " + p[1].join(" · "))))));
+  }
+  if (q.t === "relier") {
+    el.append(h("ul", {}, q.paires.map((p) => h("li", { class: "good" }, h("span", { class: "mark" }, "✓"), inline(h("span"), p[0]), " → ", inline(h("span"), p[1]))),
+      q.intrus.length ? h("li", { class: "muted" }, "Intrus : " + q.intrus.join(" · ")) : null));
+  }
+  if (q.t === "glisser") {
+    const places = new Set(q.zones.flatMap((z) => z.rep));
+    const trop = q.etiq.filter((x) => !places.has(x));
+    el.append(h("ul", {}, q.zones.map((z, zi) => h("li", { class: "good" }, h("span", { class: "mark" }, "✓"),
+      h("strong", {}, (z.titre || z.decor || "Zone " + (zi + 1)) + " : "), inline(h("span"), z.rep.map((x) => "`" + x + "`").join(" ")))),
+      trop.length ? h("li", { class: "muted" }, "Restent à gauche : ", inline(h("span"), trop.map((x) => "`" + x + "`").join(" "))) : null));
+  }
+  el.append(rich("p", q.e, "expl"));
+  return el;
+}
+
+function renderBanque() {
+  document.getElementById("who").textContent = "Mode formateur";
+  document.getElementById("count").textContent = "";
+  document.getElementById("timer").hidden = true;
+  const choix = (label, options) => {
+    const s = h("select", { "aria-label": label }, options.map(([v, t]) => h("option", { value: v }, t)));
+    return s;
+  };
+  const fCat = choix("Domaine", [["", "Tous les domaines"], ...Object.entries(CATS)]);
+  const fType = choix("Format", [["", "Tous les formats"], ...Object.entries(NOMS_TYPES)]);
+  const fNiv = choix("Niveau", [["", "Tous les niveaux"], ...[1, 2, 3, 4, 5].map((n) => [String(n), "Niveau " + n])]);
+  const fTexte = h("input", { type: "search", placeholder: "Identifiant ou texte (ex. C034, promesse…)", "aria-label": "Recherche" });
+  const compteur = h("p", { class: "muted" });
+  const liste = h("div", { class: "review" });
+  const maj = () => {
+    const t = fTexte.value.trim().toLowerCase();
+    const items = BANK.filter((q) =>
+      (!fCat.value || q.c === fCat.value) &&
+      (!fType.value || typeDe(q) === fType.value) &&
+      (!fNiv.value || q.n === +fNiv.value) &&
+      (!t || q.id.toLowerCase() === t || JSON.stringify(q).toLowerCase().includes(t)));
+    compteur.textContent = `${items.length} question(s) sur ${BANK.length}`;
+    liste.replaceChildren(...items.map(carteBanque));
+  };
+  [fCat, fType, fNiv].forEach((s) => s.addEventListener("change", maj));
+  fTexte.addEventListener("input", maj);
+  app.replaceChildren(
+    h("section", { class: "card" },
+      h("p", { class: "tag" }, "Page formateur"),
+      h("h1", {}, "Banque de questions"),
+      h("p", { class: "muted" }, "Toutes les questions avec leurs réponses. Les identifiants sont ceux du message Discord et de questions.json."),
+      h("div", { class: "filtres" }, fCat, fType, fNiv, fTexte),
+      compteur,
+      h("a", { href: "#", class: "btn small" }, "← Retour à l'examen")),
+    liste);
+  maj();
+}
+
 // ─── Démarrage ───
 (async function init() {
   app.replaceChildren(h("p", { class: "muted narrow" }, "Chargement…"));
@@ -1198,7 +1294,9 @@ function carteCorrection(a, i) {
     terminer();
     S = null;
   }
-  render();
+  const router = () => (location.hash === "#banque" ? renderBanque() : render());
+  window.addEventListener("hashchange", () => { router(); window.scrollTo(0, 0); });
+  router();
 })();
 </script>
 </body>

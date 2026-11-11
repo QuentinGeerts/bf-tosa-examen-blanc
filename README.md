@@ -185,3 +185,7 @@ Définie en haut du script de `index.html` : `QUOTA` (questions par catégorie),
 - Une QCM mal formée (catégorie inconnue, pas 4 options…) est ignorée et signalée dans la console.
 - L'examen en cours est enregistré dans le `localStorage` du navigateur du stagiaire, avec les index des questions : éviter de modifier `questions.json` pendant qu'un examen est en cours.
 - Les réponses sont lisibles dans le code source : c'est un outil d'entraînement, pas un examen sécurisé.
+
+## Mode formateur
+
+Ajouter `#banque` à l'adresse de l'examen (ex. `https://…vercel.app/#banque`) affiche toutes les questions avec leurs réponses, filtrables par domaine, format et niveau, avec une recherche par identifiant ou par texte. Aucun lien n'y mène depuis la page.
