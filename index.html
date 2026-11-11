@@ -73,6 +73,7 @@ button:disabled { cursor: not-allowed; opacity: .5; }
 .stat b { color: var(--ink); font-weight: 600; }
 .timer { font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 17px; padding: 3px 10px; border-radius: 6px; background: var(--surface-2); border: 1px solid var(--line); }
 .timer.low { color: var(--warn); border-color: currentColor; }
+.qid-exam { font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 1px 6px; }
 .q-timer-note { margin-left: auto; font-size: 13px; }
 .q-timer { font-family: "IBM Plex Mono", monospace; font-weight: 600; padding: 2px 10px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface-2); }
 .q-timer.low { color: var(--ko); border-color: currentColor; }
@@ -724,6 +725,7 @@ function renderAccueil() {
 
 function enteteQuestion(q) {
   return h("div", { class: "meta" }, chip(q.c), h("span", { class: "tag" }, q.p ? "Exercice pratique" : TYPES[q.t] || "QCM"),
+    h("span", { class: "qid-exam", title: "Identifiant de la question" }, q.id),
     q.p ? h("span", { class: "muted q-timer-note" }, "5 min pour cette question") : null,
     q.p ? h("span", { class: "q-timer", id: "q-timer" }, "⏱ " + fmt(S.cur.deadline - Date.now())) : null);
 }
