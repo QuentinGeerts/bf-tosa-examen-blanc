@@ -2534,7 +2534,7 @@
       "categorie": "JavaScript",
       "niveau": 5,
       "fichier": "js",
-      "enonce": "Cette fonction doit retourner la somme des nombres du tableau, mais elle contient **3 erreurs**. Corrige-les.",
+      "enonce": "Cette fonction doit retourner la somme des nombres du tableau, mais elle contient **4 erreurs**. Corrige-les.",
       "depart": [
         "function somme(tab) {",
         "  let total = 0;",
@@ -2550,11 +2550,11 @@
         "function somme(tab) {",
         "  let total = 0;",
         "",
-        "  for (let i = 0; i < tab.length; i++) {   // 1. commencer à 0, et < au lieu de <=",
-        "    total += tab[i];                        // 2. += au lieu de =",
+        "  for (let i = 0; i < tab.length; i++) {   // 1. commencer à 0  /  2. < au lieu de <=",
+        "    total += tab[i];                        // 3. += au lieu de =",
         "  }",
         "",
-        "  return total;                             // 3. le return manquait",
+        "  return total;                             // 4. le return manquait",
         "}"
       ]
     },
