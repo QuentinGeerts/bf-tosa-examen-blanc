@@ -193,6 +193,47 @@ pre.code { background: var(--code-bg); color: var(--code-ink); padding: 14px 16p
 .toggle { display: inline-flex; gap: 8px; align-items: center; font-size: 14px; }
 .section-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 32px; }
 .section-title h2 { font-size: 20px; }
+/* Questions interactives */
+.inter { margin-top: 18px; }
+.aide { font-size: 13px; color: var(--muted); margin: 0 0 10px; }
+table.vf { width: 100%; border-collapse: collapse; font-size: 15px; }
+table.vf th { text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); padding: 8px 10px; border-bottom: 2px solid var(--line); }
+table.vf td { padding: 10px; border-bottom: 1px solid var(--line); }
+table.vf th:nth-child(n+2), .vf-choix { text-align: center; width: 90px; }
+.vf-choix input { width: 18px; height: 18px; accent-color: var(--accent); cursor: pointer; }
+table.vf tr.good td { background: var(--ok-soft); }
+table.vf tr.picked td { background: var(--ko-soft); }
+.listes { display: grid; gap: 16px; }
+.liste-ligne { display: grid; gap: 6px; }
+.liste-ligne p { margin: 0; }
+.liste-ligne select { font: inherit; font-family: "IBM Plex Mono", monospace; font-size: 14px; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); max-width: 100%; justify-self: start; }
+.rl { position: relative; display: grid; grid-template-columns: 1fr 1fr; column-gap: clamp(60px, 12vw, 200px); align-items: center; }
+.rl-svg { position: absolute; left: 0; top: 0; pointer-events: none; overflow: visible; z-index: 1; }
+.rl-svg path { fill: none; stroke: var(--accent); stroke-width: 2.5; }
+.rl-svg path.temp { stroke-dasharray: 6 5; opacity: .7; }
+.rl-col { display: grid; gap: 14px; }
+.rl-item { position: relative; display: flex; align-items: center; gap: 10px; text-align: left; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-2); color: var(--ink); font-size: 14px; touch-action: none; }
+.rl-item.g { justify-content: space-between; }
+.rl-item.lie { border-color: var(--accent); }
+.rl-item.sel { outline: 2px solid var(--accent); background: var(--accent-soft); }
+.rl-dot { flex: none; width: 12px; height: 12px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 3px var(--surface); }
+.gl { display: grid; grid-template-columns: minmax(150px, 1fr) 3fr; gap: 16px; }
+@media (max-width: 700px) { .gl { grid-template-columns: 1fr; } }
+.gl-pool { border: 1px dashed var(--muted); border-radius: 8px; padding: 12px; background: var(--surface-2); display: flex; flex-direction: column; gap: 8px; min-height: 120px; }
+.gl-titre { margin: 0 0 4px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+.gl-chip { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 6px; padding: 6px 10px; cursor: grab; font-size: 14px; text-align: center; }
+.gl-chip.sel { outline: 2px solid var(--accent); }
+.gl-chip code { background: none; padding: 0; }
+.gl-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.gl-schema { display: grid; gap: 6px; }
+.gl-zone { border: 2px dashed var(--line); border-radius: 8px; padding: 10px; min-height: 100px; cursor: pointer; }
+.gl-zone.schema { --zc: #888; border: 0; border-left: 6px solid var(--zc); background: color-mix(in srgb, var(--zc) 28%, var(--surface)); min-height: 0; display: flex; align-items: center; gap: 8px; padding: 6px 10px; }
+.gl-zone.schema .gl-decor { order: 2; margin-left: auto; }
+.gl-decor { font-size: 12px; color: var(--muted); font-style: italic; }
+.gl-bacs { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.gl-zone.over, .gl-pool.over { outline: 2px solid var(--accent); }
+.rv-table { margin-top: 8px; }
+
 </style>
 </head>
 <body>
@@ -220,12 +261,33 @@ async function chargerQuestions() {
   const bank = [];
   (data.qcm || []).forEach((q, i) => {
     const c = CODES[q.categorie];
-    if (!c || !(q.niveau >= 1 && q.niveau <= 5) || !Array.isArray(q.options) || q.options.length !== 4 || !(q.reponse >= 0 && q.reponse <= 3)) {
+    if (!c || !(q.niveau >= 1 && q.niveau <= 5) || !Array.isArray(q.options) || ![4, 5].includes(q.options.length) || !(q.reponse >= 0 && q.reponse < q.options.length)) {
       console.warn("QCM ignoré (index " + i + ") :", q.question);
       return;
     }
     const d = { c, n: q.niveau, q: txt(q.question), o: q.options, a: q.reponse, e: txt(q.explication) };
     if (q.code) d.code = txt(q.code);
+    bank.push(d);
+  });
+  (data.interactives || []).forEach((q, i) => {
+    const c = CODES[q.categorie];
+    const t = { vraifaux: "vf", liste: "liste", relier: "relier", glisser: "glisser" }[q.type];
+    if (!c || !t || !(q.niveau >= 1 && q.niveau <= 5)) { console.warn("Question interactive ignorée (index " + i + ")"); return; }
+    const d = { c, n: q.niveau, t, q: txt(q.question), e: txt(q.explication) };
+    if (q.code) d.code = txt(q.code);
+    try {
+      if (t === "vf") d.aff = q.affirmations.map((a) => [a.texte, a.vrai === true]);
+      if (t === "liste") d.phr = q.phrases.map((p) => [p.texte, p.options, p.reponse]);
+      if (t === "relier") { d.paires = q.paires.map((p) => [p.gauche, p.droite]); d.intrus = q.intrus || []; }
+      if (t === "glisser") {
+        d.etiq = q.etiquettes;
+        d.zones = q.zones.map((z) => ({ titre: z.titre, rep: z.reponses, aire: z.aire, couleur: z.couleur, decor: z.decor }));
+        if (q.grille) d.grille = { col: q.grille.colonnes, lig: q.grille.lignes };
+      }
+    } catch (e) {
+      console.warn("Question interactive mal formée (index " + i + ")", e);
+      return;
+    }
     bank.push(d);
   });
   (data.pratiques || []).forEach((q, i) => {
@@ -439,7 +501,7 @@ function preparer() {
   const id = choisir(S.seq[S.idx]);
   S.used.push(id);
   const q = BANK[id];
-  S.cur = { id, order: q.o ? shuffle([0, 1, 2, 3]) : null, draft: q.p ? q.start : null };
+  S.cur = { id, order: q.o ? shuffle(q.o.map((_, i) => i)) : null, draft: q.p ? q.start : null };
   if (q.p) S.cur.deadline = Date.now() + DUREE_PRAT;
 }
 function repondre(ok, extra) {
@@ -536,7 +598,7 @@ function render() {
   if (!S) return renderAccueil();
   if (S.fini) return renderResultats();
   const q = BANK[S.cur.id];
-  return q.p ? renderPratique(q) : renderQcm(q);
+  return q.p ? renderPratique(q) : q.t ? renderInteractif(q) : renderQcm(q);
 }
 
 function renderAccueil() {
@@ -582,7 +644,7 @@ function renderAccueil() {
 }
 
 function enteteQuestion(q) {
-  return h("div", { class: "meta" }, chip(q.c), h("span", { class: "tag" }, q.p ? "Exercice pratique" : "QCM"),
+  return h("div", { class: "meta" }, chip(q.c), h("span", { class: "tag" }, q.p ? "Exercice pratique" : TYPES[q.t] || "QCM"),
     q.p ? h("span", { class: "muted q-timer-note" }, "5 min pour cette question") : null,
     q.p ? h("span", { class: "q-timer", id: "q-timer" }, "⏱ " + fmt(S.cur.deadline - Date.now())) : null);
 }
@@ -593,7 +655,7 @@ function renderQcm(q) {
   S.cur.order.forEach((oi, k) => {
     const r = h("input", { type: "radio", name: "rep", value: String(oi) });
     r.addEventListener("change", () => { next.disabled = false; });
-    opts.append(h("label", { class: "opt" }, r, h("span", { class: "letter" }, "ABCD"[k]), rich("span", q.o[oi])));
+    opts.append(h("label", { class: "opt" }, r, h("span", { class: "letter" }, "ABCDE"[k]), rich("span", q.o[oi])));
   });
   next.addEventListener("click", () => {
     const sel = opts.querySelector("input:checked");
@@ -608,6 +670,192 @@ function renderQcm(q) {
     q.code ? h("pre", { class: "code" }, h("code", {}, q.code)) : null,
     opts,
     h("div", { class: "actions" }, h("span", { class: "hint" }, "Une réponse validée est définitive."), skip, next))));
+}
+
+// ─── Questions interactives : Vrai/Faux, listes déroulantes, relier, glisser-déposer ───
+const TYPES = { vf: "Vrai / Faux", liste: "Listes déroulantes", relier: "Relier", glisser: "Glisser-déposer" };
+
+function melanger(q) {
+  const idx = (n) => shuffle(Array.from({ length: n }, (_, i) => i));
+  if (q.t === "relier") return { g: idx(q.paires.length), d: idx(q.paires.length + q.intrus.length) };
+  if (q.t === "glisser") return { e: idx(q.etiq.length) };
+  if (q.t === "liste") return { o: q.phr.map((p) => idx(p[1].length)) };
+  return null;
+}
+const droites = (q) => q.paires.map((p) => p[1]).concat(q.intrus);
+const zoneUnique = (q, z) => !!q.grille && q.zones[z].rep.length === 1;
+
+function corriger(q, rep) {
+  if (q.t === "vf") return q.aff.every((a, i) => rep[i] === a[1]);
+  if (q.t === "liste") return q.phr.every((p, i) => rep[i] === p[2]);
+  if (q.t === "relier") return q.paires.every((_, i) => rep[i] === i);
+  if (q.t === "glisser") return q.zones.every((z, zi) => {
+    const poses = q.etiq.filter((_, i) => rep[i] === zi).sort().join("|");
+    return poses === z.rep.slice().sort().join("|");
+  });
+  return false;
+}
+
+function renderInteractif(q) {
+  const m = S.cur.melange || (S.cur.melange = melanger(q));
+  const valider = h("button", { class: "btn primary" }, "Valider la réponse");
+  const skip = h("button", { class: "btn", onclick: () => repondre(false, { rep: null, passe: true }) }, "Je ne sais pas");
+  let rep, corps, pret = () => true;
+
+  if (q.t === "vf") {
+    rep = q.aff.map(() => null);
+    pret = () => rep.every((v) => v !== null);
+    corps = h("table", { class: "vf" },
+      h("thead", {}, h("tr", {}, h("th", {}, ""), h("th", {}, "Vrai"), h("th", {}, "Faux"))),
+      h("tbody", {}, q.aff.map((a, i) => h("tr", {},
+        rich("td", a[0]),
+        [true, false].map((v) => {
+          const r = h("input", { type: "radio", name: "vf-" + i, "aria-label": (v ? "Vrai" : "Faux") + " : " + a[0].replace(/`/g, "") });
+          r.addEventListener("change", () => { rep[i] = v; maj(); });
+          return h("td", { class: "vf-choix" }, r);
+        })))));
+  }
+
+  if (q.t === "liste") {
+    rep = q.phr.map(() => null);
+    pret = () => rep.every((v) => v !== null);
+    corps = h("div", { class: "listes" }, q.phr.map((p, i) => {
+      const sel = h("select", { "aria-label": p[0].replace(/`/g, "") }, h("option", { value: "" }, "— Choisir —"), m.o[i].map((oi) => h("option", { value: p[1][oi] }, p[1][oi])));
+      sel.addEventListener("change", () => { rep[i] = sel.value || null; maj(); });
+      return h("div", { class: "liste-ligne" }, rich("p", p[0]), sel);
+    }));
+  }
+
+  if (q.t === "relier") {
+    const D = droites(q);
+    rep = q.paires.map(() => -1);
+    let sel = null, temp = null;
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("class", "rl-svg");
+    const gauche = m.g.map((gi) => { const b = h("button", { type: "button", class: "rl-item g", "data-i": gi }, inline(h("span"), q.paires[gi][0]), h("span", { class: "rl-dot" })); return b; });
+    const droite = m.d.map((di) => h("button", { type: "button", class: "rl-item d", "data-i": di }, h("span", { class: "rl-dot" }), inline(h("span"), D[di])));
+    const zone = h("div", { class: "rl" }, svg, h("div", { class: "rl-col" }, gauche), h("div", { class: "rl-col" }, droite));
+    const centre = (el) => {
+      const r = el.querySelector(".rl-dot").getBoundingClientRect(), z = zone.getBoundingClientRect();
+      return [r.left + r.width / 2 - z.left, r.top + r.height / 2 - z.top];
+    };
+    const courbe = ([x1, y1], [x2, y2]) => `M${x1},${y1} C${(x1 + x2) / 2},${y1} ${(x1 + x2) / 2},${y2} ${x2},${y2}`;
+    const dessiner = () => {
+      svg.setAttribute("width", zone.clientWidth); svg.setAttribute("height", zone.clientHeight);
+      svg.replaceChildren();
+      rep.forEach((di, gi) => {
+        if (di < 0) return;
+        const p = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        p.setAttribute("d", courbe(centre(gauche.find((b) => +b.dataset.i === gi)), centre(droite.find((b) => +b.dataset.i === di))));
+        svg.append(p);
+      });
+      if (temp) { const p = document.createElementNS("http://www.w3.org/2000/svg", "path"); p.setAttribute("d", courbe(temp.from, temp.to)); p.setAttribute("class", "temp"); svg.append(p); }
+      gauche.forEach((b) => { b.classList.toggle("lie", rep[+b.dataset.i] >= 0); b.classList.toggle("sel", sel === +b.dataset.i); });
+      droite.forEach((b) => b.classList.toggle("lie", rep.includes(+b.dataset.i)));
+    };
+    const lier = (gi, di) => { rep = rep.map((v) => (v === di ? -1 : v)); rep[gi] = di; sel = null; dessiner(); maj(); };
+    gauche.forEach((b) => {
+      b.addEventListener("pointerdown", (e) => {
+        e.preventDefault();
+        const gi = +b.dataset.i, x0 = e.clientX, y0 = e.clientY;
+        const z = zone.getBoundingClientRect();
+        const move = (ev) => { temp = { from: centre(b), to: [ev.clientX - z.left, ev.clientY - z.top] }; dessiner(); };
+        const up = (ev) => {
+          document.removeEventListener("pointermove", move); document.removeEventListener("pointerup", up);
+          temp = null;
+          const cible = document.elementFromPoint(ev.clientX, ev.clientY)?.closest(".rl-item.d");
+          if (cible && zone.contains(cible)) lier(gi, +cible.dataset.i);
+          else if (Math.hypot(ev.clientX - x0, ev.clientY - y0) < 6) {   // simple clic : sélection (et retrait du lien existant)
+            if (rep[gi] >= 0) { rep[gi] = -1; maj(); }
+            sel = sel === gi ? null : gi; dessiner();
+          } else dessiner();
+        };
+        document.addEventListener("pointermove", move); document.addEventListener("pointerup", up);
+      });
+    });
+    droite.forEach((b) => b.addEventListener("click", () => { if (sel !== null) lier(sel, +b.dataset.i); }));
+    new ResizeObserver(dessiner).observe(zone);
+    corps = h("div", {}, h("p", { class: "aide" }, "Glisse depuis le point d'un élément de gauche jusqu'à sa définition, ou clique sur l'élément puis sur la définition. Clique à nouveau sur un élément pour défaire son lien."), zone);
+    requestAnimationFrame(dessiner);
+  }
+
+  if (q.t === "glisser") {
+    rep = q.etiq.map(() => -1);
+    let sel = null;
+    const puce = (i) => {
+      const c = h("button", { type: "button", class: "gl-chip" + (sel === i ? " sel" : ""), draggable: "true", "data-i": i }, inline(h("span"), "`" + q.etiq[i] + "`"));
+      c.addEventListener("dragstart", (e) => { e.dataTransfer.setData("text/plain", String(i)); e.dataTransfer.effectAllowed = "move"; });
+      c.addEventListener("click", (e) => { e.stopPropagation(); sel = sel === i ? null : i; dessiner(); });
+      return c;
+    };
+    const cible = (el, z) => {
+      el.addEventListener("dragover", (e) => { e.preventDefault(); el.classList.add("over"); });
+      el.addEventListener("dragleave", () => el.classList.remove("over"));
+      el.addEventListener("drop", (e) => { e.preventDefault(); el.classList.remove("over"); poser(+e.dataTransfer.getData("text/plain"), z); });
+      el.addEventListener("click", () => { if (sel !== null) poser(sel, z); });
+    };
+    const poser = (i, z) => {
+      if (z >= 0 && zoneUnique(q, z)) rep = rep.map((v, j) => (v === z && j !== i ? -1 : v));
+      rep[i] = z; sel = null; dessiner(); maj();
+    };
+    const pool = h("div", { class: "gl-pool" });
+    cible(pool, -1);
+    const zones = q.zones.map((z, zi) => {
+      const el = h("div", { class: "gl-zone" + (q.grille ? " schema" : ""), "data-z": zi });
+      if (q.grille) { el.style.gridArea = z.aire; el.style.setProperty("--zc", z.couleur || "#888"); }
+      cible(el, zi);
+      return el;
+    });
+    const dessiner = () => {
+      pool.replaceChildren(h("p", { class: "gl-titre" }, "Étiquettes"), ...m.e.filter((i) => rep[i] === -1).map(puce));
+      zones.forEach((el, zi) => {
+        const z = q.zones[zi];
+        el.replaceChildren(...[
+          z.titre ? h("p", { class: "gl-titre" }, z.titre) : null,
+          z.decor ? h("span", { class: "gl-decor" }, z.decor) : null,
+          h("div", { class: "gl-chips" }, m.e.filter((i) => rep[i] === zi).map(puce))].filter(Boolean));
+      });
+    };
+    dessiner();
+    const zonesEl = q.grille
+      ? h("div", { class: "gl-schema", style: `grid-template-columns:${q.grille.col};grid-template-rows:${q.grille.lig}` }, zones)
+      : h("div", { class: "gl-bacs" }, zones);
+    corps = h("div", {}, h("p", { class: "aide" }, "Glisse chaque étiquette dans sa zone, ou clique sur l'étiquette puis sur la zone. Pour retirer une étiquette, remets-la dans la colonne de gauche."), h("div", { class: "gl" }, pool, zonesEl));
+  }
+
+  const maj = () => { valider.disabled = !pret(); };
+  maj();
+  valider.addEventListener("click", () => repondre(corriger(q, rep), { rep: JSON.parse(JSON.stringify(rep)) }));
+
+  app.replaceChildren(h("div", { class: q.t === "relier" || q.t === "glisser" ? "" : "narrow" }, h("section", { class: "card" },
+    enteteQuestion(q),
+    block(q.q),
+    q.code ? h("pre", { class: "code" }, h("code", {}, q.code)) : null,
+    h("div", { class: "inter" }, corps),
+    h("div", { class: "actions" }, h("span", { class: "hint" }, "Une réponse validée est définitive."), skip, valider))));
+}
+
+function correctionInteractif(q, a) {
+  const r = a.rep, ok = "✓", ko = "✗";
+  if (!r) return h("p", { class: "muted" }, "Sans réponse.");
+  if (q.t === "vf") return h("table", { class: "vf rv-table" },
+    h("thead", {}, h("tr", {}, h("th", {}, "Affirmation"), h("th", {}, "Ta réponse"), h("th", {}, "Attendu"))),
+    h("tbody", {}, q.aff.map((x, i) => h("tr", { class: r[i] === x[1] ? "good" : "picked" }, rich("td", x[0]),
+      h("td", {}, (r[i] ? "Vrai" : "Faux") + " " + (r[i] === x[1] ? ok : ko)), h("td", {}, x[1] ? "Vrai" : "Faux")))));
+  if (q.t === "liste") return h("ul", {}, q.phr.map((p, i) => h("li", { class: r[i] === p[2] ? "good" : "picked" },
+    rich("span", p[0]), h("br"), h("span", { class: "mark" }, r[i] === p[2] ? ok : ko), inline(h("span"), "`" + (r[i] || "—") + "`"),
+    r[i] === p[2] ? null : h("span", { class: "muted" }, " — attendu : ", inline(h("span"), "`" + p[2] + "`")))));
+  if (q.t === "relier") { const D = droites(q); return h("ul", {}, q.paires.map((p, i) => h("li", { class: r[i] === i ? "good" : "picked" },
+    h("span", { class: "mark" }, r[i] === i ? ok : ko), inline(h("span"), p[0]), " → ", inline(h("span"), p[1]),
+    r[i] === i ? null : h("span", { class: "muted" }, " (ta liaison : ", r[i] >= 0 ? inline(h("span"), D[r[i]]) : "aucune", ")")))); }
+  if (q.t === "glisser") return h("ul", {}, q.zones.map((z, zi) => {
+    const poses = q.etiq.filter((_, i) => r[i] === zi);
+    const bon = poses.slice().sort().join("|") === z.rep.slice().sort().join("|");
+    return h("li", { class: bon ? "good" : "picked" }, h("span", { class: "mark" }, bon ? ok : ko),
+      h("strong", {}, (z.titre || z.decor || "Zone " + (zi + 1)) + " : "), inline(h("span"), z.rep.map((x) => "`" + x + "`").join(" ")),
+      bon ? null : h("span", { class: "muted" }, " — toi : ", poses.length ? inline(h("span"), poses.map((x) => "`" + x + "`").join(" ")) : "rien"));
+  }));
+  return null;
 }
 
 function renderPratique(q) {
@@ -790,7 +1038,7 @@ function renderResultats() {
 
 function carteCorrection(a, i) {
   const head = (q) => h("div", { class: "head" },
-    h("span", { class: "mono" }, `Q${i + 1}`), chip(a.c), h("span", { class: "tag" }, q && q.p ? "Exercice pratique" : "QCM"),
+    h("span", { class: "mono" }, `Q${i + 1}`), chip(a.c), h("span", { class: "tag" }, q && q.p ? "Exercice pratique" : (q && TYPES[q.t]) || "QCM"),
     h("span", { class: "verdict " + (a.ok ? "ok" : "ko") }, a.ok ? "Réussie" : (a.timeout || a.tempsEcoule) ? "Temps écoulé" : (a.choix === null || a.passe) ? "Sans réponse" : "Ratée"));
   if (a.id == null) {
     return h("article", { class: "rv bad" }, head(null), h("p", { class: "muted" }, "Question non atteinte avant la fin du temps."));
@@ -803,13 +1051,19 @@ function carteCorrection(a, i) {
     el.append(h("details", { open: !a.ok }, h("summary", {}, "Une solution possible"), h("pre", { class: "code" }, h("code", {}, q.sol))));
     return el;
   }
+  if (q.t) {
+    el.append(block(q.q));
+    if (q.code) el.append(h("pre", { class: "code" }, h("code", {}, q.code)));
+    el.append(correctionInteractif(q, a), rich("p", q.e, "expl"));
+    return el;
+  }
   el.append(rich("p", q.q));
   if (q.code) el.append(h("pre", { class: "code" }, h("code", {}, q.code)));
   const ul = h("ul");
   (a.order || [0, 1, 2, 3]).forEach((oi, k) => {
     const good = oi === q.a, picked = oi === a.choix;
     const li = h("li", { class: good ? "good" : picked ? "picked" : "" },
-      h("span", { class: "mark" }, good ? "✓" : picked ? "✗" : "ABCD"[k]));
+      h("span", { class: "mark" }, good ? "✓" : picked ? "✗" : "ABCDE"[k]));
     inline(li, q.o[oi]);
     if (picked) li.append(h("span", { class: "muted" }, " — ta réponse"));
     ul.append(li);

@@ -2142,6 +2142,1157 @@
       ],
       "reponse": 0,
       "explication": "Un seul écouteur sur le parent suffit : `e.target` indique l'enfant cliqué."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 2,
+      "question": "Quelle méthode retire un nœud enfant d'un élément parent ?",
+      "options": [
+        "`parent.removeChild(enfant)`",
+        "`parent.deleteChild(enfant)`",
+        "`parent.removeElement(enfant)`",
+        "`parent.deleteElement(enfant)`"
+      ],
+      "reponse": 0,
+      "explication": "`removeChild` retire l'enfant et le renvoie. Version moderne : `enfant.remove()`."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 2,
+      "question": "`li` est un élément créé avec `createElement`. Quelle instruction l'ajoute à la fin de la liste `ul` ?",
+      "options": [
+        "`ul.appendChild(li);`",
+        "`ul.push(li);`",
+        "`ul.add(li);`",
+        "`ul.attachElement(li);`"
+      ],
+      "reponse": 0,
+      "explication": "`push` est une méthode de tableau, pas du DOM. `appendChild` (ou `append`) ajoute un nœud à la fin des enfants."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 4,
+      "question": "Quelle instruction insère `nouveau` juste avant l'élément `reference` dans `liste` ?",
+      "options": [
+        "`liste.insertBefore(nouveau, reference);`",
+        "`liste.addBefore(nouveau, reference);`",
+        "`liste.insertAt(nouveau, reference);`",
+        "`reference.pushBefore(nouveau);`"
+      ],
+      "reponse": 0,
+      "explication": "`parent.insertBefore(nouveauNoeud, noeudDeReference)`. Pour insérer en premier enfant : `parent.prepend(nouveau)`."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 3,
+      "question": "Que se passe-t-il avec ce code ?",
+      "code": [
+        "function direClic() {",
+        "  console.log(\"Clic !\");",
+        "}",
+        "",
+        "bouton.addEventListener(\"click\", direClic());"
+      ],
+      "options": [
+        "« Clic ! » s'affiche une seule fois, au chargement, et plus jamais au clic",
+        "« Clic ! » s'affiche à chaque clic",
+        "« Clic ! » s'affiche au chargement puis à chaque clic",
+        "Une erreur de syntaxe"
+      ],
+      "reponse": 0,
+      "explication": "Avec les parenthèses, `direClic()` est exécutée tout de suite et on passe son résultat (`undefined`) à `addEventListener`. Il faut passer la fonction : `addEventListener(\"click\", direClic)`."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 4,
+      "question": "Qu'affiche ce code ?",
+      "code": [
+        "direBonjour();",
+        "",
+        "function direBonjour() {",
+        "  console.log(\"Bonjour\");",
+        "}"
+      ],
+      "options": [
+        "`Bonjour`",
+        "`undefined`",
+        "Une ReferenceError",
+        "Rien"
+      ],
+      "reponse": 0,
+      "explication": "Une déclaration `function` est remontée (hoisting) : elle est utilisable avant la ligne où elle est écrite."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 5,
+      "question": "Que se passe-t-il ?",
+      "code": [
+        "saluer();",
+        "",
+        "const saluer = () => {",
+        "  console.log(\"Bonjour\");",
+        "};"
+      ],
+      "options": [
+        "Une ReferenceError : la constante n'est pas encore initialisée",
+        "`Bonjour` s'affiche",
+        "`undefined` s'affiche",
+        "Une TypeError : saluer is not a function"
+      ],
+      "reponse": 0,
+      "explication": "Une fonction fléchée stockée dans une `const` n'existe qu'à partir de sa ligne : « Cannot access 'saluer' before initialization »."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 3,
+      "question": "Que fait ce code (`maPromesse` est une promesse, les fonctions existent) ?",
+      "code": [
+        "maPromesse",
+        "  .then(etape1)",
+        "  .then(etape2)",
+        "  .then(etape3)",
+        "  .catch(gererErreur);"
+      ],
+      "options": [
+        "Il enchaîne des traitements : chaque `.then` reçoit le résultat du précédent, `.catch` gère une erreur de la chaîne",
+        "Il crée 3 promesses de réussite et 1 promesse d'échec",
+        "Il échoue toujours, car `.catch` est appelé à la fin",
+        "Il exécute les trois `.then` en même temps"
+      ],
+      "reponse": 0,
+      "explication": "`.then()` renvoie une nouvelle promesse, ce qui permet d'enchaîner. `.catch()` ne s'exécute qu'en cas d'erreur, n'importe où dans la chaîne."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 4,
+      "question": "Que renvoie `.then()` ?",
+      "options": [
+        "Une nouvelle promesse",
+        "La valeur de la promesse",
+        "`undefined`",
+        "Un tableau de résultats"
+      ],
+      "reponse": 0,
+      "explication": "C'est ce qui rend l'enchaînement `.then().then()` possible."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 4,
+      "question": "Dans une chaîne de promesses, une erreur se produit dans le 1er `.then`. Que se passe-t-il ?",
+      "options": [
+        "Les `.then` suivants sont ignorés et le `.catch` final est exécuté",
+        "Le `.catch` n'est exécuté que si l'erreur vient du dernier `.then`",
+        "Tous les `.then` sont quand même exécutés",
+        "La page se recharge"
+      ],
+      "reponse": 0,
+      "explication": "Un seul `.catch` en fin de chaîne suffit à intercepter une erreur à n'importe quelle étape."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 5,
+      "question": "Dans quel ordre s'affichent les lettres ?",
+      "code": [
+        "console.log(\"A\");",
+        "Promise.resolve().then(() => console.log(\"B\"));",
+        "console.log(\"C\");"
+      ],
+      "options": [
+        "A, C, B",
+        "A, B, C",
+        "B, A, C",
+        "C, A, B"
+      ],
+      "reponse": 0,
+      "explication": "Le code synchrone s'exécute d'abord (A, C). Le `.then` est asynchrone : il passe après, même si la promesse est déjà résolue."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 4,
+      "question": "Que renvoie `fetch(\"produits.json\")` ?",
+      "options": [
+        "Une promesse",
+        "Le contenu du fichier en texte",
+        "Un objet JSON",
+        "`undefined`"
+      ],
+      "reponse": 0,
+      "explication": "On récupère les données avec `.then(rep => rep.json())` ou `await`."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 5,
+      "question": "À quoi sert le mot-clé `await` ?",
+      "code": [
+        "async function charger() {",
+        "  const rep = await fetch(\"produits.json\");",
+        "  const produits = await rep.json();",
+        "  console.log(produits);",
+        "}"
+      ],
+      "options": [
+        "À attendre le résultat d'une promesse, dans une fonction `async`",
+        "À mettre le script en pause pendant un nombre de secondes",
+        "À rendre une fonction synchrone",
+        "À intercepter une erreur"
+      ],
+      "reponse": 0,
+      "explication": "`await` ne s'utilise que dans une fonction `async` (ou au niveau d'un module). Les erreurs se gèrent avec `try...catch`."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 2,
+      "question": "Quel est le résultat ?",
+      "code": "\"1\" + 2 + 3",
+      "options": [
+        "`\"123\"`",
+        "`6`",
+        "`123`",
+        "`\"15\"`"
+      ],
+      "reponse": 0,
+      "explication": "De gauche à droite : \"1\" + 2 = \"12\" (concaténation), puis \"12\" + 3 = \"123\"."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 2,
+      "question": "Quelle instruction récupère le nom de l'utilisateur ?",
+      "code": "const user = { id: 1, name: \"Marie\", address: \"Rue Haute 12\" };",
+      "options": [
+        "`user.name`",
+        "`user->name`",
+        "`user::name`",
+        "`name(user)`"
+      ],
+      "reponse": 0,
+      "explication": "La notation pointée. Équivalent : `user[\"name\"]`."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 4,
+      "question": "Que renvoie `concatener([\"a\", \"b\"])` ?",
+      "code": [
+        "function concatener(tab) {",
+        "  let texte = \"\";",
+        "  for (let i = 0; i <= tab.length; i++) {",
+        "    texte += tab[i];",
+        "  }",
+        "  return texte;",
+        "}"
+      ],
+      "options": [
+        "`\"abundefined\"`",
+        "`\"ab\"`",
+        "`\"aundefined\"`",
+        "Une erreur"
+      ],
+      "reponse": 0,
+      "explication": "Avec `<=`, la boucle lit `tab[tab.length]`, qui vaut `undefined`, ajouté en texte. Il faut `<`."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 3,
+      "question": "Quelle propriété définit l'espace entre les colonnes d'un texte découpé avec `column-count` ?",
+      "options": [
+        "`column-gap`",
+        "`column-space`",
+        "`column-size`",
+        "`column-width`",
+        "`column-count`"
+      ],
+      "reponse": 0,
+      "explication": "`column-width` = largeur idéale d'une colonne, `column-count` = nombre de colonnes. `column-space` et `column-size` n'existent pas."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 4,
+      "question": "Quelle propriété trace un trait vertical entre les colonnes ?",
+      "code": [
+        ".journal {",
+        "  column-count: 3;",
+        "  column-gap: 30px;",
+        "  /* ??? : 1px solid #ccc; */",
+        "}"
+      ],
+      "options": [
+        "`column-rule`",
+        "`column-border`",
+        "`column-line`",
+        "`column-separator`",
+        "`column-gap`"
+      ],
+      "reponse": 0,
+      "explication": "`column-rule` s'écrit comme une bordure : épaisseur, style, couleur."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 4,
+      "question": "Comment animer `width` en 1 s **et** `height` en 2 s ?",
+      "options": [
+        "`transition: width 1s, height 2s;`",
+        "`transition: width height 1s 2s;`",
+        "`transition: width 1s; transition: height 2s;`",
+        "`transition: all 1s 2s;`"
+      ],
+      "reponse": 0,
+      "explication": "Plusieurs transitions se séparent par des virgules. Deux déclarations `transition` : la seconde remplace la première."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 4,
+      "question": "Quelle propriété définit la courbe de vitesse d'une transition (`ease`, `linear`…) ?",
+      "options": [
+        "`transition-timing-function`",
+        "`transition-duration`",
+        "`transition-delay`",
+        "`transition-speed`",
+        "`transition-curve`"
+      ],
+      "reponse": 0,
+      "explication": "`transition-duration` = durée, `transition-delay` = délai avant le départ."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 4,
+      "question": "Quelle différence entre `.carte.promo` et `.carte .promo` ?",
+      "options": [
+        "`.carte.promo` vise un élément qui a les **deux** classes, `.carte .promo` vise un `.promo` **à l'intérieur** d'un `.carte`",
+        "Aucune, l'espace est ignoré",
+        "`.carte.promo` vise un `.promo` à l'intérieur d'un `.carte`",
+        "`.carte .promo` vise un élément qui a les deux classes"
+      ],
+      "reponse": 0,
+      "explication": "Sans espace = sur le même élément. Avec espace = descendant."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 4,
+      "question": "Avec ce CSS, quelle classe donner à une carte « valet de cœur » ?",
+      "code": [
+        ".card { … }",
+        ".card.hearts { color: red; }",
+        ".card.jack main { … }"
+      ],
+      "options": [
+        "`card jack hearts`",
+        "`card jack`",
+        "`jack hearts`",
+        "`card-jack-hearts`"
+      ],
+      "reponse": 0,
+      "explication": "Les sélecteurs composés `.card.hearts` et `.card.jack` demandent les classes `card` **et** `hearts` / `jack` sur le même élément."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 4,
+      "question": "Comment s'affiche ce cercle dans le carré de 100 × 100 ?",
+      "code": [
+        "<svg width=\"100\" height=\"100\">",
+        "  <circle cx=\"50\" cy=\"50\" r=\"50\" fill=\"orange\" />",
+        "</svg>"
+      ],
+      "options": [
+        "Il remplit tout le carré : rayon 50, donc diamètre 100",
+        "Il occupe le quart du carré",
+        "Il est collé dans le coin en haut à gauche",
+        "Il est invisible"
+      ],
+      "reponse": 0,
+      "explication": "`r` est le rayon. `cx` / `cy` placent le centre au milieu."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 5,
+      "question": "De quelle couleur est ce rectangle ?",
+      "code": [
+        "<svg width=\"100\" height=\"100\">",
+        "  <rect width=\"100\" height=\"100\" />",
+        "</svg>"
+      ],
+      "options": [
+        "Noir",
+        "Transparent",
+        "Blanc",
+        "Gris"
+      ],
+      "reponse": 0,
+      "explication": "En SVG, une forme sans `fill` est remplie en noir par défaut."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 3,
+      "question": "Lequel de ces extraits est **invalide** ?",
+      "options": [
+        "`<img src=\"chat.png\" alt=\"Chat\"></img>`",
+        "`<img src=\"chat.png\" alt=\"Chat\">`",
+        "`<img src=\"chat.png\" alt=\"Chat\" />`",
+        "`<br>`"
+      ],
+      "reponse": 0,
+      "explication": "`<img>` est un élément vide : il n'a jamais de balise fermante."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 4,
+      "question": "Quel attribut placer sur un bouton d'envoi pour que **ce bouton seul** envoie le formulaire sans validation ?",
+      "options": [
+        "`formnovalidate`",
+        "`novalidate`",
+        "`noValidate=\"button\"`",
+        "`skipvalidation`"
+      ],
+      "reponse": 0,
+      "explication": "`novalidate` se place sur le `<form>` (tout le formulaire). Les attributs `form…` d'un bouton remplacent ceux du formulaire pour ce bouton."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 2,
+      "question": "Quel lien ouvre un nouvel e-mail vers contact@exemple.be ?",
+      "options": [
+        "`<a href=\"mailto:contact@exemple.be\">`",
+        "`<a href=\"email:contact@exemple.be\">`",
+        "`<a mail=\"contact@exemple.be\">`",
+        "`<a href=\"contact@exemple.be\">`"
+      ],
+      "reponse": 0,
+      "explication": "Préfixe `mailto:`. Pour un appel : `tel:`."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 4,
+      "question": "Lequel de ces éléments est affiché **en ligne** par défaut ?",
+      "options": [
+        "`<select>`",
+        "`<ul>`",
+        "`<p>`",
+        "`<form>`"
+      ],
+      "reponse": 0,
+      "explication": "Les champs de formulaire (`input`, `select`, `button`, `textarea`) restent dans la ligne, comme `span`, `a`, `img`, `strong`."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 3,
+      "question": "Quel attribut retire un élément décoratif de la lecture par les lecteurs d'écran ?",
+      "code": "<span class=\"icone\" ???>★</span> Favoris",
+      "options": [
+        "`aria-hidden=\"true\"`",
+        "`aria-label=\"\"`",
+        "`hidden-reader`",
+        "`role=\"none\"`"
+      ],
+      "reponse": 0,
+      "explication": "L'élément reste visible à l'écran mais n'est plus annoncé."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 5,
+      "question": "Quelle différence entre `aria-label` et `aria-describedby` ?",
+      "code": [
+        "<input id=\"mdp\" type=\"password\" aria-label=\"Mot de passe\" aria-describedby=\"aide-mdp\">",
+        "<p id=\"aide-mdp\">8 caractères minimum.</p>"
+      ],
+      "options": [
+        "`aria-label` donne le **nom** de l'élément, `aria-describedby` pointe l'`id` d'un texte qui le **décrit** en plus",
+        "Aucune",
+        "`aria-describedby` remplace le texte visible",
+        "`aria-label` ne fonctionne que sur les images"
+      ],
+      "reponse": 0,
+      "explication": "Le lecteur d'écran annonce le nom, puis la description."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 4,
+      "question": "D'où vient la méthode `getCurrentPosition()`, qui récupère la position GPS de l'utilisateur ?",
+      "options": [
+        "De l'API Geolocation du navigateur : `navigator.geolocation`",
+        "De Google Maps",
+        "De Leaflet",
+        "Du DOM : `document.position`"
+      ],
+      "reponse": 0,
+      "explication": "Les bibliothèques de cartes (Leaflet, Google Maps) affichent une position, mais c'est le navigateur qui la fournit, après autorisation."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 5,
+      "question": "Quelle est la correction ?",
+      "code": [
+        "function getScreenSaver() {",
+        "  return document.querySelector(\".screen-saver\");",
+        "}",
+        "",
+        "function getSquareHeight() {",
+        "  return getScreenSaver().screenSaver.offsetHeight;",
+        "}",
+        "",
+        "// TypeError: Cannot read properties of undefined (reading 'offsetHeight')",
+        "//     at getSquareHeight"
+      ],
+      "options": [
+        "`return getScreenSaver().offsetHeight;`",
+        "`return getScreenSaver().screenSaver.height;`",
+        "`return document.screenSaver.offsetHeight;`",
+        "`return getScreenSaver.offsetHeight;`"
+      ],
+      "reponse": 0,
+      "explication": "`getScreenSaver()` renvoie déjà l'élément : `.screenSaver` est une propriété qui n'existe pas (`undefined`)."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 4,
+      "question": "Au clic, le total ne s'affiche pas et la console ne montre aucune erreur. Pourquoi ?",
+      "code": [
+        "let totalPrix = 0;",
+        "",
+        "bouton.addEventListener(\"click\", () => {",
+        "  totalPrix += parseInt(document.getElementById(\"prix\").innerText);",
+        "  document.getElementById(\"btn-ajouter\").innerText = totalPrix;",
+        "});",
+        "",
+        "<!-- HTML : <span id=\"total\">0</span> -->"
+      ],
+      "options": [
+        "Le total est écrit dans le bouton (`btn-ajouter`) au lieu de `#total`",
+        "`parseInt` ne fonctionne pas sur `innerText`",
+        "Il manque `preventDefault()`",
+        "`totalPrix` devrait être une `const`"
+      ],
+      "reponse": 0,
+      "explication": "Pas d'erreur = le code tourne : il faut vérifier où il écrit."
+    }
+  ],
+  "interactives": [
+    {
+      "type": "vraifaux",
+      "categorie": "HTML",
+      "niveau": 3,
+      "question": "Pour chaque extrait, indique s'il est valide.",
+      "affirmations": [
+        {
+          "texte": "`<p>Du texte<p>`",
+          "vrai": false
+        },
+        {
+          "texte": "`<input type=\"text\">`",
+          "vrai": true
+        },
+        {
+          "texte": "`<hr />`",
+          "vrai": true
+        },
+        {
+          "texte": "`<br></br>`",
+          "vrai": false
+        }
+      ],
+      "explication": "Un élément ouvert doit être fermé (`</p>`). Les éléments vides (`input`, `hr`, `br`, `img`…) n'ont pas de balise fermante ; le `/` final est toléré."
+    },
+    {
+      "type": "vraifaux",
+      "categorie": "HTML",
+      "niveau": 2,
+      "question": "Pour chaque affirmation sur les titres `<h1>` à `<h6>`, indique si elle est vraie.",
+      "affirmations": [
+        {
+          "texte": "`<h1>` est le titre le plus important",
+          "vrai": true
+        },
+        {
+          "texte": "Il existe 5 niveaux de titres",
+          "vrai": false
+        },
+        {
+          "texte": "On choisit le niveau de titre selon la taille de texte voulue",
+          "vrai": false
+        },
+        {
+          "texte": "Les moteurs de recherche s'appuient sur les titres pour comprendre la structure",
+          "vrai": true
+        }
+      ],
+      "explication": "6 niveaux, de `<h1>` à `<h6>`. Le niveau dépend de la structure ; la taille se règle en CSS."
+    },
+    {
+      "type": "vraifaux",
+      "categorie": "HTML",
+      "niveau": 2,
+      "question": "Pour chaque affirmation sur l'élément `<title>`, indique si elle est vraie.",
+      "affirmations": [
+        {
+          "texte": "Son texte s'affiche dans l'onglet du navigateur",
+          "vrai": true
+        },
+        {
+          "texte": "Il peut contenir des balises comme `<strong>`",
+          "vrai": false
+        },
+        {
+          "texte": "Il apparaît comme titre dans les résultats des moteurs de recherche",
+          "vrai": true
+        },
+        {
+          "texte": "Une page peut contenir plusieurs `<title>`",
+          "vrai": false
+        }
+      ],
+      "explication": "Un seul `<title>`, dans le `<head>`, uniquement du texte."
+    },
+    {
+      "type": "vraifaux",
+      "categorie": "HTML",
+      "niveau": 3,
+      "question": "Pour chaque affirmation sur `<video>`, indique si elle est vraie.",
+      "affirmations": [
+        {
+          "texte": "`poster` définit l'image affichée avant la lecture",
+          "vrai": true
+        },
+        {
+          "texte": "`controls=\"false\"` masque les boutons de lecture",
+          "vrai": false
+        },
+        {
+          "texte": "Plusieurs `<source>` permettent de proposer plusieurs formats",
+          "vrai": true
+        },
+        {
+          "texte": "`loop` lit la vidéo une seule fois",
+          "vrai": false
+        }
+      ],
+      "explication": "`controls` est un attribut booléen : sa présence suffit, quelle que soit sa valeur. `loop` relance la vidéo à la fin."
+    },
+    {
+      "type": "vraifaux",
+      "categorie": "JavaScript",
+      "niveau": 4,
+      "question": "Pour chaque affirmation sur les promesses, indique si elle est vraie.",
+      "affirmations": [
+        {
+          "texte": "`.then()` renvoie une nouvelle promesse",
+          "vrai": true
+        },
+        {
+          "texte": "Un seul `.catch()` en fin de chaîne intercepte une erreur de n'importe quel `.then()`",
+          "vrai": true
+        },
+        {
+          "texte": "`.catch()` s'exécute même s'il n'y a pas d'erreur",
+          "vrai": false
+        },
+        {
+          "texte": "`await` s'utilise dans une fonction déclarée `async`",
+          "vrai": true
+        }
+      ],
+      "explication": "`.catch()` ne s'exécute qu'en cas de rejet."
+    },
+    {
+      "type": "vraifaux",
+      "categorie": "CSS",
+      "niveau": 3,
+      "question": "Pour chaque affirmation sur l'affichage, indique si elle est vraie.",
+      "affirmations": [
+        {
+          "texte": "Un `<span>` est en ligne par défaut",
+          "vrai": true
+        },
+        {
+          "texte": "`width` s'applique à un élément `display: inline`",
+          "vrai": false
+        },
+        {
+          "texte": "Un élément `display: inline-block` accepte une largeur et une hauteur",
+          "vrai": true
+        },
+        {
+          "texte": "Un `<li>` est en ligne par défaut",
+          "vrai": false
+        }
+      ],
+      "explication": "`inline` ignore `width` et `height`. `<li>` est de type bloc (`list-item`)."
+    },
+    {
+      "type": "vraifaux",
+      "categorie": "HTML",
+      "niveau": 4,
+      "question": "Pour chaque affirmation sur le SVG, indique si elle est vraie.",
+      "affirmations": [
+        {
+          "texte": "Dans `<circle>`, `r` est le diamètre",
+          "vrai": false
+        },
+        {
+          "texte": "Une forme sans `fill` est remplie en noir",
+          "vrai": true
+        },
+        {
+          "texte": "`stroke` définit la couleur du contour",
+          "vrai": true
+        },
+        {
+          "texte": "`cx` et `cy` placent le coin en haut à gauche du cercle",
+          "vrai": false
+        }
+      ],
+      "explication": "`r` = rayon. `cx` / `cy` = centre du cercle."
+    },
+    {
+      "type": "vraifaux",
+      "categorie": "Intégration",
+      "niveau": 3,
+      "question": "Pour chaque affirmation sur les événements, indique si elle est vraie.",
+      "affirmations": [
+        {
+          "texte": "`addEventListener(\"click\", f())` exécute `f` à chaque clic",
+          "vrai": false
+        },
+        {
+          "texte": "Deux `addEventListener(\"click\", …)` sur le même bouton s'exécutent tous les deux",
+          "vrai": true
+        },
+        {
+          "texte": "Une 2e affectation de `onclick` remplace la première",
+          "vrai": true
+        },
+        {
+          "texte": "L'événement `submit` s'écoute sur le bouton d'envoi",
+          "vrai": false
+        }
+      ],
+      "explication": "`f()` exécute la fonction tout de suite. `submit` s'écoute sur le `<form>`."
+    },
+    {
+      "type": "relier",
+      "categorie": "HTML",
+      "niveau": 3,
+      "question": "Relie chaque valeur de `href` à son effet.",
+      "paires": [
+        {
+          "gauche": "`href=\"https://exemple.be\"`",
+          "droite": "Ouvre une page web par une URL absolue"
+        },
+        {
+          "gauche": "`href=\"mailto:info@exemple.be\"`",
+          "droite": "Ouvre un nouvel e-mail"
+        },
+        {
+          "gauche": "`href=\"tel:+3221234567\"`",
+          "droite": "Lance un appel téléphonique"
+        },
+        {
+          "gauche": "`href=\"#tarifs\"`",
+          "droite": "Fait défiler la page jusqu'à l'élément d'id tarifs"
+        },
+        {
+          "gauche": "`href=\"contact.html\"`",
+          "droite": "Ouvre une page du site par une URL relative"
+        }
+      ],
+      "intrus": [
+        "Télécharge le site complet"
+      ],
+      "explication": "`#id` = ancre dans la page. Une URL sans protocole est relative."
+    },
+    {
+      "type": "relier",
+      "categorie": "HTML",
+      "niveau": 5,
+      "question": "Relie chaque attribut de formulaire à son rôle.",
+      "paires": [
+        {
+          "gauche": "`novalidate`",
+          "droite": "Désactive la validation de tout le formulaire"
+        },
+        {
+          "gauche": "`formnovalidate`",
+          "droite": "Désactive la validation pour ce bouton d'envoi seulement"
+        },
+        {
+          "gauche": "`formaction`",
+          "droite": "Envoie vers une autre URL pour ce bouton seulement"
+        },
+        {
+          "gauche": "`enctype`",
+          "droite": "Définit l'encodage des données envoyées"
+        }
+      ],
+      "intrus": [
+        "Vide le formulaire après l'envoi"
+      ],
+      "explication": "Les attributs `form…` se placent sur un bouton d'envoi et remplacent ceux du `<form>` pour ce bouton."
+    },
+    {
+      "type": "relier",
+      "categorie": "JavaScript",
+      "niveau": 3,
+      "question": "Relie chaque méthode de tableau à son effet.",
+      "paires": [
+        {
+          "gauche": "`push()`",
+          "droite": "Ajoute à la fin"
+        },
+        {
+          "gauche": "`pop()`",
+          "droite": "Retire le dernier élément"
+        },
+        {
+          "gauche": "`unshift()`",
+          "droite": "Ajoute au début"
+        },
+        {
+          "gauche": "`shift()`",
+          "droite": "Retire le premier élément"
+        }
+      ],
+      "intrus": [
+        "Trie le tableau"
+      ],
+      "explication": "Trier : `sort()`."
+    },
+    {
+      "type": "relier",
+      "categorie": "CSS",
+      "niveau": 4,
+      "question": "Relie chaque propriété à son rôle.",
+      "paires": [
+        {
+          "gauche": "`transition-property`",
+          "droite": "La propriété à animer"
+        },
+        {
+          "gauche": "`transition-duration`",
+          "droite": "La durée de l'animation"
+        },
+        {
+          "gauche": "`transition-timing-function`",
+          "droite": "La courbe de vitesse"
+        },
+        {
+          "gauche": "`transition-delay`",
+          "droite": "Le temps d'attente avant le départ"
+        }
+      ],
+      "intrus": [
+        "Le nombre de répétitions"
+      ],
+      "explication": "Le nombre de répétitions existe pour les animations (`animation-iteration-count`), pas pour les transitions."
+    },
+    {
+      "type": "relier",
+      "categorie": "Intégration",
+      "niveau": 3,
+      "question": "Relie chaque événement au moment où il se déclenche.",
+      "paires": [
+        {
+          "gauche": "`input`",
+          "droite": "À chaque caractère tapé dans un champ"
+        },
+        {
+          "gauche": "`change`",
+          "droite": "Quand la valeur d'un select ou d'une case change"
+        },
+        {
+          "gauche": "`blur`",
+          "droite": "Quand on quitte un champ"
+        },
+        {
+          "gauche": "`submit`",
+          "droite": "À l'envoi du formulaire"
+        },
+        {
+          "gauche": "`DOMContentLoaded`",
+          "droite": "Quand le HTML est entièrement chargé"
+        }
+      ],
+      "intrus": [
+        "Quand la souris quitte la fenêtre"
+      ],
+      "explication": "`focus` = on entre dans le champ, `blur` = on en sort."
+    },
+    {
+      "type": "glisser",
+      "categorie": "HTML",
+      "niveau": 2,
+      "question": "Glisse chaque élément de structure à sa place habituelle dans la page.",
+      "etiquettes": [
+        "header",
+        "nav",
+        "main",
+        "aside",
+        "footer",
+        "section"
+      ],
+      "zones": [
+        {
+          "reponses": [
+            "header"
+          ],
+          "aire": "1 / 1 / 2 / 5",
+          "couleur": "#2e7d32",
+          "decor": "LOGO   Nom du site"
+        },
+        {
+          "reponses": [
+            "nav"
+          ],
+          "aire": "2 / 1 / 3 / 5",
+          "couleur": "#1565c0",
+          "decor": "Accueil · Produits · Contact"
+        },
+        {
+          "reponses": [
+            "main"
+          ],
+          "aire": "3 / 1 / 4 / 4",
+          "couleur": "#9e9e9e",
+          "decor": "Titre de l'article · paragraphes · images"
+        },
+        {
+          "reponses": [
+            "aside"
+          ],
+          "aire": "3 / 4 / 4 / 5",
+          "couleur": "#00897b",
+          "decor": "À lire aussi"
+        },
+        {
+          "reponses": [
+            "footer"
+          ],
+          "aire": "4 / 1 / 5 / 5",
+          "couleur": "#ef6c00",
+          "decor": "© 2026 · Mentions légales"
+        }
+      ],
+      "grille": {
+        "colonnes": "1fr 1fr 1fr 1fr",
+        "lignes": "60px 54px 150px 54px"
+      },
+      "explication": "`header` = en-tête, `nav` = navigation principale, `main` = contenu principal (unique), `aside` = contenu annexe, `footer` = pied de page. `section` est en trop."
+    },
+    {
+      "type": "glisser",
+      "categorie": "HTML",
+      "niveau": 3,
+      "question": "Classe chaque élément selon son affichage par défaut.",
+      "etiquettes": [
+        "span",
+        "div",
+        "a",
+        "p",
+        "img",
+        "ul",
+        "button",
+        "h2"
+      ],
+      "zones": [
+        {
+          "titre": "En ligne",
+          "reponses": [
+            "span",
+            "a",
+            "img",
+            "button"
+          ]
+        },
+        {
+          "titre": "En bloc",
+          "reponses": [
+            "div",
+            "p",
+            "ul",
+            "h2"
+          ]
+        }
+      ],
+      "explication": "En ligne : reste dans le texte (`span`, `a`, `img`, `button`, `strong`, `input`…). En bloc : prend toute la largeur (`div`, `p`, `ul`, `h1`-`h6`, `section`…)."
+    },
+    {
+      "type": "glisser",
+      "categorie": "HTML",
+      "niveau": 3,
+      "question": "Glisse dans la zone les éléments **vides** (sans balise fermante). Les autres restent à gauche.",
+      "etiquettes": [
+        "br",
+        "img",
+        "input",
+        "p",
+        "hr",
+        "li",
+        "meta",
+        "a"
+      ],
+      "zones": [
+        {
+          "titre": "Éléments vides",
+          "reponses": [
+            "br",
+            "img",
+            "input",
+            "hr",
+            "meta"
+          ]
+        }
+      ],
+      "explication": "Éléments vides : `br`, `img`, `input`, `hr`, `meta`, `link`… Ils n'ont pas de contenu, donc pas de `</…>`."
+    },
+    {
+      "type": "glisser",
+      "categorie": "JavaScript",
+      "niveau": 4,
+      "question": "Classe chaque valeur selon qu'elle est considérée comme vraie ou fausse dans un `if`.",
+      "etiquettes": [
+        "0",
+        "\"\"",
+        "null",
+        "\"0\"",
+        "[]",
+        "undefined",
+        "NaN",
+        "\"false\""
+      ],
+      "zones": [
+        {
+          "titre": "Falsy (fausse)",
+          "reponses": [
+            "0",
+            "\"\"",
+            "null",
+            "undefined",
+            "NaN"
+          ]
+        },
+        {
+          "titre": "Truthy (vraie)",
+          "reponses": [
+            "\"0\"",
+            "[]",
+            "\"false\""
+          ]
+        }
+      ],
+      "explication": "Seules `false`, `0`, `\"\"`, `null`, `undefined` et `NaN` sont fausses. Une chaîne non vide (même \"0\" ou \"false\") et un tableau (même vide) sont vrais."
+    },
+    {
+      "type": "liste",
+      "categorie": "Intégration",
+      "niveau": 4,
+      "question": "Accessibilité : on veut masquer un élément décoratif aux lecteurs d'écran, et donner un nom à un bouton qui ne contient qu'une icône.",
+      "phrases": [
+        {
+          "texte": "Quel attribut masque un élément aux lecteurs d'écran ?",
+          "options": [
+            "aria-hidden",
+            "aria-label",
+            "aria-describedby",
+            "aria-disabled",
+            "role"
+          ],
+          "reponse": "aria-hidden"
+        },
+        {
+          "texte": "Quel attribut donne un nom accessible à un bouton-icône ?",
+          "options": [
+            "aria-label",
+            "aria-hidden",
+            "aria-describedby",
+            "title-reader",
+            "alt"
+          ],
+          "reponse": "aria-label"
+        }
+      ],
+      "explication": "`aria-hidden=\"true\"` retire l'élément de la lecture. `aria-label` donne le nom ; `aria-describedby` ajoute une description."
+    },
+    {
+      "type": "liste",
+      "categorie": "Intégration",
+      "niveau": 4,
+      "question": "Une page affiche la position de l'utilisateur sur une carte Leaflet.",
+      "phrases": [
+        {
+          "texte": "Quelle méthode du navigateur récupère la position GPS ?",
+          "options": [
+            "navigator.geolocation.getCurrentPosition()",
+            "L.getLocation()",
+            "window.getPosition()",
+            "document.geolocation()"
+          ],
+          "reponse": "navigator.geolocation.getCurrentPosition()"
+        },
+        {
+          "texte": "Comment ajouter le marqueur à la carte ?",
+          "options": [
+            "L.marker([lat, lng]).addTo(carte)",
+            "carte.setMarker([lat, lng])",
+            "L.addMarker(carte, [lat, lng])",
+            "carte.append(L.marker([lat, lng]))"
+          ],
+          "reponse": "L.marker([lat, lng]).addTo(carte)"
+        }
+      ],
+      "explication": "La position vient du navigateur, l'affichage de la bibliothèque. Leaflet : on crée l'objet, puis `.addTo(carte)`."
+    },
+    {
+      "type": "liste",
+      "categorie": "CSS",
+      "niveau": 4,
+      "question": "Transitions CSS.",
+      "phrases": [
+        {
+          "texte": "Comment animer `width` en 1 s et `height` en 2 s ?",
+          "options": [
+            "transition: width 1s, height 2s;",
+            "transition: width height 1s 2s;",
+            "transition: all 1s 2s;",
+            "transition-property: width 1s, height 2s;"
+          ],
+          "reponse": "transition: width 1s, height 2s;"
+        },
+        {
+          "texte": "Quelle propriété définit la courbe de vitesse ?",
+          "options": [
+            "transition-timing-function",
+            "transition-duration",
+            "transition-delay",
+            "transition-speed"
+          ],
+          "reponse": "transition-timing-function"
+        }
+      ],
+      "explication": "Plusieurs transitions se séparent par des virgules."
+    },
+    {
+      "type": "liste",
+      "categorie": "Intégration",
+      "niveau": 3,
+      "question": "Manipulation du DOM.",
+      "phrases": [
+        {
+          "texte": "Pour ajouter `p` à la fin du body : `document.body.___(p)`",
+          "options": [
+            "appendChild",
+            "push",
+            "add",
+            "attach"
+          ],
+          "reponse": "appendChild"
+        },
+        {
+          "texte": "Pour retirer `li` de `ul` : `ul.___(li)`",
+          "options": [
+            "removeChild",
+            "deleteChild",
+            "pop",
+            "removeElement"
+          ],
+          "reponse": "removeChild"
+        }
+      ],
+      "explication": "`appendChild` / `removeChild` s'appellent sur le parent."
     }
   ],
   "pratiques": [

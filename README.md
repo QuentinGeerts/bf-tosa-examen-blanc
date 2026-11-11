@@ -2,7 +2,7 @@
 
 Simulation de l'examen de certification (HTML, CSS, JavaScript, Intégration) pour la formation Bruxelles Formation.
 
-- 35 questions en 1h30 : 29 QCM et 6 exercices pratiques
+- 35 questions en 1h30 : QCM, Vrai/Faux, listes déroulantes, liaisons, glisser-déposer et 6 exercices pratiques (5 min max chacun)
 - Niveau adaptatif : une bonne réponse amène une question plus difficile
 - Score estimé sur 1000, correction détaillée à la fin, résumé à copier sur Discord
 
@@ -11,7 +11,7 @@ Simulation de l'examen de certification (HTML, CSS, JavaScript, Intégration) po
 | Fichier | Rôle |
 | --- | --- |
 | `index.html` | La plateforme (affichage, chrono, score, correction) |
-| `questions.json` | La banque de questions, chargée par `index.html` |
+| `questions.json` | La banque de questions (QCM, questions interactives, exercices pratiques), chargée par `index.html` |
 | `api/resultat.js` | Fonction Vercel : envoie le début et le résultat de chaque examen sur Discord |
 
 ## Envoi automatique des résultats (Vercel + Discord)
@@ -28,6 +28,7 @@ La page envoie un message au début de l'examen et un message à la fin (score, 
 ```json
 {
   "qcm": [ ... ],
+  "interactives": [ ... ],
   "pratiques": [ ... ]
 }
 ```
@@ -55,6 +56,90 @@ Les champs de texte long (`code`, `enonce`, `depart`, `solution`) acceptent une 
 | `code` | Facultatif : extrait affiché sous la question |
 | `options` | Exactement 4 propositions (mélangées à l'affichage) |
 | `reponse` | Index de la bonne option : 0 = la première |
+
+Les QCM acceptent **4 ou 5** options.
+
+### Questions interactives (`interactives`)
+
+Elles occupent les mêmes places que les QCM dans l'examen. Champs communs : `type`, `categorie`, `niveau`, `question`, `code` (facultatif), `explication`. La réponse est juste seulement si tout est juste.
+
+**Vrai / Faux**
+
+```json
+{
+  "type": "vraifaux", "categorie": "HTML", "niveau": 2,
+  "question": "Pour chaque affirmation sur `<title>`, indique si elle est vraie.",
+  "affirmations": [
+    { "texte": "Son texte s'affiche dans l'onglet", "vrai": true },
+    { "texte": "Une page peut contenir plusieurs `<title>`", "vrai": false }
+  ],
+  "explication": "..."
+}
+```
+
+**Listes déroulantes** (les options sont mélangées à l'affichage)
+
+```json
+{
+  "type": "liste", "categorie": "Intégration", "niveau": 3,
+  "question": "Manipulation du DOM.",
+  "phrases": [
+    { "texte": "Pour retirer `li` de `ul` : `ul.___(li)`", "options": ["removeChild", "deleteChild", "pop"], "reponse": "removeChild" }
+  ],
+  "explication": "..."
+}
+```
+
+**Relier** (`intrus` = définitions en trop, à ne relier à rien)
+
+```json
+{
+  "type": "relier", "categorie": "JavaScript", "niveau": 3,
+  "question": "Relie chaque méthode de tableau à son effet.",
+  "paires": [
+    { "gauche": "`push()`", "droite": "Ajoute à la fin" },
+    { "gauche": "`pop()`", "droite": "Retire le dernier élément" }
+  ],
+  "intrus": ["Trie le tableau"],
+  "explication": "..."
+}
+```
+
+**Glisser-déposer**, deux variantes :
+
+- **Bacs** (zones avec un titre, plusieurs étiquettes par zone ; une étiquette absente de toutes les zones doit rester à gauche)
+
+```json
+{
+  "type": "glisser", "categorie": "HTML", "niveau": 3,
+  "question": "Classe chaque élément selon son affichage par défaut.",
+  "etiquettes": ["span", "div", "a", "p"],
+  "zones": [
+    { "titre": "En ligne", "reponses": ["span", "a"] },
+    { "titre": "En bloc", "reponses": ["div", "p"] }
+  ],
+  "explication": "..."
+}
+```
+
+- **Schéma** (avec `grille` : zones colorées placées en CSS Grid, une étiquette par zone)
+
+```json
+{
+  "type": "glisser", "categorie": "HTML", "niveau": 2,
+  "question": "Glisse chaque élément de structure à sa place.",
+  "etiquettes": ["header", "main", "footer", "section"],
+  "grille": { "colonnes": "1fr", "lignes": "60px 150px 54px" },
+  "zones": [
+    { "reponses": ["header"], "aire": "1 / 1 / 2 / 2", "couleur": "#2e7d32", "decor": "LOGO" },
+    { "reponses": ["main"], "aire": "2 / 1 / 3 / 2", "couleur": "#9e9e9e" },
+    { "reponses": ["footer"], "aire": "3 / 1 / 4 / 2", "couleur": "#ef6c00", "decor": "© 2026" }
+  ],
+  "explication": "..."
+}
+```
+
+`aire` suit la syntaxe de `grid-area` : `ligne-début / colonne-début / ligne-fin / colonne-fin`. `decor` est un petit texte indicatif affiché dans la zone.
 
 ### Exercice pratique
 
