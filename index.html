@@ -314,23 +314,23 @@ function fmt(ms) {
 }
 
 // ─── Bac à sable (iframe) pour les exercices pratiques ───
-function shim(t) {
-  return '<script>(function(){var T="' + t + '";function s(v){try{if(v===undefined)return"undefined";if(typeof v==="string")return v;if(v instanceof Error)return v.name+": "+v.message;if(v&&v.nodeType===1)return"<"+v.tagName.toLowerCase()+(v.id?"#"+v.id:"")+">";return JSON.stringify(v)}catch(e){return String(v)}}function p(k,a){try{parent.postMessage({__ex:T,log:[k,Array.prototype.map.call(a,s).join(" ")]},"*")}catch(e){}}["log","info","warn","error","table"].forEach(function(k){var o=console[k];console[k]=function(){p(k,arguments);try{o.apply(console,arguments)}catch(e){}}});window.addEventListener("error",function(e){p("error",[(e.message||"Erreur")+(e.lineno?" (ligne "+e.lineno+")":"")])})})()<\/script>';
+function shim(t, apercu) {
+  return '<script>(function(){var T="' + t + '";function s(v){try{if(v===undefined)return"undefined";if(typeof v==="string")return v;if(v instanceof Error)return v.name+": "+v.message;if(v&&v.nodeType===1)return"<"+v.tagName.toLowerCase()+(v.id?"#"+v.id:"")+">";return JSON.stringify(v)}catch(e){return String(v)}}function p(k,a){try{parent.postMessage({__ex:T,log:[k,Array.prototype.map.call(a,s).join(" ")]},"*")}catch(e){}}["log","info","warn","error","table"].forEach(function(k){var o=console[k];console[k]=function(){p(k,arguments);try{o.apply(console,arguments)}catch(e){}}});window.addEventListener("error",function(e){p("error",[(e.message||"Erreur")+(e.lineno?" (ligne "+e.lineno+")":"")])})' + (apercu ? ';window.addEventListener("submit",function(e){if(!e.defaultPrevented){e.preventDefault();p("warn",["Formulaire envoyé : la page aurait été rechargée (e.preventDefault() manquant ?)"])}})' : '') + '})()<\/script>';
 }
 function checkScript(body, t) {
   return '<script>window.addEventListener("load",function(){setTimeout(function(){var ok=false;try{ok=!!(function(){' + body + '})()}catch(e){}parent.postMessage({__ex:"' + t + '",ok:ok},"*")},60)})<\/script>';
 }
-function buildDoc(q, code, extra, t) {
+function buildDoc(q, code, extra, t, apercu) {
   if (q.p === "js") {
-    return '<!DOCTYPE html><html><head><meta charset="UTF-8">' + shim(t) + '</head><body><script>' + code + '\n<\/script>' + extra + '</body></html>';
+    return '<!DOCTYPE html><html><head><meta charset="UTF-8">' + shim(t, apercu) + '</head><body><script>' + code + '\n<\/script>' + extra + '</body></html>';
   }
   let d = code;
   const head = d.search(/<head[^>]*>/i);
   if (head >= 0) {
     const end = d.indexOf(">", head) + 1;
-    d = d.slice(0, end) + shim(t) + d.slice(end);
+    d = d.slice(0, end) + shim(t, apercu) + d.slice(end);
   } else {
-    d = shim(t) + d;
+    d = shim(t, apercu) + d;
   }
   const body = d.toLowerCase().lastIndexOf("</body>");
   return body >= 0 ? d.slice(0, body) + extra + d.slice(body) : d + extra;
@@ -563,14 +563,17 @@ function renderPratique(q) {
   majGutter();
 
   const cons = h("div", { class: "console", role: "log" }, h("div", { class: "empty" }, "Clique sur « Exécuter » pour tester ton code."));
-  const preview = q.p === "doc" ? h("iframe", { class: "preview", sandbox: "allow-scripts", title: "Aperçu" }) : null;
+  const preview = q.p === "doc" ? h("iframe", { class: "preview", sandbox: "allow-scripts allow-forms", title: "Aperçu" }) : null;
   const hiddenRun = q.p === "js" ? h("iframe", { sandbox: "allow-scripts", title: "Exécution", style: "display:none" }) : null;
 
   const executer = () => {
     previewToken = token();
     cons.replaceChildren();
-    previewSink = (k, txt) => cons.append(h("div", { class: k === "error" ? "error" : k === "warn" ? "warn" : "" }, txt));
-    const html = buildDoc(q, ta.value, "", previewToken);
+    previewSink = (k, txt) => {
+      cons.querySelectorAll(".empty").forEach((el) => el.remove());
+      cons.append(h("div", { class: k === "error" ? "error" : k === "warn" ? "warn" : "" }, txt));
+    };
+    const html = buildDoc(q, ta.value, "", previewToken, true);
     (preview || hiddenRun).srcdoc = html;
     setTimeout(() => { if (!cons.childElementCount) cons.append(h("div", { class: "empty" }, "Rien dans la console.")); }, 600);
   };
