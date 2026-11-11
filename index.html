@@ -73,6 +73,9 @@ button:disabled { cursor: not-allowed; opacity: .5; }
 .stat b { color: var(--ink); font-weight: 600; }
 .timer { font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 17px; padding: 3px 10px; border-radius: 6px; background: var(--surface-2); border: 1px solid var(--line); }
 .timer.low { color: var(--warn); border-color: currentColor; }
+.q-timer-note { margin-left: auto; font-size: 13px; }
+.q-timer { font-family: "IBM Plex Mono", monospace; font-weight: 600; padding: 2px 10px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface-2); }
+.q-timer.low { color: var(--ko); border-color: currentColor; }
 .progress { height: 3px; background: var(--line); }
 .progress span { display: block; height: 100%; width: 0; background: var(--accent); transition: width .3s; }
 
@@ -239,6 +242,7 @@ async function chargerQuestions() {
 const CATS = { H: "HTML", C: "CSS", J: "JavaScript", I: "Intégration" };
 const TOTAL = 35;
 const DUREE = 90 * 60 * 1000;
+const DUREE_PRAT = 5 * 60 * 1000;   // temps maximum par exercice pratique
 const QUOTA = { H: 8, C: 9, J: 11, I: 7 };
 const PRAT_POS = [4, 10, 16, 22, 28, 33];          // positions (index 0) des exercices pratiques
 const PRAT_CATS = ["H", "C", "J", "J", "I", "I"];
@@ -436,6 +440,7 @@ function preparer() {
   S.used.push(id);
   const q = BANK[id];
   S.cur = { id, order: q.o ? shuffle([0, 1, 2, 3]) : null, draft: q.p ? q.start : null };
+  if (q.p) S.cur.deadline = Date.now() + DUREE_PRAT;
 }
 function repondre(ok, extra) {
   const q = BANK[S.cur.id];
@@ -508,7 +513,21 @@ function demarrerChrono() {
     if (!S || S.fini) { clearInterval(tick); return; }
     if (Date.now() >= S.end) { clearInterval(tick); terminer(); return; }
     majBarre();
+    majChronoPratique();
   }, 1000);
+}
+
+// ─── Chrono propre à chaque exercice pratique ───
+let validationEnCours = false;
+function majChronoPratique() {
+  if (!S || S.fini || !S.cur || !S.cur.deadline) return;
+  const reste = S.cur.deadline - Date.now();
+  const el = document.getElementById("q-timer");
+  if (el) {
+    el.textContent = "⏱ " + fmt(reste);
+    el.classList.toggle("low", reste < 60 * 1000);
+  }
+  if (reste <= 0 && !validationEnCours) repondre(false, { code: S.cur.draft, tempsEcoule: true });
 }
 
 // ─── Écrans ───
@@ -551,6 +570,7 @@ function renderAccueil() {
       h("ul", { class: "rules" },
         h("li", {}, h("span", { class: "k" }, "Questions"), h("span", {}, `${TOTAL} questions : des QCM et ${pratOK ? PRAT_POS.length : 0} exercices pratiques à coder.`)),
         h("li", {}, h("span", { class: "k" }, "Durée"), h("span", {}, "1 h 30. À la fin du temps, l'examen se termine automatiquement.")),
+        h("li", {}, h("span", { class: "k" }, "Exercices"), h("span", {}, "5 min par exercice pratique. Passé ce délai, la question est comptée fausse.")),
         h("li", {}, h("span", { class: "k" }, "Réponses"), h("span", {}, "Une réponse validée est définitive : pas de retour en arrière.")),
         h("li", {}, h("span", { class: "k" }, "Adaptatif"), h("span", {}, "La difficulté s'adapte à tes réponses : une bonne réponse amène une question plus difficile.")),
         h("li", {}, h("span", { class: "k" }, "Règles"), h("span", {}, "Sans documentation, sans autre onglet et sans aide extérieure."))),
@@ -562,7 +582,9 @@ function renderAccueil() {
 }
 
 function enteteQuestion(q) {
-  return h("div", { class: "meta" }, chip(q.c), h("span", { class: "tag" }, q.p ? "Exercice pratique" : "QCM"));
+  return h("div", { class: "meta" }, chip(q.c), h("span", { class: "tag" }, q.p ? "Exercice pratique" : "QCM"),
+    q.p ? h("span", { class: "muted q-timer-note" }, "5 min pour cette question") : null,
+    q.p ? h("span", { class: "q-timer", id: "q-timer" }, "⏱ " + fmt(S.cur.deadline - Date.now())) : null);
 }
 
 function renderQcm(q) {
@@ -589,6 +611,7 @@ function renderQcm(q) {
 }
 
 function renderPratique(q) {
+  if (!S.cur.deadline) { S.cur.deadline = Date.now() + DUREE_PRAT; save(); }
   const ta = h("textarea", { spellcheck: "false", autocapitalize: "off", autocomplete: "off", "aria-label": "Éditeur de code" });
   ta.value = S.cur.draft;
   const gutter = h("pre", { class: "gutter mono", "aria-hidden": "true" });
@@ -609,7 +632,7 @@ function renderPratique(q) {
   });
   majGutter();
 
-  const cons = h("div", { class: "console", role: "log" }, h("div", { class: "empty" }, "Clique sur « Exécuter » pour tester ton code."));
+  const cons = h("div", { class: "console", role: "log" }, h("div", { class: "empty" }, "Clique sur « Essayer » pour tester ton code, autant de fois que tu veux."));
   const preview = q.p === "doc" ? h("iframe", { class: "preview", sandbox: "allow-scripts allow-forms", title: "Aperçu" }) : null;
   const hiddenRun = q.p === "js" ? h("iframe", { sandbox: "allow-scripts", title: "Exécution", style: "display:none" }) : null;
 
@@ -638,8 +661,10 @@ function renderPratique(q) {
   valider.addEventListener("click", async () => {
     valider.disabled = passer.disabled = true;
     valider.textContent = "Vérification…";
+    validationEnCours = true;
     const code = ta.value;
     const ok = await runCheck(q, code);
+    validationEnCours = false;
     repondre(ok, { code });
   });
   passer.addEventListener("click", () => repondre(false, { code: ta.value, passe: true }));
@@ -649,7 +674,7 @@ function renderPratique(q) {
     block(q.q),
     h("div", { class: "ws" },
       h("div", { class: "ide" },
-        h("div", { class: "ide-bar" }, h("span", { class: "file" }, q.p === "js" ? "script.js" : "index.html"), reset, h("button", { type: "button", class: "run", onclick: () => executer() }, "▶ Exécuter")),
+        h("div", { class: "ide-bar" }, h("span", { class: "file" }, q.p === "js" ? "script.js" : "index.html"), reset, h("button", { type: "button", class: "run", onclick: () => executer() }, "▶ Essayer")),
         h("div", { class: "editor" }, gutter, ta)),
       h("div", { class: "out" },
         preview ? h("div", { class: "out-bar" }, "Aperçu") : null,
@@ -766,7 +791,7 @@ function renderResultats() {
 function carteCorrection(a, i) {
   const head = (q) => h("div", { class: "head" },
     h("span", { class: "mono" }, `Q${i + 1}`), chip(a.c), h("span", { class: "tag" }, q && q.p ? "Exercice pratique" : "QCM"),
-    h("span", { class: "verdict " + (a.ok ? "ok" : "ko") }, a.ok ? "Réussie" : a.timeout ? "Temps écoulé" : (a.choix === null || a.passe) ? "Sans réponse" : "Ratée"));
+    h("span", { class: "verdict " + (a.ok ? "ok" : "ko") }, a.ok ? "Réussie" : (a.timeout || a.tempsEcoule) ? "Temps écoulé" : (a.choix === null || a.passe) ? "Sans réponse" : "Ratée"));
   if (a.id == null) {
     return h("article", { class: "rv bad" }, head(null), h("p", { class: "muted" }, "Question non atteinte avant la fin du temps."));
   }
