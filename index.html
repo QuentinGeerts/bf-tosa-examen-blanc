@@ -179,6 +179,7 @@ pre.code { background: var(--code-bg); color: var(--code-ink); padding: 14px 16p
 .rv { border: 1px solid var(--line); border-left: 4px solid var(--ok); border-radius: 8px; padding: 16px 18px; background: var(--surface); }
 .rv.bad { border-left-color: var(--ko); }
 .rv .head { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; font-size: 14px; }
+.rv .qid { font-size: 12px; }
 .rv .verdict { margin-left: auto; font-weight: 700; font-size: 13px; }
 .rv .verdict.ok { color: var(--ok); } .rv .verdict.ko { color: var(--ko); }
 .rv ul { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 4px; font-size: 15px; }
@@ -265,7 +266,7 @@ async function chargerQuestions() {
       console.warn("QCM ignoré (index " + i + ") :", q.question);
       return;
     }
-    const d = { c, n: q.niveau, q: txt(q.question), o: q.options, a: q.reponse, e: txt(q.explication) };
+    const d = { id: q.id || c + "-q" + i, c, n: q.niveau, q: txt(q.question), o: q.options, a: q.reponse, e: txt(q.explication) };
     if (q.code) d.code = txt(q.code);
     bank.push(d);
   });
@@ -273,7 +274,7 @@ async function chargerQuestions() {
     const c = CODES[q.categorie];
     const t = { vraifaux: "vf", liste: "liste", relier: "relier", glisser: "glisser" }[q.type];
     if (!c || !t || !(q.niveau >= 1 && q.niveau <= 5)) { console.warn("Question interactive ignorée (index " + i + ")"); return; }
-    const d = { c, n: q.niveau, t, q: txt(q.question), e: txt(q.explication) };
+    const d = { id: q.id || c + "-i" + i, c, n: q.niveau, t, q: txt(q.question), e: txt(q.explication) };
     if (q.code) d.code = txt(q.code);
     try {
       if (t === "vf") d.aff = q.affirmations.map((a) => [a.texte, a.vrai === true]);
@@ -296,7 +297,7 @@ async function chargerQuestions() {
       console.warn("Exercice pratique ignoré (index " + i + ")");
       return;
     }
-    bank.push({ c, n: q.niveau, q: txt(q.enonce), p: q.fichier === "js" ? "js" : "doc", start: txt(q.depart), check: txt(q.verification), sol: txt(q.solution) });
+    bank.push({ id: q.id || c + "-p" + i, c, n: q.niveau, q: txt(q.enonce), p: q.fichier === "js" ? "js" : "doc", start: txt(q.depart), check: txt(q.verification), sol: txt(q.solution) });
   });
   return bank;
 }
@@ -472,13 +473,38 @@ async function envoyerResultat() {
     pOk: st.pOk, pN: st.pN,
     duree: Math.round(((S.endedAt || Date.now()) - S.start) / 60000),
     timeout: S.answers.some((a) => a.timeout),
-    erreurs: S.answers.map((a, i) => ({ a, i })).filter(({ a }) => !a.ok).map(({ a, i }) => ({ i: i + 1, c: a.c, n: a.id != null ? BANK[a.id].n : a.level })),
+    erreurs: S.answers.map((a, i) => ({ a, i })).filter(({ a }) => !a.ok).map(({ a, i }) => ({ i: i + 1, id: a.id != null ? BANK[a.id].id : null, c: a.c, n: a.id != null ? BANK[a.id].n : a.level, ...detailErreur(a) })),
   });
   envoiEnCours = false;
   S.envoi = ok ? "ok" : "echec";
   save();
   majStatut();
 }
+// Détail d'une question ratée, pour le message Discord (question, réponse donnée, réponse attendue)
+function detailErreur(a) {
+  const court = (s, n) => { s = String(s || "").replace(/\s+/g, " ").trim(); return s.length > n ? s.slice(0, n - 1) + "…" : s; };
+  if (a.id == null) return { q: "Question non atteinte avant la fin du temps", rep: "", attendu: "" };
+  const q = BANK[a.id];
+  let rep = "Sans réponse", attendu = "";
+  if (q.p) {
+    rep = a.tempsEcoule ? "Temps écoulé (5 min)" : a.passe ? "Question passée" : "Code refusé par la vérification";
+  } else if (!q.t) {
+    if (a.choix != null) rep = q.o[a.choix];
+    attendu = q.o[q.a];
+  } else if (a.rep) {
+    const r = a.rep, faux = [];
+    if (q.t === "vf") q.aff.forEach((x, k) => { if (r[k] !== x[1]) faux.push(`${x[0]} → ${r[k] ? "Vrai" : "Faux"} (attendu ${x[1] ? "Vrai" : "Faux"})`); });
+    if (q.t === "liste") q.phr.forEach((p, k) => { if (r[k] !== p[2]) faux.push(`${court(p[0], 80)} → \`${r[k]}\` (attendu \`${p[2]}\`)`); });
+    if (q.t === "relier") { const D = droites(q); q.paires.forEach((p, k) => { if (r[k] !== k) faux.push(`${p[0]} → ${r[k] >= 0 ? D[r[k]] : "rien"} (attendu : ${p[1]})`); }); }
+    if (q.t === "glisser") q.zones.forEach((z, zi) => {
+      const poses = q.etiq.filter((_, k) => r[k] === zi);
+      if (poses.slice().sort().join() !== z.rep.slice().sort().join()) faux.push(`${z.titre || z.decor || "Zone " + (zi + 1)} : ${poses.join(", ") || "rien"} (attendu : ${z.rep.join(", ")})`);
+    });
+    rep = "\n" + faux.map((f) => "• " + f).join("\n");
+  }
+  return { q: court(q.q.split("\n")[0], 250), code: q.code && !q.p ? q.code.slice(0, 250) : null, rep: rep.slice(0, 500), attendu: court(attendu, 250) };
+}
+
 function majStatut() {
   const el = document.getElementById("envoi-statut");
   if (!el) return;
@@ -1038,7 +1064,7 @@ function renderResultats() {
 
 function carteCorrection(a, i) {
   const head = (q) => h("div", { class: "head" },
-    h("span", { class: "mono" }, `Q${i + 1}`), chip(a.c), h("span", { class: "tag" }, q && q.p ? "Exercice pratique" : (q && TYPES[q.t]) || "QCM"),
+    h("span", { class: "mono" }, `Q${i + 1}`), chip(a.c), q && q.id ? h("span", { class: "mono muted qid" }, q.id) : null, h("span", { class: "tag" }, q && q.p ? "Exercice pratique" : (q && TYPES[q.t]) || "QCM"),
     h("span", { class: "verdict " + (a.ok ? "ok" : "ko") }, a.ok ? "Réussie" : (a.timeout || a.tempsEcoule) ? "Temps écoulé" : (a.choix === null || a.passe) ? "Sans réponse" : "Ratée"));
   if (a.id == null) {
     return h("article", { class: "rv bad" }, head(null), h("p", { class: "muted" }, "Question non atteinte avant la fin du temps."));
