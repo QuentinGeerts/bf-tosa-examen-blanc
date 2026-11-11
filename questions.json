@@ -3503,596 +3503,1552 @@
       "id": "H035",
       "categorie": "HTML",
       "niveau": 2,
-      "fichier": "html",
       "enonce": "Dans le `<body>`, écris un titre de niveau 2 « Fruits », suivi d'une liste à puces de 3 fruits.",
-      "depart": [
-        "<!DOCTYPE html>",
-        "<html lang=\"fr\">",
-        "<head>",
-        "  <meta charset=\"UTF-8\">",
-        "  <title>Exercice</title>",
-        "</head>",
-        "<body>",
-        "  ",
-        "</body>",
-        "</html>"
-      ],
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Exercice</title>",
+            "</head>",
+            "<body>",
+            "  ",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": false
+        },
+        "css": {
+          "code": [
+            "/* Dans cette question, tu n'as pas besoin de modifier le CSS */",
+            ""
+          ],
+          "verrouille": true
+        },
+        "js": {
+          "code": [
+            "// Dans cette question, tu n'as pas besoin de modifier le JavaScript",
+            ""
+          ],
+          "verrouille": true
+        }
+      },
       "verification": "const h = document.querySelector('h2'); return !!h && h.textContent.trim() === 'Fruits' && document.querySelectorAll('ul > li').length === 3;",
-      "solution": [
-        "<!DOCTYPE html>",
-        "<html lang=\"fr\">",
-        "<head>",
-        "  <meta charset=\"UTF-8\">",
-        "  <title>Exercice</title>",
-        "</head>",
-        "<body>",
-        "  <h2>Fruits</h2>",
-        "  <ul>",
-        "    <li>Pomme</li>",
-        "    <li>Banane</li>",
-        "    <li>Kiwi</li>",
-        "  </ul>",
-        "</body>",
-        "</html>"
-      ]
+      "solution": {
+        "html": [
+          "<!DOCTYPE html>",
+          "<html lang=\"fr\">",
+          "<head>",
+          "  <meta charset=\"UTF-8\">",
+          "  <title>Exercice</title>",
+          "</head>",
+          "<body>",
+          "  <h2>Fruits</h2>",
+          "  <ul>",
+          "    <li>Pomme</li>",
+          "    <li>Banane</li>",
+          "    <li>Kiwi</li>",
+          "  </ul>",
+          "</body>",
+          "</html>"
+        ]
+      }
     },
     {
       "id": "H036",
       "categorie": "HTML",
       "niveau": 3,
-      "fichier": "html",
       "enonce": [
         "Crée un formulaire contenant :",
         "1. un champ email obligatoire ;",
         "2. un label « Email » relié à ce champ ;",
         "3. un bouton d'envoi."
       ],
-      "depart": [
-        "<!DOCTYPE html>",
-        "<html lang=\"fr\">",
-        "<head>",
-        "  <meta charset=\"UTF-8\">",
-        "  <title>Exercice</title>",
-        "</head>",
-        "<body>",
-        "  ",
-        "</body>",
-        "</html>"
-      ],
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Exercice</title>",
+            "</head>",
+            "<body>",
+            "  ",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": false
+        },
+        "css": {
+          "code": [
+            "/* Dans cette question, tu n'as pas besoin de modifier le CSS */",
+            ""
+          ],
+          "verrouille": true
+        },
+        "js": {
+          "code": [
+            "// Dans cette question, tu n'as pas besoin de modifier le JavaScript",
+            ""
+          ],
+          "verrouille": true
+        }
+      },
       "verification": "const i = document.querySelector('form input[type=email]'); if (!i || !i.required || !i.labels || i.labels.length === 0) return false; return !!document.querySelector('form button:not([type=button]):not([type=reset]), form input[type=submit]');",
-      "solution": [
-        "<!DOCTYPE html>",
-        "<html lang=\"fr\">",
-        "<head>",
-        "  <meta charset=\"UTF-8\">",
-        "  <title>Exercice</title>",
-        "</head>",
-        "<body>",
-        "  <form>",
-        "    <label for=\"email\">Email</label>",
-        "    <input type=\"email\" id=\"email\" name=\"email\" required>",
-        "    <button type=\"submit\">Envoyer</button>",
-        "  </form>",
-        "</body>",
-        "</html>"
-      ]
+      "solution": {
+        "html": [
+          "<!DOCTYPE html>",
+          "<html lang=\"fr\">",
+          "<head>",
+          "  <meta charset=\"UTF-8\">",
+          "  <title>Exercice</title>",
+          "</head>",
+          "<body>",
+          "  <form>",
+          "    <label for=\"email\">Email</label>",
+          "    <input type=\"email\" id=\"email\" name=\"email\" required>",
+          "    <button type=\"submit\">Envoyer</button>",
+          "  </form>",
+          "</body>",
+          "</html>"
+        ]
+      }
     },
     {
       "id": "H037",
       "categorie": "HTML",
       "niveau": 4,
-      "fichier": "html",
       "enonce": [
         "Crée un tableau avec :",
         "1. un `<thead>` contenant 2 cellules d'en-tête (Produit, Prix) ;",
         "2. un `<tbody>` contenant 2 lignes ;",
         "3. un `<tfoot>` avec une seule cellule qui s'étend sur les 2 colonnes."
       ],
-      "depart": [
-        "<!DOCTYPE html>",
-        "<html lang=\"fr\">",
-        "<head>",
-        "  <meta charset=\"UTF-8\">",
-        "  <title>Exercice</title>",
-        "</head>",
-        "<body>",
-        "  ",
-        "</body>",
-        "</html>"
-      ],
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Exercice</title>",
+            "</head>",
+            "<body>",
+            "  ",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": false
+        },
+        "css": {
+          "code": [
+            "/* Dans cette question, tu n'as pas besoin de modifier le CSS */",
+            ""
+          ],
+          "verrouille": true
+        },
+        "js": {
+          "code": [
+            "// Dans cette question, tu n'as pas besoin de modifier le JavaScript",
+            ""
+          ],
+          "verrouille": true
+        }
+      },
       "verification": "const src = code.toLowerCase(); const pied = document.querySelectorAll('table tfoot td, table tfoot th'); return /<thead[^>]*>\\s*<tr/.test(src) && /<tbody/.test(src) && document.querySelectorAll('table thead th').length === 2 && document.querySelectorAll('table tbody tr').length === 2 && pied.length === 1 && pied[0].colSpan === 2;",
-      "solution": [
-        "<!DOCTYPE html>",
-        "<html lang=\"fr\">",
-        "<head>",
-        "  <meta charset=\"UTF-8\">",
-        "  <title>Exercice</title>",
-        "</head>",
-        "<body>",
-        "  <table>",
-        "    <thead>",
-        "      <tr><th>Produit</th><th>Prix</th></tr>",
-        "    </thead>",
-        "    <tbody>",
-        "      <tr><td>Pain</td><td>2,50 €</td></tr>",
-        "      <tr><td>Lait</td><td>1,20 €</td></tr>",
-        "    </tbody>",
-        "    <tfoot>",
-        "      <tr><td colspan=\"2\">Total : 3,70 €</td></tr>",
-        "    </tfoot>",
-        "  </table>",
-        "</body>",
-        "</html>"
-      ]
+      "solution": {
+        "html": [
+          "<!DOCTYPE html>",
+          "<html lang=\"fr\">",
+          "<head>",
+          "  <meta charset=\"UTF-8\">",
+          "  <title>Exercice</title>",
+          "</head>",
+          "<body>",
+          "  <table>",
+          "    <thead>",
+          "      <tr><th>Produit</th><th>Prix</th></tr>",
+          "    </thead>",
+          "    <tbody>",
+          "      <tr><td>Pain</td><td>2,50 €</td></tr>",
+          "      <tr><td>Lait</td><td>1,20 €</td></tr>",
+          "    </tbody>",
+          "    <tfoot>",
+          "      <tr><td colspan=\"2\">Total : 3,70 €</td></tr>",
+          "    </tfoot>",
+          "  </table>",
+          "</body>",
+          "</html>"
+        ]
+      }
     },
     {
       "id": "C037",
       "categorie": "CSS",
       "niveau": 2,
-      "fichier": "html",
       "enonce": "Complète le CSS pour que le paragraphe de classe `alerte` soit **rouge** et **en gras**.",
-      "depart": [
-        "<!DOCTYPE html>",
-        "<html lang=\"fr\">",
-        "<head>",
-        "  <meta charset=\"UTF-8\">",
-        "  <title>Exercice</title>",
-        "  <style>",
-        "    ",
-        "  </style>",
-        "</head>",
-        "<body>",
-        "  <p class=\"alerte\">Attention : stock épuisé !</p>",
-        "</body>",
-        "</html>"
-      ],
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!-- Dans cette question, tu n'as pas besoin de modifier le HTML -->",
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Exercice</title>",
+            "</head>",
+            "<body>",
+            "  <p class=\"alerte\">Attention : stock épuisé !</p>",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": true
+        },
+        "css": {
+          "code": [
+            "/* Ton code ici */",
+            ""
+          ],
+          "verrouille": false
+        },
+        "js": {
+          "code": [
+            "// Dans cette question, tu n'as pas besoin de modifier le JavaScript",
+            ""
+          ],
+          "verrouille": true
+        }
+      },
       "verification": "const s = getComputedStyle(document.querySelector('.alerte')); return s.color === 'rgb(255, 0, 0)' && parseInt(s.fontWeight) >= 700;",
-      "solution": [
-        "<!DOCTYPE html>",
-        "<html lang=\"fr\">",
-        "<head>",
-        "  <meta charset=\"UTF-8\">",
-        "  <title>Exercice</title>",
-        "  <style>",
-        "    .alerte {",
-        "      color: red;",
-        "      font-weight: bold;",
-        "    }",
-        "  </style>",
-        "</head>",
-        "<body>",
-        "  <p class=\"alerte\">Attention : stock épuisé !</p>",
-        "</body>",
-        "</html>"
-      ]
+      "solution": {
+        "css": [
+          ".alerte {",
+          "  color: red;",
+          "  font-weight: bold;",
+          "}",
+          ""
+        ]
+      }
     },
     {
       "id": "C038",
       "categorie": "CSS",
       "niveau": 3,
-      "fichier": "html",
       "enonce": "Avec Flexbox, centre la boîte `.boite` horizontalement **et** verticalement dans `.conteneur`.",
-      "depart": [
-        "<!DOCTYPE html>",
-        "<html lang=\"fr\">",
-        "<head>",
-        "  <meta charset=\"UTF-8\">",
-        "  <title>Exercice</title>",
-        "  <style>",
-        "    .conteneur {",
-        "      height: 300px;",
-        "      border: 2px solid #333;",
-        "    }",
-        "",
-        "    .boite {",
-        "      width: 100px;",
-        "      padding: 10px;",
-        "      background: gold;",
-        "    }",
-        "  </style>",
-        "</head>",
-        "<body>",
-        "  <div class=\"conteneur\">",
-        "    <div class=\"boite\">Centré</div>",
-        "  </div>",
-        "</body>",
-        "</html>"
-      ],
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!-- Dans cette question, tu n'as pas besoin de modifier le HTML -->",
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Exercice</title>",
+            "</head>",
+            "<body>",
+            "  <div class=\"conteneur\">",
+            "    <div class=\"boite\">Centré</div>",
+            "  </div>",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": true
+        },
+        "css": {
+          "code": [
+            ".conteneur {",
+            "  height: 300px;",
+            "  border: 2px solid #333;",
+            "}",
+            "",
+            ".boite {",
+            "  width: 100px;",
+            "  padding: 10px;",
+            "  background: gold;",
+            "}",
+            ""
+          ],
+          "verrouille": false
+        },
+        "js": {
+          "code": [
+            "// Dans cette question, tu n'as pas besoin de modifier le JavaScript",
+            ""
+          ],
+          "verrouille": true
+        }
+      },
       "verification": "const c = document.querySelector('.conteneur').getBoundingClientRect(); const b = document.querySelector('.boite').getBoundingClientRect(); return Math.abs((c.left + c.right) / 2 - (b.left + b.right) / 2) < 3 && Math.abs((c.top + c.bottom) / 2 - (b.top + b.bottom) / 2) < 3;",
-      "solution": [
-        "<!DOCTYPE html>",
-        "<html lang=\"fr\">",
-        "<head>",
-        "  <meta charset=\"UTF-8\">",
-        "  <title>Exercice</title>",
-        "  <style>",
-        "    .conteneur {",
-        "      height: 300px;",
-        "      border: 2px solid #333;",
-        "      display: flex;",
-        "      justify-content: center;",
-        "      align-items: center;",
-        "    }",
-        "",
-        "    .boite {",
-        "      width: 100px;",
-        "      padding: 10px;",
-        "      background: gold;",
-        "    }",
-        "  </style>",
-        "</head>",
-        "<body>",
-        "  <div class=\"conteneur\">",
-        "    <div class=\"boite\">Centré</div>",
-        "  </div>",
-        "</body>",
-        "</html>"
-      ]
+      "solution": {
+        "css": [
+          ".conteneur {",
+          "  height: 300px;",
+          "  border: 2px solid #333;",
+          "  display: flex;",
+          "  justify-content: center;",
+          "  align-items: center;",
+          "}",
+          "",
+          ".boite {",
+          "  width: 100px;",
+          "  padding: 10px;",
+          "  background: gold;",
+          "}",
+          ""
+        ]
+      }
     },
     {
       "id": "C039",
       "categorie": "CSS",
       "niveau": 4,
-      "fichier": "html",
       "enonce": "Place le badge « Promo » dans le **coin supérieur droit** de la carte, avec un positionnement absolu.",
-      "depart": [
-        "<!DOCTYPE html>",
-        "<html lang=\"fr\">",
-        "<head>",
-        "  <meta charset=\"UTF-8\">",
-        "  <title>Exercice</title>",
-        "  <style>",
-        "    .carte {",
-        "      width: 250px;",
-        "      margin: 40px;",
-        "      padding: 20px;",
-        "      border: 1px solid #ccc;",
-        "    }",
-        "",
-        "    .badge {",
-        "      background: crimson;",
-        "      color: white;",
-        "      padding: 4px 8px;",
-        "    }",
-        "  </style>",
-        "</head>",
-        "<body>",
-        "  <div class=\"carte\">",
-        "    <span class=\"badge\">Promo</span>",
-        "    <h2>Casque audio</h2>",
-        "    <p>49,99 €</p>",
-        "  </div>",
-        "</body>",
-        "</html>"
-      ],
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!-- Dans cette question, tu n'as pas besoin de modifier le HTML -->",
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Exercice</title>",
+            "</head>",
+            "<body>",
+            "  <div class=\"carte\">",
+            "    <span class=\"badge\">Promo</span>",
+            "    <h2>Casque audio</h2>",
+            "    <p>49,99 €</p>",
+            "  </div>",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": true
+        },
+        "css": {
+          "code": [
+            ".carte {",
+            "  width: 250px;",
+            "  margin: 40px;",
+            "  padding: 20px;",
+            "  border: 1px solid #ccc;",
+            "}",
+            "",
+            ".badge {",
+            "  background: crimson;",
+            "  color: white;",
+            "  padding: 4px 8px;",
+            "}",
+            ""
+          ],
+          "verrouille": false
+        },
+        "js": {
+          "code": [
+            "// Dans cette question, tu n'as pas besoin de modifier le JavaScript",
+            ""
+          ],
+          "verrouille": true
+        }
+      },
       "verification": "const b = document.querySelector('.badge'); const c = document.querySelector('.carte').getBoundingClientRect(); const r = b.getBoundingClientRect(); return getComputedStyle(b).position === 'absolute' && Math.abs(r.top - c.top) < 3 && Math.abs(r.right - c.right) < 3;",
-      "solution": [
-        "<!DOCTYPE html>",
-        "<html lang=\"fr\">",
-        "<head>",
-        "  <meta charset=\"UTF-8\">",
-        "  <title>Exercice</title>",
-        "  <style>",
-        "    .carte {",
-        "      width: 250px;",
-        "      margin: 40px;",
-        "      padding: 20px;",
-        "      border: 1px solid #ccc;",
-        "      position: relative;",
-        "    }",
-        "",
-        "    .badge {",
-        "      background: crimson;",
-        "      color: white;",
-        "      padding: 4px 8px;",
-        "      position: absolute;",
-        "      top: 0;",
-        "      right: 0;",
-        "    }",
-        "  </style>",
-        "</head>",
-        "<body>",
-        "  <div class=\"carte\">",
-        "    <span class=\"badge\">Promo</span>",
-        "    <h2>Casque audio</h2>",
-        "    <p>49,99 €</p>",
-        "  </div>",
-        "</body>",
-        "</html>"
-      ]
+      "solution": {
+        "css": [
+          ".carte {",
+          "  width: 250px;",
+          "  margin: 40px;",
+          "  padding: 20px;",
+          "  border: 1px solid #ccc;",
+          "  position: relative;",
+          "}",
+          "",
+          ".badge {",
+          "  background: crimson;",
+          "  color: white;",
+          "  padding: 4px 8px;",
+          "  position: absolute;",
+          "  top: 0;",
+          "  right: 0;",
+          "}",
+          ""
+        ]
+      }
     },
     {
       "id": "J048",
       "categorie": "JavaScript",
       "niveau": 2,
-      "fichier": "js",
       "enonce": [
         "Écris une fonction `double(n)` qui retourne le double du nombre reçu.",
         "",
         "Exemple : `double(4)` retourne `8`."
       ],
-      "depart": [
-        "// Ton code ici",
-        ""
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!-- Dans cette question, tu n'as pas besoin de modifier le HTML -->",
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Exercice</title>",
+            "  <style>",
+            "    body { font-family: sans-serif; }",
+            "    table.tests { border-collapse: collapse; margin: 12px; font-family: monospace; }",
+            "    table.tests th, table.tests td { border: 1px solid #999; padding: 4px 10px; text-align: left; }",
+            "  </style>",
+            "</head>",
+            "<body>",
+            "  <!-- Les résultats des tests s'affichent ici quand tu cliques sur Essayer -->",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": true
+        },
+        "css": {
+          "code": [
+            "/* Dans cette question, tu n'as pas besoin de modifier le CSS */",
+            ""
+          ],
+          "verrouille": true
+        },
+        "js": {
+          "code": [
+            "// Ton code ici",
+            ""
+          ],
+          "verrouille": false
+        }
+      },
+      "apres": [
+        "(function () {",
+        "  var appels = [\"double(4)\", \"double(-3)\", \"double(0)\"];",
+        "  var fmt = function (r) { return typeof r === \"number\" && isNaN(r) ? \"NaN\" : r === undefined ? \"undefined\" : JSON.stringify(r); };",
+        "  var t = document.createElement(\"table\");",
+        "  t.className = \"tests\";",
+        "  t.innerHTML = \"<thead><tr><th>Appel</th><th>Résultat</th></tr></thead>\";",
+        "  var b = t.createTBody();",
+        "  appels.forEach(function (c) {",
+        "    var r;",
+        "    try { r = fmt((0, eval)(c)); } catch (e) { r = e.name + \": \" + e.message; }",
+        "    var tr = b.insertRow();",
+        "    tr.insertCell().textContent = c;",
+        "    tr.insertCell().textContent = r;",
+        "  });",
+        "  document.body.appendChild(t);",
+        "})();"
       ],
       "verification": "return typeof double === 'function' && double(4) === 8 && double(-3) === -6 && double(0) === 0;",
-      "solution": [
-        "function double(n) {",
-        "  return n * 2;",
-        "}"
-      ]
+      "solution": {
+        "js": [
+          "function double(n) {",
+          "  return n * 2;",
+          "}",
+          ""
+        ]
+      }
     },
     {
       "id": "J049",
       "categorie": "JavaScript",
       "niveau": 3,
-      "fichier": "js",
       "enonce": [
         "Écris une fonction `moyenne(notes)` qui reçoit un tableau de nombres et retourne leur moyenne.",
         "",
         "Exemple : `moyenne([12, 15, 18])` retourne `15`."
       ],
-      "depart": [
-        "// Ton code ici",
-        ""
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!-- Dans cette question, tu n'as pas besoin de modifier le HTML -->",
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Exercice</title>",
+            "  <style>",
+            "    body { font-family: sans-serif; }",
+            "    table.tests { border-collapse: collapse; margin: 12px; font-family: monospace; }",
+            "    table.tests th, table.tests td { border: 1px solid #999; padding: 4px 10px; text-align: left; }",
+            "  </style>",
+            "</head>",
+            "<body>",
+            "  <!-- Les résultats des tests s'affichent ici quand tu cliques sur Essayer -->",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": true
+        },
+        "css": {
+          "code": [
+            "/* Dans cette question, tu n'as pas besoin de modifier le CSS */",
+            ""
+          ],
+          "verrouille": true
+        },
+        "js": {
+          "code": [
+            "// Ton code ici",
+            ""
+          ],
+          "verrouille": false
+        }
+      },
+      "apres": [
+        "(function () {",
+        "  var appels = [\"moyenne([12, 15, 18])\", \"moyenne([10, 20])\", \"moyenne([7])\"];",
+        "  var fmt = function (r) { return typeof r === \"number\" && isNaN(r) ? \"NaN\" : r === undefined ? \"undefined\" : JSON.stringify(r); };",
+        "  var t = document.createElement(\"table\");",
+        "  t.className = \"tests\";",
+        "  t.innerHTML = \"<thead><tr><th>Appel</th><th>Résultat</th></tr></thead>\";",
+        "  var b = t.createTBody();",
+        "  appels.forEach(function (c) {",
+        "    var r;",
+        "    try { r = fmt((0, eval)(c)); } catch (e) { r = e.name + \": \" + e.message; }",
+        "    var tr = b.insertRow();",
+        "    tr.insertCell().textContent = c;",
+        "    tr.insertCell().textContent = r;",
+        "  });",
+        "  document.body.appendChild(t);",
+        "})();"
       ],
       "verification": "return typeof moyenne === 'function' && moyenne([12, 15, 18]) === 15 && moyenne([10, 20]) === 15 && moyenne([7]) === 7;",
-      "solution": [
-        "function moyenne(notes) {",
-        "  let somme = 0;",
-        "",
-        "  for (const note of notes) {",
-        "    somme += note;",
-        "  }",
-        "",
-        "  return somme / notes.length;",
-        "}"
-      ]
+      "solution": {
+        "js": [
+          "function moyenne(notes) {",
+          "  let somme = 0;",
+          "",
+          "  for (const note of notes) {",
+          "    somme += note;",
+          "  }",
+          "",
+          "  return somme / notes.length;",
+          "}",
+          ""
+        ]
+      }
     },
     {
       "id": "J050",
       "categorie": "JavaScript",
       "niveau": 3,
-      "fichier": "js",
       "enonce": "Écris une fonction `estMajeur(age)` qui retourne `true` si l'âge est de 18 ans ou plus, sinon `false`.",
-      "depart": [
-        "// Ton code ici",
-        ""
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!-- Dans cette question, tu n'as pas besoin de modifier le HTML -->",
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Exercice</title>",
+            "  <style>",
+            "    body { font-family: sans-serif; }",
+            "    table.tests { border-collapse: collapse; margin: 12px; font-family: monospace; }",
+            "    table.tests th, table.tests td { border: 1px solid #999; padding: 4px 10px; text-align: left; }",
+            "  </style>",
+            "</head>",
+            "<body>",
+            "  <!-- Les résultats des tests s'affichent ici quand tu cliques sur Essayer -->",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": true
+        },
+        "css": {
+          "code": [
+            "/* Dans cette question, tu n'as pas besoin de modifier le CSS */",
+            ""
+          ],
+          "verrouille": true
+        },
+        "js": {
+          "code": [
+            "// Ton code ici",
+            ""
+          ],
+          "verrouille": false
+        }
+      },
+      "apres": [
+        "(function () {",
+        "  var appels = [\"estMajeur(18)\", \"estMajeur(30)\", \"estMajeur(17)\"];",
+        "  var fmt = function (r) { return typeof r === \"number\" && isNaN(r) ? \"NaN\" : r === undefined ? \"undefined\" : JSON.stringify(r); };",
+        "  var t = document.createElement(\"table\");",
+        "  t.className = \"tests\";",
+        "  t.innerHTML = \"<thead><tr><th>Appel</th><th>Résultat</th></tr></thead>\";",
+        "  var b = t.createTBody();",
+        "  appels.forEach(function (c) {",
+        "    var r;",
+        "    try { r = fmt((0, eval)(c)); } catch (e) { r = e.name + \": \" + e.message; }",
+        "    var tr = b.insertRow();",
+        "    tr.insertCell().textContent = c;",
+        "    tr.insertCell().textContent = r;",
+        "  });",
+        "  document.body.appendChild(t);",
+        "})();"
       ],
       "verification": "return typeof estMajeur === 'function' && estMajeur(18) === true && estMajeur(30) === true && estMajeur(17) === false;",
-      "solution": [
-        "function estMajeur(age) {",
-        "  return age >= 18;",
-        "}"
-      ]
+      "solution": {
+        "js": [
+          "function estMajeur(age) {",
+          "  return age >= 18;",
+          "}",
+          ""
+        ]
+      }
     },
     {
       "id": "J051",
       "categorie": "JavaScript",
       "niveau": 4,
-      "fichier": "js",
       "enonce": [
         "Écris une fonction `compterVoyelles(texte)` qui retourne le nombre de voyelles (a, e, i, o, u, y) du texte, **majuscules comprises**.",
         "",
         "Exemples : `compterVoyelles(\"Bonjour\")` retourne `3`, `compterVoyelles(\"\")` retourne `0`."
       ],
-      "depart": [
-        "// Ton code ici",
-        ""
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!-- Dans cette question, tu n'as pas besoin de modifier le HTML -->",
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Exercice</title>",
+            "  <style>",
+            "    body { font-family: sans-serif; }",
+            "    table.tests { border-collapse: collapse; margin: 12px; font-family: monospace; }",
+            "    table.tests th, table.tests td { border: 1px solid #999; padding: 4px 10px; text-align: left; }",
+            "  </style>",
+            "</head>",
+            "<body>",
+            "  <!-- Les résultats des tests s'affichent ici quand tu cliques sur Essayer -->",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": true
+        },
+        "css": {
+          "code": [
+            "/* Dans cette question, tu n'as pas besoin de modifier le CSS */",
+            ""
+          ],
+          "verrouille": true
+        },
+        "js": {
+          "code": [
+            "// Ton code ici",
+            ""
+          ],
+          "verrouille": false
+        }
+      },
+      "apres": [
+        "(function () {",
+        "  var appels = [\"compterVoyelles(\\\"Bonjour\\\")\", \"compterVoyelles(\\\"Kayak\\\")\", \"compterVoyelles(\\\"\\\")\"];",
+        "  var fmt = function (r) { return typeof r === \"number\" && isNaN(r) ? \"NaN\" : r === undefined ? \"undefined\" : JSON.stringify(r); };",
+        "  var t = document.createElement(\"table\");",
+        "  t.className = \"tests\";",
+        "  t.innerHTML = \"<thead><tr><th>Appel</th><th>Résultat</th></tr></thead>\";",
+        "  var b = t.createTBody();",
+        "  appels.forEach(function (c) {",
+        "    var r;",
+        "    try { r = fmt((0, eval)(c)); } catch (e) { r = e.name + \": \" + e.message; }",
+        "    var tr = b.insertRow();",
+        "    tr.insertCell().textContent = c;",
+        "    tr.insertCell().textContent = r;",
+        "  });",
+        "  document.body.appendChild(t);",
+        "})();"
       ],
       "verification": "return typeof compterVoyelles === 'function' && compterVoyelles('Bonjour') === 3 && compterVoyelles('Kayak') === 3 && compterVoyelles('AEIOUY') === 6 && compterVoyelles('') === 0;",
-      "solution": [
-        "function compterVoyelles(texte) {",
-        "  const voyelles = \"aeiouy\";",
-        "  let compteur = 0;",
-        "",
-        "  for (const lettre of texte.toLowerCase()) {",
-        "    if (voyelles.includes(lettre)) compteur++;",
-        "  }",
-        "",
-        "  return compteur;",
-        "}"
-      ]
+      "solution": {
+        "js": [
+          "function compterVoyelles(texte) {",
+          "  const voyelles = \"aeiouy\";",
+          "  let compteur = 0;",
+          "",
+          "  for (const lettre of texte.toLowerCase()) {",
+          "    if (voyelles.includes(lettre)) compteur++;",
+          "  }",
+          "",
+          "  return compteur;",
+          "}",
+          ""
+        ]
+      }
     },
     {
       "id": "J052",
       "categorie": "JavaScript",
       "niveau": 5,
-      "fichier": "js",
       "enonce": "Cette fonction doit retourner la somme des nombres du tableau, mais elle contient **4 erreurs**. Corrige-les.",
-      "depart": [
-        "function somme(tab) {",
-        "  let total = 0;",
-        "",
-        "  for (let i = 1; i <= tab.length; i++) {",
-        "    total = tab[i];",
-        "  }",
-        "}",
-        ""
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!-- Dans cette question, tu n'as pas besoin de modifier le HTML -->",
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Exercice</title>",
+            "  <style>",
+            "    body { font-family: sans-serif; }",
+            "    table.tests { border-collapse: collapse; margin: 12px; font-family: monospace; }",
+            "    table.tests th, table.tests td { border: 1px solid #999; padding: 4px 10px; text-align: left; }",
+            "  </style>",
+            "</head>",
+            "<body>",
+            "  <!-- Les résultats des tests s'affichent ici quand tu cliques sur Essayer -->",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": true
+        },
+        "css": {
+          "code": [
+            "/* Dans cette question, tu n'as pas besoin de modifier le CSS */",
+            ""
+          ],
+          "verrouille": true
+        },
+        "js": {
+          "code": [
+            "function somme(tab) {",
+            "  let total = 0;",
+            "",
+            "  for (let i = 1; i <= tab.length; i++) {",
+            "    total = tab[i];",
+            "  }",
+            "}",
+            ""
+          ],
+          "verrouille": false
+        }
+      },
+      "apres": [
+        "(function () {",
+        "  var appels = [\"somme([1, 2, 3])\", \"somme([5])\", \"somme([])\"];",
+        "  var fmt = function (r) { return typeof r === \"number\" && isNaN(r) ? \"NaN\" : r === undefined ? \"undefined\" : JSON.stringify(r); };",
+        "  var t = document.createElement(\"table\");",
+        "  t.className = \"tests\";",
+        "  t.innerHTML = \"<thead><tr><th>Appel</th><th>Résultat</th></tr></thead>\";",
+        "  var b = t.createTBody();",
+        "  appels.forEach(function (c) {",
+        "    var r;",
+        "    try { r = fmt((0, eval)(c)); } catch (e) { r = e.name + \": \" + e.message; }",
+        "    var tr = b.insertRow();",
+        "    tr.insertCell().textContent = c;",
+        "    tr.insertCell().textContent = r;",
+        "  });",
+        "  document.body.appendChild(t);",
+        "})();"
       ],
       "verification": "return typeof somme === 'function' && somme([1, 2, 3]) === 6 && somme([5]) === 5 && somme([]) === 0;",
-      "solution": [
-        "function somme(tab) {",
-        "  let total = 0;",
-        "",
-        "  for (let i = 0; i < tab.length; i++) {   // 1. commencer à 0  /  2. < au lieu de <=",
-        "    total += tab[i];                        // 3. += au lieu de =",
-        "  }",
-        "",
-        "  return total;                             // 4. le return manquait",
-        "}"
-      ]
+      "solution": {
+        "js": [
+          "function somme(tab) {",
+          "  let total = 0;",
+          "",
+          "  for (let i = 0; i < tab.length; i++) {   // 1. commencer à 0  /  2. < au lieu de <=",
+          "    total += tab[i];                        // 3. += au lieu de =",
+          "  }",
+          "",
+          "  return total;                             // 4. le return manquait",
+          "}",
+          ""
+        ]
+      }
     },
     {
       "id": "I034",
       "categorie": "Intégration",
       "niveau": 3,
-      "fichier": "html",
       "enonce": "Au clic sur le bouton `#plus`, le nombre affiché dans `#compteur` doit augmenter de 1.",
-      "depart": [
-        "<!DOCTYPE html>",
-        "<html lang=\"fr\">",
-        "<head>",
-        "  <meta charset=\"UTF-8\">",
-        "  <title>Exercice</title>",
-        "</head>",
-        "<body>",
-        "  <p id=\"compteur\">0</p>",
-        "  <button id=\"plus\">+1</button>",
-        "",
-        "  <script>",
-        "    // Ton code ici",
-        "",
-        "  </script>",
-        "</body>",
-        "</html>"
-      ],
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!-- Dans cette question, tu n'as pas besoin de modifier le HTML -->",
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Exercice</title>",
+            "</head>",
+            "<body>",
+            "  <p id=\"compteur\">0</p>",
+            "  <button id=\"plus\">+1</button>",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": true
+        },
+        "css": {
+          "code": [
+            "/* Dans cette question, tu n'as pas besoin de modifier le CSS */",
+            ""
+          ],
+          "verrouille": true
+        },
+        "js": {
+          "code": [
+            "// Ton code ici",
+            ""
+          ],
+          "verrouille": false
+        }
+      },
       "verification": "const b = document.getElementById('plus'); b.click(); b.click(); return document.getElementById('compteur').textContent.trim() === '2';",
-      "solution": [
-        "<!DOCTYPE html>",
-        "<html lang=\"fr\">",
-        "<head>",
-        "  <meta charset=\"UTF-8\">",
-        "  <title>Exercice</title>",
-        "</head>",
-        "<body>",
-        "  <p id=\"compteur\">0</p>",
-        "  <button id=\"plus\">+1</button>",
-        "",
-        "  <script>",
-        "    const compteur = document.getElementById(\"compteur\");",
-        "    const plus = document.getElementById(\"plus\");",
-        "    let valeur = 0;",
-        "",
-        "    plus.addEventListener(\"click\", () => {",
-        "      valeur++;",
-        "      compteur.textContent = valeur;",
-        "    });",
-        "  </script>",
-        "</body>",
-        "</html>"
-      ]
+      "solution": {
+        "js": [
+          "const compteur = document.getElementById(\"compteur\");",
+          "const plus = document.getElementById(\"plus\");",
+          "let valeur = 0;",
+          "",
+          "plus.addEventListener(\"click\", () => {",
+          "  valeur++;",
+          "  compteur.textContent = valeur;",
+          "});",
+          ""
+        ]
+      }
     },
     {
       "id": "I035",
       "categorie": "Intégration",
       "niveau": 4,
-      "fichier": "html",
       "enonce": "Au clic sur « Saluer », le paragraphe `#message` doit afficher « Bonjour » suivi du prénom saisi. Le script contient **3 erreurs** : corrige-les.",
-      "depart": [
-        "<!DOCTYPE html>",
-        "<html lang=\"fr\">",
-        "<head>",
-        "  <meta charset=\"UTF-8\">",
-        "  <title>Exercice</title>",
-        "</head>",
-        "<body>",
-        "  <input type=\"text\" id=\"prenom\" value=\"Léa\">",
-        "  <button id=\"btn-saluer\">Saluer</button>",
-        "  <p id=\"message\"></p>",
-        "",
-        "  <script>",
-        "    const bouton = document.getElementById(\"btn-salut\");",
-        "    const prenom = document.getElementById(\"prenom\");",
-        "",
-        "    bouton.addEventListener(\"clic\", () => {",
-        "      document.getElementById(\"message\").textcontent = \"Bonjour \" + prenom.value;",
-        "    });",
-        "  </script>",
-        "</body>",
-        "</html>"
-      ],
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!-- Dans cette question, tu n'as pas besoin de modifier le HTML -->",
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Exercice</title>",
+            "</head>",
+            "<body>",
+            "  <input type=\"text\" id=\"prenom\" value=\"Léa\">",
+            "  <button id=\"btn-saluer\">Saluer</button>",
+            "  <p id=\"message\"></p>",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": true
+        },
+        "css": {
+          "code": [
+            "/* Dans cette question, tu n'as pas besoin de modifier le CSS */",
+            ""
+          ],
+          "verrouille": true
+        },
+        "js": {
+          "code": [
+            "const bouton = document.getElementById(\"btn-salut\");",
+            "const prenom = document.getElementById(\"prenom\");",
+            "",
+            "bouton.addEventListener(\"clic\", () => {",
+            "  document.getElementById(\"message\").textcontent = \"Bonjour \" + prenom.value;",
+            "});",
+            ""
+          ],
+          "verrouille": false
+        }
+      },
       "verification": "document.getElementById('prenom').value = 'Léa'; document.getElementById('btn-saluer').click(); return document.getElementById('message').textContent.trim() === 'Bonjour Léa';",
-      "solution": [
-        "<!DOCTYPE html>",
-        "<html lang=\"fr\">",
-        "<head>",
-        "  <meta charset=\"UTF-8\">",
-        "  <title>Exercice</title>",
-        "</head>",
-        "<body>",
-        "  <input type=\"text\" id=\"prenom\" value=\"Léa\">",
-        "  <button id=\"btn-saluer\">Saluer</button>",
-        "  <p id=\"message\"></p>",
-        "",
-        "  <script>",
-        "    const bouton = document.getElementById(\"btn-saluer\");    // 1. id : btn-saluer",
-        "    const prenom = document.getElementById(\"prenom\");",
-        "",
-        "    bouton.addEventListener(\"click\", () => {                  // 2. événement : click",
-        "      document.getElementById(\"message\").textContent = \"Bonjour \" + prenom.value;  // 3. textContent (C majuscule)",
-        "    });",
-        "  </script>",
-        "</body>",
-        "</html>"
-      ]
+      "solution": {
+        "js": [
+          "const bouton = document.getElementById(\"btn-saluer\");    // 1. id : btn-saluer",
+          "const prenom = document.getElementById(\"prenom\");",
+          "",
+          "bouton.addEventListener(\"click\", () => {                  // 2. événement : click",
+          "  document.getElementById(\"message\").textContent = \"Bonjour \" + prenom.value;  // 3. textContent (C majuscule)",
+          "});",
+          ""
+        ]
+      }
     },
     {
       "id": "I036",
       "categorie": "Intégration",
       "niveau": 5,
-      "fichier": "html",
       "enonce": [
         "À l'envoi du formulaire :",
         "1. empêche le rechargement de la page ;",
         "2. si le pseudo est vide, affiche « Pseudo obligatoire » dans `#retour` ;",
         "3. sinon, affiche « Bienvenue » suivi du pseudo (exemple : « Bienvenue Léa »)."
       ],
-      "depart": [
-        "<!DOCTYPE html>",
-        "<html lang=\"fr\">",
-        "<head>",
-        "  <meta charset=\"UTF-8\">",
-        "  <title>Exercice</title>",
-        "</head>",
-        "<body>",
-        "  <form id=\"form-pseudo\">",
-        "    <label for=\"pseudo\">Pseudo</label>",
-        "    <input type=\"text\" id=\"pseudo\">",
-        "    <button type=\"submit\">Valider</button>",
-        "  </form>",
-        "  <p id=\"retour\"></p>",
-        "",
-        "  <script>",
-        "    // Ton code ici",
-        "",
-        "  </script>",
-        "</body>",
-        "</html>"
-      ],
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!-- Dans cette question, tu n'as pas besoin de modifier le HTML -->",
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Exercice</title>",
+            "</head>",
+            "<body>",
+            "  <form id=\"form-pseudo\">",
+            "    <label for=\"pseudo\">Pseudo</label>",
+            "    <input type=\"text\" id=\"pseudo\">",
+            "    <button type=\"submit\">Valider</button>",
+            "  </form>",
+            "  <p id=\"retour\"></p>",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": true
+        },
+        "css": {
+          "code": [
+            "/* Dans cette question, tu n'as pas besoin de modifier le CSS */",
+            ""
+          ],
+          "verrouille": true
+        },
+        "js": {
+          "code": [
+            "// Ton code ici",
+            ""
+          ],
+          "verrouille": false
+        }
+      },
       "verification": "const f = document.getElementById('form-pseudo'); const p = document.getElementById('pseudo'); const r = document.getElementById('retour'); p.value = ''; const e1 = new Event('submit', { bubbles: true, cancelable: true }); f.dispatchEvent(e1); if (!e1.defaultPrevented || r.textContent.trim() !== 'Pseudo obligatoire') return false; p.value = 'Léa'; const e2 = new Event('submit', { bubbles: true, cancelable: true }); f.dispatchEvent(e2); return e2.defaultPrevented && r.textContent.trim() === 'Bienvenue Léa';",
-      "solution": [
-        "<!DOCTYPE html>",
-        "<html lang=\"fr\">",
-        "<head>",
-        "  <meta charset=\"UTF-8\">",
-        "  <title>Exercice</title>",
-        "</head>",
-        "<body>",
-        "  <form id=\"form-pseudo\">",
-        "    <label for=\"pseudo\">Pseudo</label>",
-        "    <input type=\"text\" id=\"pseudo\">",
-        "    <button type=\"submit\">Valider</button>",
-        "  </form>",
-        "  <p id=\"retour\"></p>",
+      "solution": {
+        "js": [
+          "const form = document.getElementById(\"form-pseudo\");",
+          "const pseudo = document.getElementById(\"pseudo\");",
+          "const retour = document.getElementById(\"retour\");",
+          "",
+          "form.addEventListener(\"submit\", (e) => {",
+          "  e.preventDefault();",
+          "",
+          "  const valeur = pseudo.value.trim();",
+          "",
+          "  if (valeur == \"\") retour.textContent = \"Pseudo obligatoire\";",
+          "  else retour.textContent = `Bienvenue ${valeur}`;",
+          "});",
+          ""
+        ]
+      }
+    },
+    {
+      "id": "I051",
+      "categorie": "Intégration",
+      "niveau": 5,
+      "enonce": "La balle devrait rebondir sur les bords de l'aperçu, mais elle reste bloquée dans le coin. Une erreur s'affiche dans la console : utilise la **pile d'appels** pour trouver la ligne fautive, puis corrige-la.",
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!-- Dans cette question, tu n'as pas besoin de modifier le HTML -->",
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Balle rebondissante</title>",
+            "</head>",
+            "<body>",
+            "  <div class=\"balle\"></div>",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": true
+        },
+        "css": {
+          "code": [
+            "/* Dans cette question, tu n'as pas besoin de modifier le CSS */",
+            "body {",
+            "  margin: 0;",
+            "  height: 100vh;",
+            "  background: #1d2533;",
+            "  overflow: hidden;",
+            "}",
+            "",
+            ".balle {",
+            "  position: absolute;",
+            "  top: 0;",
+            "  left: 0;",
+            "  width: 60px;",
+            "  height: 60px;",
+            "  border-radius: 50%;",
+            "  background: #f5b700;",
+            "}",
+            ""
+          ],
+          "verrouille": true
+        },
+        "js": {
+          "code": [
+            "const position = { x: 0, y: 0 };",
+            "const vitesse = { x: 4, y: 3 };",
+            "",
+            "function getBalle() {",
+            "  return document.querySelector(\".balle\");",
+            "}",
+            "",
+            "function getLargeurBalle() {",
+            "  return getBalle().balle.offsetWidth;",
+            "}",
+            "",
+            "function rebondir() {",
+            "  const maxX = window.innerWidth - getLargeurBalle();",
+            "  const maxY = window.innerHeight - getLargeurBalle();",
+            "",
+            "  if (position.x < 0 || position.x > maxX) vitesse.x = -vitesse.x;",
+            "  if (position.y < 0 || position.y > maxY) vitesse.y = -vitesse.y;",
+            "}",
+            "",
+            "function deplacer() {",
+            "  position.x += vitesse.x;",
+            "  position.y += vitesse.y;",
+            "  rebondir();",
+            "  getBalle().style.left = position.x + \"px\";",
+            "  getBalle().style.top = position.y + \"px\";",
+            "}",
+            "",
+            "setInterval(deplacer, 30);",
+            ""
+          ],
+          "verrouille": false
+        }
+      },
+      "verification": "return typeof getLargeurBalle === 'function' && getLargeurBalle() === 60 && position.x > 0;",
+      "solution": {
+        "js": [
+          "const position = { x: 0, y: 0 };",
+          "const vitesse = { x: 4, y: 3 };",
+          "",
+          "function getBalle() {",
+          "  return document.querySelector(\".balle\");",
+          "}",
+          "",
+          "function getLargeurBalle() {",
+          "  return getBalle().offsetWidth;   // getBalle() renvoie déjà l'élément",
+          "}",
+          "",
+          "function rebondir() {",
+          "  const maxX = window.innerWidth - getLargeurBalle();",
+          "  const maxY = window.innerHeight - getLargeurBalle();",
+          "",
+          "  if (position.x < 0 || position.x > maxX) vitesse.x = -vitesse.x;",
+          "  if (position.y < 0 || position.y > maxY) vitesse.y = -vitesse.y;",
+          "}",
+          "",
+          "function deplacer() {",
+          "  position.x += vitesse.x;",
+          "  position.y += vitesse.y;",
+          "  rebondir();",
+          "  getBalle().style.left = position.x + \"px\";",
+          "  getBalle().style.top = position.y + \"px\";",
+          "}",
+          "",
+          "setInterval(deplacer, 30);",
+          ""
+        ]
+      }
+    },
+    {
+      "id": "J067",
+      "categorie": "JavaScript",
+      "niveau": 3,
+      "enonce": [
+        "La fonction `totalPanier(prix)` doit renvoyer la somme des prix du tableau reçu.",
         "",
-        "  <script>",
-        "    const form = document.getElementById(\"form-pseudo\");",
-        "    const pseudo = document.getElementById(\"pseudo\");",
-        "    const retour = document.getElementById(\"retour\");",
+        "Les résultats affichés dans l'aperçu (tableau Appel / Résultat) sont faux : trouve le bug et corrige-le."
+      ],
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!-- Dans cette question, tu n'as pas besoin de modifier le HTML -->",
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Exercice</title>",
+            "  <style>",
+            "    body { font-family: sans-serif; }",
+            "    table.tests { border-collapse: collapse; margin: 12px; font-family: monospace; }",
+            "    table.tests th, table.tests td { border: 1px solid #999; padding: 4px 10px; text-align: left; }",
+            "  </style>",
+            "</head>",
+            "<body>",
+            "  <!-- Les résultats des tests s'affichent ici quand tu cliques sur Essayer -->",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": true
+        },
+        "css": {
+          "code": [
+            "/* Dans cette question, tu n'as pas besoin de modifier le CSS */",
+            ""
+          ],
+          "verrouille": true
+        },
+        "js": {
+          "code": [
+            "function totalPanier(prix) {",
+            "  let total = 0;",
+            "",
+            "  for (let i = 0; i <= prix.length; i++) {",
+            "    total += prix[i];",
+            "  }",
+            "",
+            "  return total;",
+            "}",
+            ""
+          ],
+          "verrouille": false
+        }
+      },
+      "apres": [
+        "(function () {",
+        "  var appels = [\"totalPanier([10])\", \"totalPanier([10, 20])\", \"totalPanier([4.5, 3, 2.5])\", \"totalPanier([])\"];",
+        "  var fmt = function (r) { return typeof r === \"number\" && isNaN(r) ? \"NaN\" : r === undefined ? \"undefined\" : JSON.stringify(r); };",
+        "  var t = document.createElement(\"table\");",
+        "  t.className = \"tests\";",
+        "  t.innerHTML = \"<thead><tr><th>Appel</th><th>Résultat</th></tr></thead>\";",
+        "  var b = t.createTBody();",
+        "  appels.forEach(function (c) {",
+        "    var r;",
+        "    try { r = fmt((0, eval)(c)); } catch (e) { r = e.name + \": \" + e.message; }",
+        "    var tr = b.insertRow();",
+        "    tr.insertCell().textContent = c;",
+        "    tr.insertCell().textContent = r;",
+        "  });",
+        "  document.body.appendChild(t);",
+        "})();"
+      ],
+      "verification": "return typeof totalPanier === 'function' && totalPanier([10, 20]) === 30 && totalPanier([4.5, 3, 2.5]) === 10 && totalPanier([]) === 0;",
+      "solution": {
+        "js": [
+          "function totalPanier(prix) {",
+          "  let total = 0;",
+          "",
+          "  for (let i = 0; i < prix.length; i++) {   // < et non <= : prix[prix.length] vaut undefined",
+          "    total += prix[i];",
+          "  }",
+          "",
+          "  return total;",
+          "}",
+          ""
+        ]
+      }
+    },
+    {
+      "id": "C049",
+      "categorie": "CSS",
+      "niveau": 4,
+      "enonce": [
+        "Ajoute les bonnes classes aux trois tâches pour obtenir le **rendu attendu**.",
         "",
-        "    form.addEventListener(\"submit\", (e) => {",
-        "      e.preventDefault();",
+        "Lis le fichier CSS pour découvrir les classes disponibles."
+      ],
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Tâches</title>",
+            "</head>",
+            "<body>",
+            "  <div id=\"t1\" class=\"tache\">",
+            "    <span class=\"etiquette\">Bug</span>",
+            "    <p>Le bouton Envoyer ne réagit pas (urgent)</p>",
+            "  </div>",
+            "",
+            "  <div id=\"t2\" class=\"tache\">",
+            "    <span class=\"etiquette\">Tâche</span>",
+            "    <p>Écrire la page Contact (terminée)</p>",
+            "  </div>",
+            "",
+            "  <div id=\"t3\" class=\"tache\">",
+            "    <span class=\"etiquette\">Tâche</span>",
+            "    <p>Préparer la démo de vendredi (urgent)</p>",
+            "  </div>",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": false
+        },
+        "css": {
+          "code": [
+            "/* Dans cette question, tu n'as pas besoin de modifier le CSS */",
+            "body {",
+            "  font-family: sans-serif;",
+            "  background: #eef1f5;",
+            "  padding: 16px;",
+            "}",
+            "",
+            ".tache {",
+            "  background: white;",
+            "  border-radius: 8px;",
+            "  padding: 10px 16px;",
+            "  margin-bottom: 10px;",
+            "  border-left: 6px solid #9aa3b2;",
+            "}",
+            "",
+            ".tache.urgente {",
+            "  border-left-color: #d32f2f;",
+            "}",
+            "",
+            ".tache.terminee {",
+            "  opacity: 0.5;",
+            "  text-decoration: line-through;",
+            "}",
+            "",
+            ".tache.bug {",
+            "  background: #fdecea;",
+            "}",
+            "",
+            ".tache .etiquette {",
+            "  font-size: 12px;",
+            "  font-weight: bold;",
+            "  text-transform: uppercase;",
+            "  color: #5d6574;",
+            "}",
+            "",
+            ".tache.bug .etiquette::before {",
+            "  content: \"🐞 \";",
+            "}",
+            ""
+          ],
+          "verrouille": true
+        },
+        "js": {
+          "code": [
+            "// Dans cette question, tu n'as pas besoin de modifier le JavaScript",
+            ""
+          ],
+          "verrouille": true
+        }
+      },
+      "rendu_attendu": true,
+      "verification": "const a = (id, oui, non) => { const c = document.getElementById(id).classList; return oui.every((x) => c.contains(x)) && non.every((x) => !c.contains(x)); }; return a('t1', ['tache', 'urgente', 'bug'], ['terminee']) && a('t2', ['tache', 'terminee'], ['urgente', 'bug']) && a('t3', ['tache', 'urgente'], ['terminee', 'bug']);",
+      "solution": {
+        "html": [
+          "<!DOCTYPE html>",
+          "<html lang=\"fr\">",
+          "<head>",
+          "  <meta charset=\"UTF-8\">",
+          "  <title>Tâches</title>",
+          "</head>",
+          "<body>",
+          "  <div id=\"t1\" class=\"tache urgente bug\">",
+          "    <span class=\"etiquette\">Bug</span>",
+          "    <p>Le bouton Envoyer ne réagit pas (urgent)</p>",
+          "  </div>",
+          "",
+          "  <div id=\"t2\" class=\"tache terminee\">",
+          "    <span class=\"etiquette\">Tâche</span>",
+          "    <p>Écrire la page Contact (terminée)</p>",
+          "  </div>",
+          "",
+          "  <div id=\"t3\" class=\"tache urgente\">",
+          "    <span class=\"etiquette\">Tâche</span>",
+          "    <p>Préparer la démo de vendredi (urgent)</p>",
+          "  </div>",
+          "</body>",
+          "</html>"
+        ]
+      }
+    },
+    {
+      "id": "C050",
+      "categorie": "CSS",
+      "niveau": 5,
+      "enonce": [
+        "La barre latérale ne ressemble plus au **rendu attendu** : une modification récente du CSS a cassé l'affichage.",
         "",
-        "      const valeur = pseudo.value.trim();",
+        "Trouve les sélecteurs fautifs et corrige-les (2 règles)."
+      ],
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!-- Dans cette question, tu n'as pas besoin de modifier le HTML -->",
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Tableau de bord</title>",
+            "</head>",
+            "<body>",
+            "  <div class=\"page\">",
+            "    <nav class=\"menu-lateral\">",
+            "      <a class=\"lien actif\" href=\"#\">Tableau de bord</a>",
+            "      <a class=\"lien\" href=\"#\">Commandes</a>",
+            "      <a class=\"lien\" href=\"#\">Clients</a>",
+            "    </nav>",
+            "",
+            "    <main class=\"contenu\">",
+            "      <h1>Tableau de bord</h1>",
+            "      <p>Bienvenue sur ton espace.</p>",
+            "    </main>",
+            "  </div>",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": true
+        },
+        "css": {
+          "code": [
+            "body {",
+            "  margin: 0;",
+            "  font-family: sans-serif;",
+            "}",
+            "",
+            ".page {",
+            "  display: flex;",
+            "  min-height: 100vh;",
+            "}",
+            "",
+            "/* Barre latérale */",
+            ".page {",
+            "  width: 180px;",
+            "  padding: 16px;",
+            "  background: #1d2533;",
+            "}",
+            "",
+            ".contenu .lien {",
+            "  display: block;",
+            "  padding: 8px 0;",
+            "  color: #cfd6e1;",
+            "  text-decoration: none;",
+            "}",
+            "",
+            ".menu-lateral .lien.actif {",
+            "  color: #f5b700;",
+            "  font-weight: bold;",
+            "}",
+            "",
+            ".contenu {",
+            "  flex: 1;",
+            "  padding: 24px;",
+            "}",
+            ""
+          ],
+          "verrouille": false
+        },
+        "js": {
+          "code": [
+            "// Dans cette question, tu n'as pas besoin de modifier le JavaScript",
+            ""
+          ],
+          "verrouille": true
+        }
+      },
+      "rendu_attendu": true,
+      "verification": "const m = getComputedStyle(document.querySelector('.menu-lateral')); const l = getComputedStyle(document.querySelector('.lien:not(.actif)')); return m.backgroundColor === 'rgb(29, 37, 51)' && m.width === '180px' && l.display === 'block' && l.color === 'rgb(207, 214, 225)' && document.querySelector('.page').getBoundingClientRect().width > 400;",
+      "solution": {
+        "css": [
+          "body {",
+          "  margin: 0;",
+          "  font-family: sans-serif;",
+          "}",
+          "",
+          ".page {",
+          "  display: flex;",
+          "  min-height: 100vh;",
+          "}",
+          "",
+          "/* Barre latérale */",
+          ".menu-lateral {   /* et non .page */",
+          "  width: 180px;",
+          "  padding: 16px;",
+          "  background: #1d2533;",
+          "}",
+          "",
+          ".menu-lateral .lien {   /* les liens sont dans le menu, pas dans .contenu */",
+          "  display: block;",
+          "  padding: 8px 0;",
+          "  color: #cfd6e1;",
+          "  text-decoration: none;",
+          "}",
+          "",
+          ".menu-lateral .lien.actif {",
+          "  color: #f5b700;",
+          "  font-weight: bold;",
+          "}",
+          "",
+          ".contenu {",
+          "  flex: 1;",
+          "  padding: 24px;",
+          "}",
+          ""
+        ]
+      }
+    },
+    {
+      "id": "I052",
+      "categorie": "Intégration",
+      "niveau": 4,
+      "enonce": [
+        "Chaque clic sur un bouton « Ajouter » doit augmenter le nombre affiché après « Articles dans le panier ».",
         "",
-        "      if (valeur == \"\") retour.textContent = \"Pseudo obligatoire\";",
-        "      else retour.textContent = `Bienvenue ${valeur}`;",
-        "    });",
-        "  </script>",
-        "</body>",
-        "</html>"
-      ]
+        "Le compteur ne bouge pas et la console n'affiche aucune erreur : trouve le problème et corrige-le."
+      ],
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!-- Dans cette question, tu n'as pas besoin de modifier le HTML -->",
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Liste de courses</title>",
+            "</head>",
+            "<body>",
+            "  <h1>Liste de courses</h1>",
+            "",
+            "  <div class=\"produit\">",
+            "    <span>Pommes</span>",
+            "    <button class=\"ajouter\" id=\"btn-pommes\">Ajouter</button>",
+            "  </div>",
+            "",
+            "  <div class=\"produit\">",
+            "    <span>Pain</span>",
+            "    <button class=\"ajouter\" id=\"btn-pain\">Ajouter</button>",
+            "  </div>",
+            "",
+            "  <p>Articles dans le panier : <span id=\"nb-articles\">0</span></p>",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": true
+        },
+        "css": {
+          "code": [
+            "/* Dans cette question, tu n'as pas besoin de modifier le CSS */",
+            "body {",
+            "  font-family: sans-serif;",
+            "}",
+            "",
+            ".produit {",
+            "  display: flex;",
+            "  gap: 12px;",
+            "  align-items: center;",
+            "  margin-bottom: 8px;",
+            "}",
+            ""
+          ],
+          "verrouille": true
+        },
+        "js": {
+          "code": [
+            "let nbArticles = 0;",
+            "",
+            "const boutons = document.querySelectorAll(\".ajouter\");",
+            "",
+            "for (const bouton of boutons) {",
+            "  bouton.addEventListener(\"click\", () => {",
+            "    nbArticles++;",
+            "    bouton.textContent = nbArticles;",
+            "  });",
+            "}",
+            ""
+          ],
+          "verrouille": false
+        }
+      },
+      "verification": "const p = document.getElementById('btn-pommes'); p.click(); p.click(); document.getElementById('btn-pain').click(); return document.getElementById('nb-articles').textContent.trim() === '3' && p.textContent.trim() === 'Ajouter';",
+      "solution": {
+        "js": [
+          "let nbArticles = 0;",
+          "",
+          "const boutons = document.querySelectorAll(\".ajouter\");",
+          "",
+          "for (const bouton of boutons) {",
+          "  bouton.addEventListener(\"click\", () => {",
+          "    nbArticles++;",
+          "    document.getElementById(\"nb-articles\").textContent = nbArticles;   // et non le bouton",
+          "  });",
+          "}",
+          ""
+        ]
+      }
+    },
+    {
+      "id": "H054",
+      "categorie": "HTML",
+      "niveau": 3,
+      "enonce": [
+        "Cette page s'affiche correctement, mais son HTML contient des **erreurs de syntaxe** : des balises ne sont pas fermées.",
+        "",
+        "Corrige-les."
+      ],
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Boutique</title>",
+            "</head>",
+            "<body>",
+            "  <nav>",
+            "    <ul>",
+            "      <li><a href=\"index.html\">Accueil</a>",
+            "      <li><a href=\"produits.html\">Produits</a>",
+            "      <li><a href=\"contact.html\">Contact</a>",
+            "    </ul>",
+            "  </nav>",
+            "",
+            "  <h1>Bienvenue</h1>",
+            "  <p>Notre boutique ouvre bientôt.",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": false
+        },
+        "css": {
+          "code": [
+            "/* Dans cette question, tu n'as pas besoin de modifier le CSS */",
+            ""
+          ],
+          "verrouille": true
+        },
+        "js": {
+          "code": [
+            "// Dans cette question, tu n'as pas besoin de modifier le JavaScript",
+            ""
+          ],
+          "verrouille": true
+        }
+      },
+      "verification": "const n = (re) => (code.match(re) || []).length; return n(/<li[\\s>]/gi) === 3 && n(/<\\/li>/gi) === 3 && n(/<p[\\s>]/gi) === n(/<\\/p>/gi) && n(/<\\/ul>/gi) === 1;",
+      "solution": {
+        "html": [
+          "<!DOCTYPE html>",
+          "<html lang=\"fr\">",
+          "<head>",
+          "  <meta charset=\"UTF-8\">",
+          "  <title>Boutique</title>",
+          "</head>",
+          "<body>",
+          "  <nav>",
+          "    <ul>",
+          "      <li><a href=\"index.html\">Accueil</a></li>",
+          "      <li><a href=\"produits.html\">Produits</a></li>",
+          "      <li><a href=\"contact.html\">Contact</a></li>",
+          "    </ul>",
+          "  </nav>",
+          "",
+          "  <h1>Bienvenue</h1>",
+          "  <p>Notre boutique ouvre bientôt.</p>",
+          "</body>",
+          "</html>"
+        ]
+      }
     }
   ]
 }

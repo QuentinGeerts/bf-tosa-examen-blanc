@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Épreuve blanche commentée</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f3f0e8; --surface: #fffdf8; --surface-2: #f8f5ee; --ink: #1a2332; --muted: #5d6574; --line: #ddd6c6;
+  --accent: #1e3a5f; --accent-soft: #e3e9f1; --ok: #2c7a4b; --ok-soft: #e2f1e7; --ko: #b03434; --ko-soft: #f8e3e1;
+  --code-bg: #1d2533; --code-ink: #e9e4d6;
+  --c-H: #c0531b; --c-C: #2867ad; --c-J: #9a7a06; --c-I: #6a4aa3;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12161d; --surface: #1a2029; --surface-2: #161b23; --ink: #e8e6e0; --muted: #9aa3b2; --line: #2d3542;
+    --accent: #8fb4e3; --accent-soft: #1f2c3d; --ok: #6cc391; --ok-soft: #173325; --ko: #f08a84; --ko-soft: #3a1d1d;
+    --code-bg: #0e1218; --code-ink: #e3dfd3; --c-H: #f08a52; --c-C: #6aa8ec; --c-J: #e0bf45; --c-I: #b097e6;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12161d; --surface: #1a2029; --surface-2: #161b23; --ink: #e8e6e0; --muted: #9aa3b2; --line: #2d3542;
+  --accent: #8fb4e3; --accent-soft: #1f2c3d; --ok: #6cc391; --ok-soft: #173325; --ko: #f08a84; --ko-soft: #3a1d1d;
+  --code-bg: #0e1218; --code-ink: #e3dfd3; --c-H: #f08a52; --c-C: #6aa8ec; --c-J: #e0bf45; --c-I: #b097e6;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font: 16px/1.6 "IBM Plex Sans", system-ui, sans-serif; }
+code, pre { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+:not(pre) > code { background: var(--accent-soft); padding: 1px 5px; border-radius: 4px; font-size: .9em; word-break: break-word; }
+pre { background: var(--code-bg); color: var(--code-ink); padding: 12px 14px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.55; margin: 12px 0; }
+a { color: var(--accent); }
+.bar { background: var(--surface); border-bottom: 1px solid var(--line); padding: 12px max(16px, env(safe-area-inset-left)); }
+.bar-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.bar strong { font-size: 17px; }
+.bar a { margin-left: auto; font-size: 14px; }
+main { max-width: 900px; margin: 0 auto; padding: 28px 16px 64px; }
+h1 { font-size: 28px; line-height: 1.2; margin: 0 0 8px; }
+.intro { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 22px 24px; margin-bottom: 28px; }
+.intro ul { margin: 8px 0 0; padding-left: 20px; }
+.intro li { margin: 4px 0; }
+.muted { color: var(--muted); }
+.note { font-size: 14px; color: var(--muted); border-left: 3px solid var(--line); padding-left: 12px; margin-top: 16px; }
+.q { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px 22px; margin-bottom: 16px; }
+.q-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+.num { font-family: "IBM Plex Mono", monospace; font-weight: 600; }
+.chip { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; padding: 2px 9px; border-radius: 999px; border: 1px solid currentColor; }
+.chip::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.H { color: var(--c-H); } .C { color: var(--c-C); } .J { color: var(--c-J); } .I { color: var(--c-I); }
+.fmt { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.q p { margin: 0 0 8px; }
+.q ol.opts { list-style: upper-alpha; padding-left: 26px; margin: 8px 0; }
+.q ol.opts li { margin: 3px 0; }
+table { width: 100%; border-collapse: collapse; font-size: 15px; margin: 8px 0; }
+th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+details { margin-top: 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-2); }
+summary { cursor: pointer; padding: 10px 14px; font-weight: 600; color: var(--accent); list-style: none; }
+summary::-webkit-details-marker { display: none; }
+summary::before { content: "▸ "; }
+details[open] summary::before { content: "▾ "; }
+.sol { padding: 0 14px 12px; }
+.sol .rep { background: var(--ok-soft); border-radius: 6px; padding: 8px 12px; margin: 0 0 10px; }
+.retenir { font-size: 14px; color: var(--muted); }
+.svg-opts { display: flex; gap: 16px; flex-wrap: wrap; margin: 10px 0; }
+.svg-opts figure { margin: 0; text-align: center; font-weight: 600; font-size: 14px; }
+.svg-opts svg { display: block; border: 1px solid var(--line); border-radius: 6px; background: #fff; }
+.lignes { counter-reset: l; }
+.toggle { display: flex; gap: 10px; margin: 0 0 16px; flex-wrap: wrap; }
+.toggle button { font: inherit; font-size: 14px; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+</style>
+</head>
+<body>
+<header class="bar">
+  <div class="bar-inner">
+    <strong>Épreuve blanche commentée</strong>
+    <span class="muted">Développement web</span>
+    <a href="./">← Examen blanc</a>
+  </div>
+</header>
+<main>
+  <section class="intro">
+    <h1>Épreuve blanche commentée</h1>
+    <p class="muted">Les 25 questions d'une épreuve blanche passée en conditions réelles, réécrites avec nos propres exemples : mêmes notions, mêmes pièges, mêmes formats. Essaie de répondre avant d'ouvrir la solution.</p>
+    <ul>
+      <li><strong>Formats rencontrés :</strong> QCM (4 ou 5 propositions, parfois des images), Vrai / Faux en tableau, listes déroulantes, glisser-déposer, relier, zones de code à cliquer, et exercices de code dans 3 éditeurs (HTML / CSS / JS) avec des fichiers verrouillés.</li>
+      <li><strong>Questions de documentation :</strong> un navigateur est fourni et le temps est limité (5 min). Cherche « nom de la notion + mdn » et lis le premier exemple de code.</li>
+      <li><strong>Exercices de code :</strong> 4 à 5 min chacun. Utilise « Essayer » autant que tu veux, mais <strong>valide avant la fin du temps</strong> : une correction non validée vaut 0.</li>
+      <li><strong>Pas de retour en arrière.</strong> Le niveau des questions s'adapte à tes réponses.</li>
+    </ul>
+    <p class="note">Ces questions sont des adaptations écrites pour la formation, pas les questions officielles.</p>
+  </section>
+
+  <div class="toggle">
+    <button type="button" id="tout-ouvrir">Afficher toutes les solutions</button>
+    <button type="button" id="tout-fermer">Masquer toutes les solutions</button>
+  </div>
+
+  <!-- 1 -->
+  <article class="q">
+    <div class="q-head"><span class="num">1</span><span class="chip I">Intégration</span><span class="fmt">Documentation · listes déroulantes · 5 min</span></div>
+    <p>Avec la documentation, réponds aux deux questions sur ARIA :</p>
+    <p>a) Quel attribut retire une icône décorative de la lecture par les lecteurs d'écran ?</p>
+    <p>b) Quel attribut donne un nom à un bouton qui ne contient qu'une icône <code>✕</code> ?</p>
+    <details><summary>Voir la solution</summary><div class="sol">
+      <p class="rep">a) <code>aria-hidden="true"</code> · b) <code>aria-label</code></p>
+<pre>&lt;span class="icone" aria-hidden="true"&gt;★&lt;/span&gt; Favoris
+&lt;button aria-label="Fermer la fenêtre"&gt;✕&lt;/button&gt;</pre>
+      <p class="retenir">Piège : <code>aria-describedby</code> ajoute une <em>description</em> en pointant l'<code>id</code> d'un autre élément ; <code>aria-label</code> donne le <em>nom</em>.</p>
+    </div></details>
+  </article>
+
+  <!-- 2 -->
+  <article class="q">
+    <div class="q-head"><span class="num">2</span><span class="chip H">HTML</span><span class="fmt">Glisser-déposer</span></div>
+    <p>Place chaque élément sur un schéma de page : un bandeau en haut, un grand bloc central contenant plusieurs blocs, une colonne à droite, un bandeau en bas.</p>
+    <p>Étiquettes : <code>header ou nav</code> · <code>main</code> · <code>section</code> · <code>aside</code> · <code>footer</code></p>
+    <details><summary>Voir la solution</summary><div class="sol">
+      <table><tr><th>Zone</th><th>Élément</th></tr>
+        <tr><td>Bandeau du haut</td><td><code>header</code> (ou <code>nav</code>)</td></tr>
+        <tr><td>Grand bloc central</td><td><code>main</code> (un seul par page)</td></tr>
+        <tr><td>Blocs dans le bloc central</td><td><code>section</code></td></tr>
+        <tr><td>Colonne latérale</td><td><code>aside</code></td></tr>
+        <tr><td>Bandeau du bas</td><td><code>footer</code></td></tr></table>
+      <p class="retenir">Les éléments sémantiques décrivent le <em>rôle</em> du contenu, pour les lecteurs d'écran et les moteurs de recherche.</p>
+    </div></details>
+  </article>
+
+  <!-- 3 -->
+  <article class="q">
+    <div class="q-head"><span class="num">3</span><span class="chip J">JavaScript</span><span class="fmt">Documentation · listes déroulantes · 5 min</span></div>
+    <p>Une page affiche la position de l'utilisateur sur une carte (Leaflet ou Google Maps).</p>
+    <p>a) Quelle fonction récupère la position GPS de l'utilisateur ? <em>(choix : getLocalisation, getCurrentPosition, getGPS…)</em></p>
+    <p>b) Comment ajoute-t-on un marqueur sur la carte ? <em>(choix : setMarker, addMarker, Marker…)</em></p>
+    <details><summary>Voir la solution</summary><div class="sol">
+      <p class="rep">a) <code>getCurrentPosition()</code> · b) on <strong>crée</strong> un marqueur (<code>Marker</code> / <code>L.marker</code>) et on l'ajoute à la carte</p>
+<pre>navigator.geolocation.getCurrentPosition((pos) =&gt; {
+  const { latitude, longitude } = pos.coords;
+  L.marker([latitude, longitude]).addTo(carte);           // Leaflet
+  // new google.maps.Marker({ position: { lat: latitude, lng: longitude }, map: carte });  // Google Maps
+});</pre>
+      <p class="retenir">Piège : la position vient du <strong>navigateur</strong> (<code>navigator.geolocation</code>), pas de la bibliothèque de carte. Les noms qui « sonnent juste » (<code>getLocalisation</code>, <code>setMarker</code>) n'existent pas.</p>
+    </div></details>
+  </article>
+
+  <!-- 4 -->
+  <article class="q">
+    <div class="q-head"><span class="num">4</span><span class="chip I">Intégration</span><span class="fmt">Code · 3 éditeurs · pile d'appels</span></div>
+    <p>Une balle doit rebondir dans la page mais reste bloquée. La console affiche :</p>
+<pre>Uncaught TypeError: Cannot read properties of undefined (reading 'offsetWidth')
+    at getLargeurBalle (script.js:9:26)
+    at rebondir (script.js:13:36)
+    at deplacer (script.js:23:3)</pre>
+<pre>function getBalle() {
+  return document.querySelector(".balle");
+}
+
+function getLargeurBalle() {
+  return getBalle().balle.offsetWidth;
+}</pre>
+    <details><summary>Voir la solution</summary><div class="sol">
+      <p class="rep"><code>return getBalle().offsetWidth;</code></p>
+      <p>La pile se lit de haut en bas : l'erreur est dans <code>getLargeurBalle</code>, ligne 9. <code>getBalle()</code> renvoie déjà l'élément ; <code>.balle</code> est une propriété qui n'existe pas (<code>undefined</code>), et on ne peut rien lire dans <code>undefined</code>.</p>
+      <p class="retenir">Exercice disponible dans l'examen blanc (3 éditeurs).</p>
+    </div></details>
+  </article>
+
+  <!-- 5 -->
+  <article class="q">
+    <div class="q-head"><span class="num">5</span><span class="chip J">JavaScript</span><span class="fmt">Trou à compléter</span></div>
+    <p>Complète pour afficher uniquement le prix du produit :</p>
+<pre>const produit = { id: 7, nom: "Clavier", prix: 49 };
+const prix = ________ ;
+console.log("Prix : " + prix);</pre>
+    <details><summary>Voir la solution</summary><div class="sol">
+      <p class="rep"><code>produit.prix</code> (ou <code>produit["prix"]</code>)</p>
+      <p class="retenir">Pièges : <code>prix</code> seul (pas encore défini), <code>produit.Prix</code> (la casse compte), un <code>;</code> en trop dans le champ.</p>
+    </div></details>
+  </article>
+
+  <!-- 6 -->
+  <article class="q">
+    <div class="q-head"><span class="num">6</span><span class="chip J">JavaScript</span><span class="fmt">Code · tableau de tests</span></div>
+    <p>La fonction doit renvoyer la somme des prix. L'aperçu affiche un tableau de tests : <code>totalPanier([10])</code> → <code>NaN</code>, <code>totalPanier([])</code> → <code>NaN</code>. Trouve le bug.</p>
+<pre>function totalPanier(prix) {
+  let total = 0;
+  for (let i = 0; i &lt;= prix.length; i++) {
+    total += prix[i];
+  }
+  return total;
+}</pre>
+    <details><summary>Voir la solution</summary><div class="sol">
+      <p class="rep"><code>i &lt; prix.length</code> au lieu de <code>i &lt;= prix.length</code></p>
+      <p>Avec <code>&lt;=</code>, la boucle lit <code>prix[prix.length]</code>, qui vaut <code>undefined</code>, et <code>nombre + undefined</code> donne <code>NaN</code>. Même un tableau vide fait un tour de boucle. (Avec des chaînes, on obtiendrait <code>"…undefined"</code> à la fin.)</p>
+      <p class="retenir">Raisonne à partir des sorties : quand <strong>tous</strong> les résultats ont le même défaut, cherche une erreur commune (ici, un tour de trop).</p>
+    </div></details>
+  </article>
+
+  <!-- 7 -->
+  <article class="q">
+    <div class="q-head"><span class="num">7</span><span class="chip C">CSS</span><span class="fmt">Code · lire le CSS</span></div>
+    <p>Sans modifier le CSS, ajoute les bonnes classes aux tâches pour obtenir le design attendu (bordure rouge pour l'urgent, fond rosé pour un bug, barré pour une tâche terminée).</p>
+<pre>.tache { … }
+.tache.urgente { border-left-color: #d32f2f; }
+.tache.terminee { opacity: .5; text-decoration: line-through; }
+.tache.bug { background: #fdecea; }
+
+&lt;div class="tache"&gt;Bug urgent : le bouton Envoyer ne réagit pas&lt;/div&gt;</pre>
+    <details><summary>Voir la solution</summary><div class="sol">
+      <p class="rep"><code>&lt;div class="tache urgente bug"&gt;</code></p>
+      <p>Un sélecteur composé <code>.tache.urgente</code> (sans espace) vise un élément qui a <strong>les deux</strong> classes. <code>.tache .urgente</code> (avec espace) viserait un <code>.urgente</code> <em>à l'intérieur</em> d'un <code>.tache</code>.</p>
+      <p class="retenir">Piège : une classe qui existe dans le CSS n'est pas forcément la bonne. Vérifie avec l'énoncé et le contenu (le symbole d'une carte, le texte d'une tâche…).</p>
+    </div></details>
+  </article>
+
+  <!-- 8 -->
+  <article class="q">
+    <div class="q-head"><span class="num">8</span><span class="chip C">CSS</span><span class="fmt">Code · régression CSS</span></div>
+    <p>La barre latérale <code>&lt;nav class="menu-lateral"&gt;</code> n'a plus son style depuis une modification du CSS :</p>
+<pre>.page {
+  display: flex;
+}
+
+/* Barre latérale */
+.page {
+  width: 180px;
+  background: #1d2533;
+}
+
+.contenu .lien {
+  display: block;
+  color: #cfd6e1;
+}</pre>
+    <details><summary>Voir la solution</summary><div class="sol">
+      <p class="rep">Les règles de la barre latérale doivent viser <code>.menu-lateral</code> : <code>.menu-lateral { … }</code> et <code>.menu-lateral .lien { … }</code></p>
+      <p>Méthode : 1) comparer le rendu attendu et le rendu obtenu ; 2) repérer dans le HTML la classe de l'élément cassé ; 3) chercher dans le CSS les règles qui devraient la viser. Souvent, toutes les règles voisines utilisent la bonne classe, sauf une ou deux.</p>
+      <p class="retenir">Exercice disponible dans l'examen blanc (avec le rendu attendu).</p>
+    </div></details>
+  </article>
+
+  <!-- 9 -->
+  <article class="q">
+    <div class="q-head"><span class="num">9</span><span class="chip J">JavaScript</span><span class="fmt">QCM</span></div>
+    <p>Quelle méthode retire un nœud enfant d'un nœud parent ?</p>
+    <ol class="opts"><li><code>parent.deleteElement(enfant)</code></li><li><code>parent.removeElement(enfant)</code></li><li><code>parent.deleteChild(enfant)</code></li><li><code>parent.removeChild(enfant)</code></li></ol>
+    <details><summary>Voir la solution</summary><div class="sol">
+      <p class="rep">D — <code>parent.removeChild(enfant)</code></p>
+      <p class="retenir">Les trois autres n'existent pas. Version moderne : <code>enfant.remove()</code>.</p>
+    </div></details>
+  </article>
+
+  <!-- 10 -->
+  <article class="q">
+    <div class="q-head"><span class="num">10</span><span class="chip I">Intégration</span><span class="fmt">Code · bug sans erreur</span></div>
+    <p>Chaque clic sur « Ajouter » doit augmenter le nombre affiché dans <code>#nb-articles</code>. Rien ne bouge et la console est vide :</p>
+<pre>bouton.addEventListener("click", () =&gt; {
+  nbArticles++;
+  bouton.textContent = nbArticles;
+});</pre>
+    <details><summary>Voir la solution</summary><div class="sol">
+      <p class="rep"><code>document.getElementById("nb-articles").textContent = nbArticles;</code></p>
+      <p>Le calcul est juste, mais le résultat est écrit dans le <strong>bouton</strong> (son texte « Ajouter » est remplacé par le nombre).</p>
+      <p class="retenir">Pas d'erreur dans la console = le code tourne. Vérifie <strong>où</strong> il écrit : compare chaque sélecteur aux <code>id</code> du HTML.</p>
+    </div></details>
+  </article>
+
+  <!-- 11 -->
+  <article class="q">
+    <div class="q-head"><span class="num">11</span><span class="chip J">JavaScript</span><span class="fmt">QCM</span></div>
+    <p><code>titre</code> est un élément <code>&lt;h2&gt;</code> créé avec <code>createElement</code>. Laquelle de ces instructions l'ajoute au corps de la page ?</p>
+    <ol class="opts"><li><code>document.body.push(titre);</code></li><li><code>document.body.appendChild(titre);</code></li><li><code>document.body.attach(titre);</code></li><li><code>document.body.add(titre);</code></li></ol>
+    <details><summary>Voir la solution</summary><div class="sol">
+      <p class="rep">B — <code>appendChild</code></p>
+      <p class="retenir">Piège : <code>push</code> existe, mais pour les <strong>tableaux</strong>. Équivalent moderne : <code>append</code> (qui accepte aussi du texte, mais ne renvoie rien).</p>
+    </div></details>
+  </article>
+
+  <!-- 12 -->
+  <article class="q">
+    <div class="q-head"><span class="num">12</span><span class="chip C">CSS</span><span class="fmt">Documentation · listes déroulantes · 5 min</span></div>
+    <p>a) Comment appliquer une transition à plusieurs propriétés d'un même élément, par exemple <code>opacity</code> et <code>transform</code> ?</p>
+    <p>b) Quelle propriété définit la courbe de vitesse de la transition ?</p>
+    <details><summary>Voir la solution</summary><div class="sol">
+      <p class="rep">a) en les séparant par des virgules · b) <code>transition-timing-function</code></p>
+<pre>.carte {
+  transition: opacity 0.3s, transform 0.6s ease-in-out;
+}</pre>
+      <p class="retenir">Pièges : <code>transition-duration</code> (durée), <code>transition-delay</code> (délai). Deux déclarations <code>transition</code> : la seconde remplace la première.</p>
+    </div></details>
+  </article>
+
+  <!-- 13 -->
+  <article class="q">
+    <div class="q-head"><span class="num">13</span><span class="chip J">JavaScript</span><span class="fmt">QCM</span></div>
+    <p>Que fait ce code ?</p>
+<pre>document.addEventListener("keydown", afficher);
+
+function afficher() {
+  console.log("touche !");
+}</pre>
+    <ol class="opts"><li>Il affiche « keydown » à chaque touche</li><li>Il enregistre un écouteur qui appellera <code>afficher()</code> à chaque touche pressée</li><li>Il ajoute deux écouteurs : « keydown » et « touche ! »</li><li>Erreur : <code>afficher</code> est déclarée après son utilisation</li></ol>
+    <details><summary>Voir la solution</summary><div class="sol">
+      <p class="rep">B</p>
+      <p>On passe la <strong>fonction</strong> (<code>afficher</code>, sans parenthèses) : elle sera appelée plus tard, à chaque événement. Avec <code>afficher()</code>, elle s'exécuterait tout de suite, une seule fois. Une déclaration <code>function</code> est utilisable avant sa ligne (hoisting).</p>
+    </div></details>
+  </article>
+
+  <!-- 14 -->
+  <article class="q">
+    <div class="q-head"><span class="num">14</span><span class="chip H">HTML</span><span class="fmt">Vrai / Faux</span></div>
+    <p>Pour chaque extrait, indique s'il est valide :</p>
+    <table><tr><th>Extrait</th></tr>
+      <tr><td><code>&lt;section&gt;du texte&lt;section&gt;</code></td></tr>
+      <tr><td><code>&lt;img src="photo.png" alt="Plage" /&gt;</code></td></tr>
+      <tr><td><code>&lt;hr&gt;</code></td></tr>
+      <tr><td><code>&lt;input type="text"&gt;&lt;/input&gt;</code></td></tr></table>
+    <details><summary>Voir la solution</summary><div class="sol">
+      <table><tr><th>Extrait</th><th>Réponse</th></tr>
+        <tr><td><code>&lt;section&gt;du texte&lt;section&gt;</code></td><td>Faux : il manque <code>&lt;/section&gt;</code></td></tr>
+        <tr><td><code>&lt;img … /&gt;</code></td><td>Vrai : le <code>/</code> final est toléré</td></tr>
+        <tr><td><code>&lt;hr&gt;</code></td><td>Vrai</td></tr>
+        <tr><td><code>&lt;input&gt;&lt;/input&gt;</code></td><td>Faux : élément vide, jamais de balise fermante</td></tr></table>
+      <p class="retenir">Éléments vides : <code>br</code>, <code>hr</code>, <code>img</code>, <code>input</code>, <code>meta</code>, <code>link</code>.</p>
+    </div></details>
+  </article>
+
+  <!-- 15 -->
+  <article class="q">
+    <div class="q-head"><span class="num">15</span><span class="chip J">JavaScript</span><span class="fmt">QCM</span></div>
+    <p>Que fait ce code (on suppose que <code>chargement</code> est une promesse et que les fonctions existent) ?</p>
+<pre>chargement
+  .then(lireJson)
+  .then(filtrer)
+  .then(afficher)
+  .catch(signalerErreur);</pre>
+    <ol class="opts"><li>Il crée 3 promesses de réussite et 1 d'échec</li><li>Il enchaîne plusieurs promesses</li><li>Il échoue toujours, car <code>catch</code> est à la fin</li><li>Il ne fonctionne pas</li></ol>
+    <details><summary>Voir la solution</summary><div class="sol">
+      <p class="rep">B</p>
+      <p><code>.then()</code> renvoie une nouvelle promesse : chaque étape reçoit le résultat de la précédente. Un seul <code>.catch()</code> en fin de chaîne intercepte une erreur à n'importe quelle étape ; il ne s'exécute qu'en cas d'erreur.</p>
+<pre>fetch("produits.json")
+  .then((rep) =&gt; rep.json())
+  .then((produits) =&gt; console.log(produits))
+  .catch((err) =&gt; console.error(err));</pre>
+    </div></details>
+  </article>
+
+  <!-- 16 -->
+  <article class="q">
+    <div class="q-head"><span class="num">16</span><span class="chip C">CSS</span><span class="fmt">QCM · 5 propositions</span></div>
+    <p>Un article est découpé en 3 colonnes avec <code>column-count: 3</code>. Quelle propriété règle l'espace <strong>entre</strong> les colonnes ?</p>
+    <ol class="opts"><li><code>column-width</code></li><li><code>column-size</code></li><li><code>column-space</code></li><li><code>column-gap</code></li><li><code>column-count</code></li></ol>
+    <details><summary>Voir la solution</summary><div class="sol">
+      <p class="rep">D — <code>column-gap</code></p>
+      <p class="retenir"><code>column-rule</code> trace un trait entre les colonnes. <code>column-size</code> et <code>column-space</code> n'existent pas. (Dans l'épreuve, cette question CSS était classée en HTML : ne fais pas d'impasse.)</p>
+    </div></details>
+  </article>
+
+  <!-- 17 -->
+  <article class="q">
+    <div class="q-head"><span class="num">17</span><span class="chip H">HTML</span><span class="fmt">Zones à cliquer</span></div>
+    <p>Quelles lignes contiennent une erreur de syntaxe HTML ? (Il peut y en avoir plusieurs, ou aucune.)</p>
+<pre>1  &lt;head&gt;
+2    &lt;link rel="stylesheet" href="style.css"&gt;
+3    &lt;style&gt; body { background-color: tomatoes; } &lt;/style&gt;
+4  &lt;/head&gt;
+5  &lt;body&gt;
+6    &lt;ol&gt;
+7      &lt;li&gt;Farine
+8      &lt;li&gt;Oeufs
+9    &lt;/ol&gt;
+10   &lt;p&gt;Mélangez le tout.&lt;/p&gt;
+11 &lt;/body&gt;</pre>
+    <details><summary>Voir la solution</summary><div class="sol">
+      <p class="rep">Lignes 7 et 8 : il manque <code>&lt;/li&gt;</code></p>
+      <p>Pièges : la valeur CSS invalide (<code>tomatoes</code>) n'est pas une erreur <em>HTML</em> ; une faute d'orthographe dans le texte non plus.</p>
+      <p class="retenir">Le validateur W3C tolère l'absence de <code>&lt;/li&gt;</code>, mais l'examen la compte comme une erreur : ferme toujours tes balises (sauf les éléments vides).</p>
+    </div></details>
+  </article>
+
+  <!-- 18 -->
+  <article class="q">
+    <div class="q-head"><span class="num">18</span><span class="chip H">HTML</span><span class="fmt">Glisser-déposer</span></div>
+    <p>Glisse dans la zone les éléments affichés <strong>en ligne</strong> par défaut :</p>
+    <p><code>section</code> · <code>em</code> · <code>table</code> · <code>label</code> · <code>li</code> · <code>input</code> · <code>h3</code></p>
+    <details><summary>Voir la solution</summary><div class="sol">
+      <p class="rep">En ligne : <code>em</code>, <code>label</code>, <code>input</code></p>
+      <p>En bloc : <code>section</code>, <code>table</code>, <code>li</code>, <code>h3</code>.</p>
+      <p class="retenir">Piège : les champs de formulaire (<code>input</code>, <code>select</code>, <code>button</code>, <code>textarea</code>) restent dans la ligne (<code>inline-block</code>).</p>
+    </div></details>
+  </article>
+
+  <!-- 19 -->
+  <article class="q">
+    <div class="q-head"><span class="num">19</span><span class="chip H">HTML</span><span class="fmt">Vrai / Faux</span></div>
+    <p>Sur l'élément <code>&lt;audio&gt;</code> :</p>
+    <table><tr><th>Affirmation</th></tr>
+      <tr><td><code>&lt;audio&gt;</code> sert à insérer un son</td></tr>
+      <tr><td>L'attribut <code>controls</code> affiche les boutons lecture / pause</td></tr>
+      <tr><td>Plusieurs <code>&lt;source&gt;</code> permettent de proposer plusieurs formats</td></tr>
+      <tr><td><code>controls="false"</code> masque les boutons</td></tr></table>
+    <details><summary>Voir la solution</summary><div class="sol">
+      <p class="rep">Vrai, Vrai, Vrai, <strong>Faux</strong></p>
+      <p><code>controls</code> est un attribut booléen : sa présence suffit, quelle que soit sa valeur. Pour masquer les boutons, on retire l'attribut.</p>
+      <p class="retenir">Dans l'épreuve, une affirmation imprécise (« <code>control</code> défini à <code>true</code> ») était comptée Vraie : juge l'<em>idée</em> de l'affirmation, pas le détail.</p>
+    </div></details>
+  </article>
+
+  <!-- 20 -->
+  <article class="q">
+    <div class="q-head"><span class="num">20</span><span class="chip H">HTML</span><span class="fmt">Vrai / Faux</span></div>
+    <p>Sur les titres HTML :</p>
+    <table><tr><th>Affirmation</th></tr>
+      <tr><td>Il existe 6 niveaux de titres</td></tr>
+      <tr><td><code>&lt;h6&gt;</code> est le titre le plus important</td></tr>
+      <tr><td>On choisit le niveau selon la taille de texte voulue</td></tr>
+      <tr><td>Les moteurs de recherche utilisent les titres pour comprendre la structure</td></tr></table>
+    <details><summary>Voir la solution</summary><div class="sol">
+      <p class="rep">Vrai, Faux, Faux, Vrai</p>
+      <p class="retenir"><code>&lt;h1&gt;</code> est le plus important. Le niveau suit la structure, la taille se règle en CSS. Pas de saut de niveau.</p>
+    </div></details>
+  </article>
+
+  <!-- 21 -->
+  <article class="q">
+    <div class="q-head"><span class="num">21</span><span class="chip H">HTML</span><span class="fmt">Relier</span></div>
+    <p>Relie chaque valeur de <code>href</code> à son effet :</p>
+    <table><tr><th>Valeur</th><th>Effets proposés</th></tr>
+      <tr><td><code>"https://exemple.be"</code></td><td>Lance un appel téléphonique</td></tr>
+      <tr><td><code>"tel:+3221234567"</code></td><td>Fait défiler jusqu'à l'élément d'id <code>faq</code></td></tr>
+      <tr><td><code>"#faq"</code></td><td>Ouvre une page par une URL absolue</td></tr>
+      <tr><td><code>"/inscription.html"</code></td><td>Ouvre une page du site par une URL relative</td></tr>
+      <tr><td></td><td>N'existe pas ou ne fait rien</td></tr></table>
+    <details><summary>Voir la solution</summary><div class="sol">
+      <table><tr><td><code>"https://exemple.be"</code></td><td>URL absolue</td></tr>
+        <tr><td><code>"tel:+3221234567"</code></td><td>Appel téléphonique</td></tr>
+        <tr><td><code>"#faq"</code></td><td>Ancre dans la page</td></tr>
+        <tr><td><code>"/inscription.html"</code></td><td>URL relative (depuis la racine du site)</td></tr></table>
+      <p class="retenir">« N'existe pas ou ne fait rien » est l'intrus. Autre préfixe à connaître : <code>mailto:</code>.</p>
+    </div></details>
+  </article>
+
+  <!-- 22 -->
+  <article class="q">
+    <div class="q-head"><span class="num">22</span><span class="chip H">HTML</span><span class="fmt">QCM en images</span></div>
+    <p>Quelle image correspond à ce SVG ?</p>
+<pre>&lt;svg width="120" height="120"&gt;
+  &lt;rect width="120" height="120" fill="navy" /&gt;
+  &lt;circle cx="60" cy="60" r="30" fill="gold" stroke="white" stroke-width="4" /&gt;
+&lt;/svg&gt;</pre>
+    <div class="svg-opts" aria-label="Propositions">
+      <figure><svg width="90" height="90" viewBox="0 0 120 120" role="img" aria-label="A"><rect width="120" height="120" fill="navy"/><circle cx="60" cy="60" r="60" fill="gold" stroke="white" stroke-width="4"/></svg>A</figure>
+      <figure><svg width="90" height="90" viewBox="0 0 120 120" role="img" aria-label="B"><rect width="120" height="120" fill="navy"/><circle cx="60" cy="60" r="30" fill="gold" stroke="white" stroke-width="4"/></svg>B</figure>
+      <figure><svg width="90" height="90" viewBox="0 0 120 120" role="img" aria-label="C"><rect width="120" height="120" fill="navy"/><circle cx="0" cy="0" r="30" fill="gold" stroke="white" stroke-width="4"/></svg>C</figure>
+      <figure><svg width="90" height="90" viewBox="0 0 120 120" role="img" aria-label="D"><rect width="120" height="120" fill="navy"/><circle cx="60" cy="60" r="30" fill="white" stroke="gold" stroke-width="4"/></svg>D</figure>
+    </div>
+    <details><summary>Voir la solution</summary><div class="sol">
+      <p class="rep">B — un cercle doré de 60 de diamètre, centré</p>
+      <p><code>r</code> est le <strong>rayon</strong> : 30, donc un diamètre de 60, soit la moitié du carré. A confond rayon et diamètre, C oublie <code>cx</code>/<code>cy</code> (centre en 0,0), D inverse <code>fill</code> et <code>stroke</code>.</p>
+      <p class="retenir">Sans <code>fill</code>, une forme SVG est noire par défaut.</p>
+    </div></details>
+  </article>
+
+  <!-- 23 -->
+  <article class="q">
+    <div class="q-head"><span class="num">23</span><span class="chip H">HTML</span><span class="fmt">Vrai / Faux</span></div>
+    <p>Sur l'élément <code>&lt;title&gt;</code> :</p>
+    <table><tr><th>Affirmation</th></tr>
+      <tr><td>Son texte s'affiche dans l'onglet du navigateur</td></tr>
+      <tr><td>Il peut contenir des balises comme <code>&lt;em&gt;</code></td></tr>
+      <tr><td>Il sert de titre dans les résultats des moteurs de recherche</td></tr>
+      <tr><td>Une page peut contenir plusieurs <code>&lt;title&gt;</code></td></tr></table>
+    <details><summary>Voir la solution</summary><div class="sol">
+      <p class="rep">Vrai, Faux, Vrai, Faux</p>
+      <p class="retenir">Un seul <code>&lt;title&gt;</code>, dans le <code>&lt;head&gt;</code>, texte uniquement. À ne pas confondre avec <code>&lt;h1&gt;</code>.</p>
+    </div></details>
+  </article>
+
+  <!-- 24 -->
+  <article class="q">
+    <div class="q-head"><span class="num">24</span><span class="chip J">JavaScript</span><span class="fmt">QCM</span></div>
+    <p>Quel est le résultat de <code>"2" + 3 + 4</code> ?</p>
+    <ol class="opts"><li><code>9</code></li><li><code>"234"</code></li><li><code>"27"</code></li><li><code>234</code></li></ol>
+    <details><summary>Voir la solution</summary><div class="sol">
+      <p class="rep">B — <code>"234"</code></p>
+      <p>De gauche à droite : <code>"2" + 3</code> = <code>"23"</code> (concaténation), puis <code>"23" + 4</code> = <code>"234"</code>. À l'inverse, <code>2 + 3 + "4"</code> donne <code>"54"</code>.</p>
+    </div></details>
+  </article>
+
+  <!-- 25 -->
+  <article class="q">
+    <div class="q-head"><span class="num">25</span><span class="chip H">HTML</span><span class="fmt">Relier</span></div>
+    <p>Relie chaque attribut de formulaire à son rôle :</p>
+    <table><tr><th>Attribut</th><th>Rôles proposés</th></tr>
+      <tr><td><code>novalidate</code></td><td>Envoie vers une autre URL, pour ce bouton seulement</td></tr>
+      <tr><td><code>formnovalidate</code></td><td>Désactive la validation de tout le formulaire</td></tr>
+      <tr><td><code>formaction</code></td><td>Définit l'encodage des données envoyées</td></tr>
+      <tr><td><code>enctype</code></td><td>Désactive la validation pour ce bouton seulement</td></tr></table>
+    <details><summary>Voir la solution</summary><div class="sol">
+      <table><tr><td><code>novalidate</code></td><td>tout le formulaire, sans validation (sur <code>&lt;form&gt;</code>)</td></tr>
+        <tr><td><code>formnovalidate</code></td><td>ce bouton seulement, sans validation</td></tr>
+        <tr><td><code>formaction</code></td><td>autre URL pour ce bouton</td></tr>
+        <tr><td><code>enctype</code></td><td>encodage des données</td></tr></table>
+<pre>&lt;form action="/envoyer" method="post"&gt;
+  &lt;input type="email" required&gt;
+  &lt;button type="submit"&gt;Envoyer&lt;/button&gt;
+  &lt;button type="submit" formaction="/brouillon" formnovalidate&gt;Brouillon&lt;/button&gt;
+&lt;/form&gt;</pre>
+      <p class="retenir">Le préfixe <code>form…</code> = attribut placé sur un bouton d'envoi, qui remplace celui du <code>&lt;form&gt;</code> pour ce bouton.</p>
+    </div></details>
+  </article>
+</main>
+<script>
+  document.getElementById("tout-ouvrir").addEventListener("click", () => document.querySelectorAll("details").forEach((d) => { d.open = true; }));
+  document.getElementById("tout-fermer").addEventListener("click", () => document.querySelectorAll("details").forEach((d) => { d.open = false; }));
+</script>
+</body>
+</html>

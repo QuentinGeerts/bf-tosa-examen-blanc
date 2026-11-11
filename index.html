@@ -194,6 +194,18 @@ pre.code { background: var(--code-bg); color: var(--code-ink); padding: 14px 16p
 .toggle { display: inline-flex; gap: 8px; align-items: center; font-size: 14px; }
 .section-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 32px; }
 .section-title h2 { font-size: 20px; }
+/* Éditeur à onglets */
+.ide-tabs { display: flex; gap: 2px; margin-right: auto; flex-wrap: wrap; min-width: 0; }
+.ide-bar button { white-space: nowrap; }
+.ide-bar .ide-tab { background: transparent; border: 0; border-bottom: 2px solid transparent; border-radius: 0; color: #8b95a7; padding: 4px 10px; font-family: "IBM Plex Mono", monospace; font-size: 13px; }
+.ide-bar .ide-tab.on { color: #e9e4d6; border-bottom-color: #8fb4e3; }
+.ide-lock { background: #2a2416; color: #f0c674; font-size: 12px; padding: 6px 12px; border-bottom: 1px solid var(--code-line); }
+.ide-lock[hidden] { display: none; }
+.editor textarea.locked { color: #9aa3b2; }
+.console .repete:empty { display: none; }
+.console .repete { display: inline-block; min-width: 18px; padding: 0 5px; margin-right: 6px; border-radius: 9px; background: var(--ko); color: #fff; font-size: 11px; text-align: center; }
+.rv .fichier { font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--muted); margin: 10px 0 0; }
+
 /* Questions interactives */
 .inter { margin-top: 18px; }
 .aide { font-size: 13px; color: var(--muted); margin: 0 0 10px; }
@@ -293,11 +305,26 @@ async function chargerQuestions() {
   });
   (data.pratiques || []).forEach((q, i) => {
     const c = CODES[q.categorie];
-    if (!c || !(q.niveau >= 1 && q.niveau <= 5) || !["html", "js"].includes(q.fichier) || !q.verification) {
+    if (!c || !(q.niveau >= 1 && q.niveau <= 5) || !q.verification || (!q.fichiers && !["html", "js"].includes(q.fichier))) {
       console.warn("Exercice pratique ignoré (index " + i + ")");
       return;
     }
-    bank.push({ id: q.id || c + "-p" + i, c, n: q.niveau, q: txt(q.enonce), p: q.fichier === "js" ? "js" : "doc", start: txt(q.depart), check: txt(q.verification), sol: txt(q.solution) });
+    let start = {}, lock = {}, sol = {};
+    if (q.fichiers) {
+      for (const k of FICHIERS) {
+        const f = q.fichiers[k] || {};
+        start[k] = txt(f.code);
+        lock[k] = f.verrouille === true;
+        if (q.solution && q.solution[k] != null) sol[k] = txt(q.solution[k]);
+      }
+    } else {
+      // ancien format (un seul fichier) : converti en 3 fichiers
+      const js = q.fichier === "js";
+      start = { html: js ? DOC_VIDE : txt(q.depart), css: "", js: js ? txt(q.depart) : "" };
+      lock = { html: js, css: true, js: !js };
+      sol = js ? { js: txt(q.solution) } : { html: txt(q.solution) };
+    }
+    bank.push({ id: q.id || c + "-p" + i, c, n: q.niveau, q: txt(q.enonce), p: "multi", start, lock, sol, apres: txt(q.apres), attendu: q.rendu_attendu === true, check: txt(q.verification) });
   });
   return bank;
 }
@@ -386,24 +413,43 @@ function fmt(ms) {
 }
 
 // ─── Bac à sable (iframe) pour les exercices pratiques ───
-function shim(t, apercu) {
-  return '<script>(function(){var T="' + t + '";function s(v){try{if(v===undefined)return"undefined";if(typeof v==="string")return v;if(v instanceof Error)return v.name+": "+v.message;if(v&&v.nodeType===1)return"<"+v.tagName.toLowerCase()+(v.id?"#"+v.id:"")+">";return JSON.stringify(v)}catch(e){return String(v)}}function p(k,a){try{parent.postMessage({__ex:T,log:[k,Array.prototype.map.call(a,s).join(" ")]},"*")}catch(e){}}["log","info","warn","error","table"].forEach(function(k){var o=console[k];console[k]=function(){p(k,arguments);try{o.apply(console,arguments)}catch(e){}}});window.addEventListener("error",function(e){p("error",[(e.message||"Erreur")+(e.lineno?" (ligne "+e.lineno+")":"")])})' + (apercu ? ';window.addEventListener("submit",function(e){if(!e.defaultPrevented){e.preventDefault();try{parent.postMessage({__ex:T,reload:true},"*")}catch(x){}}})' : '') + '})()<\/script>';
+const FICHIERS = ["html", "css", "js"];
+const NOMS_FICHIERS = { html: "index.html", css: "style.css", js: "script.js" };
+const DOC_VIDE = '<!DOCTYPE html>\n<html lang="fr">\n<head>\n  <meta charset="UTF-8">\n  <title>Exercice</title>\n</head>\n<body>\n</body>\n</html>';
+
+// Script injecté en tête de page : renvoie la console et les erreurs (avec la pile d'appels) vers l'examen.
+// D = nombre de lignes avant script.js, pour afficher les numéros de ligne de script.js.
+function shim(t, apercu, decalage) {
+  return '<script>(function(){var T="' + t + '",D=' + (decalage || 0) + ';function s(v){try{if(v===undefined)return"undefined";if(typeof v==="string")return v;if(typeof v==="number"&&isNaN(v))return"NaN";if(v instanceof Error)return v.name+": "+v.message;if(v&&v.nodeType===1)return"<"+v.tagName.toLowerCase()+(v.id?"#"+v.id:"")+">";return JSON.stringify(v)}catch(e){return String(v)}}function p(k,a){try{parent.postMessage({__ex:T,log:[k,Array.prototype.map.call(a,s).join(" ")]},"*")}catch(e){}}["log","info","warn","error","table"].forEach(function(k){var o=console[k];console[k]=function(){p(k,arguments);try{o.apply(console,arguments)}catch(e){}}});var L=function(l){l=+l;return l>D?l-D:l};window.addEventListener("error",function(e){var st=e.error&&e.error.stack;var m=st?String(st):(e.message||"Erreur");var loc=/about:srcdoc:\\d+/.test(m);m=m.replace(/about:srcdoc:(\\d+):(\\d+)/g,function(_,l,c){return"script.js:"+L(l)+":"+c});if(!loc&&e.lineno)m+=" (script.js:"+L(e.lineno)+")";if(m.indexOf("Uncaught")!==0)m="Uncaught "+m;p("error",[m])})' + (apercu ? ';window.addEventListener("submit",function(e){if(!e.defaultPrevented){e.preventDefault();try{parent.postMessage({__ex:T,reload:true},"*")}catch(x){}}})' : '') + '})()<\/script>';
 }
-function checkScript(body, t, code) {
-  const src = JSON.stringify(code || "").replace(/</g, "\\u003c");
-  return '<script>window.addEventListener("load",function(){setTimeout(function(){var ok=false;try{ok=!!(function(code){' + body + '})(' + src + ')}catch(e){}parent.postMessage({__ex:"' + t + '",ok:ok},"*")},60)})<\/script>';
+// Vérification : corps de fonction exécuté après le chargement, avec le code source des 3 fichiers (code = HTML, css, js)
+function checkScript(body, t, f) {
+  const j = (s) => JSON.stringify(s || "").replace(/</g, "\\u003c");
+  f = f || {};
+  return '<script>window.addEventListener("load",function(){setTimeout(function(){var ok=false;try{ok=!!(function(code,css,js){' + body + '})(' + j(f.html) + ',' + j(f.css) + ',' + j(f.js) + ')}catch(e){}parent.postMessage({__ex:"' + t + '",ok:ok},"*")},60)})<\/script>';
 }
-function buildDoc(q, code, extra, t, apercu) {
-  if (q.p === "js") {
-    return '<!DOCTYPE html><html><head><meta charset="UTF-8">' + shim(t, apercu) + '</head><body><script>' + code + '\n<\/script>' + extra + '</body></html>';
-  }
-  let d = code;
-  const head = d.search(/<head[^>]*>/i);
+// Assemble les 3 fichiers en une page : le CSS dans le <head>, le JS en bas du <body>, puis le script caché « apres » (tests)
+function assembler(q, f) {
+  let d = f.html || "";
+  const style = "<style>\n" + (f.css || "") + "\n</style>\n";
+  const finHead = d.search(/<\/head>/i);
+  d = finHead >= 0 ? d.slice(0, finHead) + style + d.slice(finHead) : style + d;
+  const finBody = d.toLowerCase().lastIndexOf("</body>");
+  const avant = finBody >= 0 ? d.slice(0, finBody) : d;
+  const ouverture = "<script>\n";
+  const decalage = (avant + ouverture).split("\n").length - 1;
+  const scripts = ouverture + (f.js || "") + "\n<\/script>\n" + (q.apres ? "<script>\n" + q.apres + "\n<\/script>\n" : "");
+  return { doc: avant + scripts + (finBody >= 0 ? d.slice(finBody) : ""), decalage };
+}
+function buildDoc(q, f, extra, t, apercu) {
+  const { doc, decalage } = assembler(q, f);
+  let d = doc;
+  const head = d.search(/<head(\s[^>]*)?>/i);
   if (head >= 0) {
     const end = d.indexOf(">", head) + 1;
-    d = d.slice(0, end) + shim(t, apercu) + d.slice(end);
+    d = d.slice(0, end) + shim(t, apercu, decalage) + d.slice(end);
   } else {
-    d = shim(t, apercu) + d;
+    d = shim(t, apercu, decalage) + d;
   }
   const body = d.toLowerCase().lastIndexOf("</body>");
   return body >= 0 ? d.slice(0, body) + extra + d.slice(body) : d + extra;
@@ -425,9 +471,9 @@ function runInSandbox(html, t) {
     document.body.append(fr);
   });
 }
-function runCheck(q, code) {
+function runCheck(q, f) {
   const t = token();
-  return runInSandbox(buildDoc(q, code, checkScript(q.check, t, code), t), t);
+  return runInSandbox(buildDoc(q, f, checkScript(q.check, t, f), t), t);
 }
 function probe() {
   const t = token();
@@ -527,7 +573,7 @@ function preparer() {
   const id = choisir(S.seq[S.idx]);
   S.used.push(id);
   const q = BANK[id];
-  S.cur = { id, order: q.o ? shuffle(q.o.map((_, i) => i)) : null, draft: q.p ? q.start : null };
+  S.cur = { id, order: q.o ? shuffle(q.o.map((_, i) => i)) : null, draft: q.p ? { ...q.start } : null };
   if (q.p) S.cur.deadline = Date.now() + DUREE_PRAT;
 }
 function repondre(ok, extra) {
@@ -665,6 +711,7 @@ function renderAccueil() {
       h("div", { class: "field" }, h("label", { for: "nom" }, "Ton nom et prénom"), input),
       h("div", { class: "actions" }, h("span", { class: "hint" }, "Le chronomètre démarre au clic."), go),
       h("p", { class: "note" }, "Simulation d'entraînement non officielle. Le score sur 1000 est une estimation."),
+      h("p", { class: "note" }, h("a", { href: "epreuve.html" }, "Revoir l'épreuve blanche commentée (25 questions, solutions en spoiler) →")),
       !pratOK ? h("p", { class: "note" }, "Les exercices pratiques ne peuvent pas être vérifiés dans ce navigateur : l'examen ne contiendra que des QCM.") : null)));
   input.focus();
 }
@@ -886,78 +933,112 @@ function correctionInteractif(q, a) {
 
 function renderPratique(q) {
   if (!S.cur.deadline) { S.cur.deadline = Date.now() + DUREE_PRAT; save(); }
+  if (!S.cur.draft || typeof S.cur.draft !== "object") S.cur.draft = { ...q.start };
+  const draft = S.cur.draft;
+  const editables = FICHIERS.filter((k) => !q.lock[k]);
+  const fichiers = () => Object.fromEntries(FICHIERS.map((k) => [k, q.lock[k] ? q.start[k] : draft[k]]));
+  const modifies = () => Object.fromEntries(editables.map((k) => [k, draft[k]]));
+  let actif = editables[0] || "html";
+
+  // Éditeur : un seul textarea, le contenu change selon l'onglet
   const ta = h("textarea", { spellcheck: "false", autocapitalize: "off", autocomplete: "off", "aria-label": "Éditeur de code" });
-  ta.value = S.cur.draft;
   const gutter = h("pre", { class: "gutter mono", "aria-hidden": "true" });
+  const bandeau = h("div", { class: "ide-lock" }, "🔒 Lecture seule : tu n'as pas besoin de modifier ce fichier, mais lis-le, il contient des informations utiles.");
   const majGutter = () => {
     const n = ta.value.split("\n").length;
     gutter.textContent = Array.from({ length: n }, (_, i) => i + 1).join("\n");
     gutter.scrollTop = ta.scrollTop;
   };
+  const onglets = FICHIERS.map((k) => h("button", { type: "button", class: "ide-tab", "data-f": k, onclick: () => { actif = k; afficher(); } },
+    (q.lock[k] ? "🔒 " : "") + NOMS_FICHIERS[k]));
+  const afficher = () => {
+    ta.value = q.lock[actif] ? q.start[actif] : draft[actif];
+    ta.readOnly = !!q.lock[actif];
+    ta.classList.toggle("locked", !!q.lock[actif]);
+    bandeau.hidden = !q.lock[actif];
+    onglets.forEach((b) => { b.classList.toggle("on", b.dataset.f === actif); b.setAttribute("aria-selected", b.dataset.f === actif); });
+    ta.scrollTop = 0;
+    majGutter();
+  };
   let t = null;
-  ta.addEventListener("input", () => { S.cur.draft = ta.value; majGutter(); clearTimeout(t); t = setTimeout(save, 400); });
+  ta.addEventListener("input", () => { if (q.lock[actif]) return; draft[actif] = ta.value; majGutter(); clearTimeout(t); t = setTimeout(save, 400); });
   ta.addEventListener("scroll", () => { gutter.scrollTop = ta.scrollTop; });
   ta.addEventListener("keydown", (e) => {
-    if (e.key === "Tab" && !e.shiftKey) {
+    if (e.key === "Tab" && !e.shiftKey && !ta.readOnly) {
       e.preventDefault();
       ta.setRangeText("  ", ta.selectionStart, ta.selectionEnd, "end");
       ta.dispatchEvent(new Event("input"));
     }
   });
-  majGutter();
 
+  // Aperçu + console (les messages identiques consécutifs sont regroupés, comme dans Chrome)
   const cons = h("div", { class: "console", role: "log" }, h("div", { class: "empty" }, "Clique sur « Essayer » pour tester ton code, autant de fois que tu veux."));
-  const preview = q.p === "doc" ? h("iframe", { class: "preview", sandbox: "allow-scripts allow-forms", title: "Aperçu" }) : null;
-  const hiddenRun = q.p === "js" ? h("iframe", { sandbox: "allow-scripts", title: "Exécution", style: "display:none" }) : null;
+  const preview = h("iframe", { class: "preview", sandbox: "allow-scripts allow-forms", title: "Aperçu" });
+  const attendu = q.attendu ? h("iframe", { class: "preview attendu", sandbox: "allow-scripts", title: "Rendu attendu" }) : null;
+  if (attendu) attendu.srcdoc = assembler(q, { ...q.start, ...q.sol }).doc;
 
   const executer = (recharge) => {
     previewToken = token();
     cons.replaceChildren();
     if (recharge === true) cons.append(h("div", { class: "info" }, "Navigated to index.html"));
+    let dernier = null, nb = 1;
     previewSink = (k, txt) => {
       cons.querySelectorAll(".empty").forEach((el) => el.remove());
-      cons.append(h("div", { class: k === "error" ? "error" : k === "warn" ? "warn" : "" }, txt));
+      if (dernier && dernier.dataset.txt === txt) {
+        nb++;
+        dernier.querySelector(".repete").textContent = nb;
+        return;
+      }
+      if (cons.childElementCount > 200) return;
+      nb = 1;
+      dernier = h("div", { class: k === "error" ? "error" : k === "warn" ? "warn" : "" }, h("span", { class: "repete" }), txt);
+      dernier.dataset.txt = txt;
+      cons.append(dernier);
     };
-    const html = buildDoc(q, ta.value, "", previewToken, true);
-    (preview || hiddenRun).srcdoc = html;
+    preview.srcdoc = buildDoc(q, fichiers(), "", previewToken, true);
     setTimeout(() => { if (!cons.childElementCount) cons.append(h("div", { class: "empty" }, "Rien dans la console.")); }, 600);
   };
   previewReload = () => executer(true);
-  const reset = h("button", { type: "button" }, "Réinitialiser");
+
+  const reset = h("button", { type: "button", title: "Rétablir le code original" }, "↺ Rétablir");
   let armed = false;
   reset.addEventListener("click", () => {
-    if (!armed) { armed = true; reset.textContent = "Confirmer ?"; setTimeout(() => { armed = false; reset.textContent = "Réinitialiser"; }, 2500); return; }
-    ta.value = q.start; ta.dispatchEvent(new Event("input")); armed = false; reset.textContent = "Réinitialiser";
+    if (!armed) { armed = true; reset.textContent = "Confirmer ?"; setTimeout(() => { armed = false; reset.textContent = "↺ Rétablir"; }, 2500); return; }
+    editables.forEach((k) => { draft[k] = q.start[k]; });
+    save(); afficher(); armed = false; reset.textContent = "↺ Rétablir";
   });
 
   const valider = h("button", { class: "btn primary" }, "Valider et continuer");
-  const passer = h("button", { class: "btn" }, "Je passe");
+  const passer = h("button", { class: "btn" }, "Abandonner cette question");
   valider.addEventListener("click", async () => {
     valider.disabled = passer.disabled = true;
     valider.textContent = "Vérification…";
     validationEnCours = true;
-    const code = ta.value;
-    const ok = await runCheck(q, code);
+    const ok = await runCheck(q, fichiers());
     validationEnCours = false;
-    repondre(ok, { code });
+    repondre(ok, { code: modifies() });
   });
-  passer.addEventListener("click", () => repondre(false, { code: ta.value, passe: true }));
+  passer.addEventListener("click", () => repondre(false, { code: modifies(), passe: true }));
 
   app.replaceChildren(h("section", { class: "card" },
     enteteQuestion(q),
     block(q.q),
+    h("p", { class: "aide" }, "Fichier(s) à modifier : " + editables.map((k) => NOMS_FICHIERS[k]).join(", ") + ". Les fichiers 🔒 sont en lecture seule."),
     h("div", { class: "ws" },
       h("div", { class: "ide" },
-        h("div", { class: "ide-bar" }, h("span", { class: "file" }, q.p === "js" ? "script.js" : "index.html"), reset, h("button", { type: "button", class: "run", onclick: () => executer() }, "▶ Essayer")),
+        h("div", { class: "ide-bar" }, h("div", { class: "ide-tabs", role: "tablist" }, onglets), reset, h("button", { type: "button", class: "run", onclick: () => executer() }, "▶ Essayer")),
+        bandeau,
         h("div", { class: "editor" }, gutter, ta)),
       h("div", { class: "out" },
-        preview ? h("div", { class: "out-bar" }, "Aperçu") : null,
+        attendu ? h("div", { class: "out-bar" }, "Rendu attendu") : null,
+        attendu,
+        h("div", { class: "out-bar" }, attendu ? "Ton rendu" : "Aperçu"),
         preview,
-        hiddenRun,
         h("div", { class: "out-bar" }, "Console"),
         cons)),
     h("div", { class: "actions" }, h("span", { class: "hint" }, "Ton code est vérifié automatiquement à la validation. Pas de retour en arrière."), passer, valider)));
-  if (preview) executer();
+  afficher();
+  executer();
 }
 
 function stats() {
@@ -1073,8 +1154,11 @@ function carteCorrection(a, i) {
   const el = h("article", { class: "rv" + (a.ok ? "" : " bad") }, head(q));
   if (q.p) {
     el.append(block(q.q));
-    if (a.code != null && !a.ok) el.append(h("details", {}, h("summary", {}, "Ton code"), h("pre", { class: "code" }, h("code", {}, a.code))));
-    el.append(h("details", { open: !a.ok }, h("summary", {}, "Une solution possible"), h("pre", { class: "code" }, h("code", {}, q.sol))));
+    const blocs = (obj) => typeof obj === "string"
+      ? [h("pre", { class: "code" }, h("code", {}, obj))]
+      : FICHIERS.filter((k) => obj && obj[k] != null).flatMap((k) => [h("p", { class: "fichier" }, NOMS_FICHIERS[k]), h("pre", { class: "code" }, h("code", {}, obj[k]))]);
+    if (a.code != null && !a.ok) el.append(h("details", {}, h("summary", {}, "Ton code"), ...blocs(a.code)));
+    el.append(h("details", { open: !a.ok }, h("summary", {}, "Une solution possible"), ...blocs(q.sol)));
     return el;
   }
   if (q.t) {

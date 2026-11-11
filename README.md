@@ -13,6 +13,7 @@ Simulation de l'examen de certification (HTML, CSS, JavaScript, Intégration) po
 | `index.html` | La plateforme (affichage, chrono, score, correction) |
 | `questions.json` | La banque de questions (QCM, questions interactives, exercices pratiques), chargée par `index.html` |
 | `api/resultat.js` | Fonction Vercel : envoie le début et le résultat de chaque examen sur Discord |
+| `epreuve.html` | Épreuve blanche commentée : 25 questions adaptées d'une épreuve réelle, solutions en spoiler |
 
 ## Envoi automatique des résultats (Vercel + Discord)
 
@@ -141,27 +142,37 @@ Elles occupent les mêmes places que les QCM dans l'examen. Champs communs : `ty
 
 `aire` suit la syntaxe de `grid-area` : `ligne-début / colonne-début / ligne-fin / colonne-fin`. `decor` est un petit texte indicatif affiché dans la zone.
 
-### Exercice pratique
+### Exercice pratique (3 éditeurs : HTML / CSS / JS)
+
+Comme à l'examen, le stagiaire voit 3 onglets `index.html`, `style.css`, `script.js`. Les fichiers `verrouille: true` sont en lecture seule (ils donnent des informations, ex. les classes disponibles dans le CSS). 5 minutes maximum par exercice.
 
 ```json
 {
-  "categorie": "JavaScript",
-  "niveau": 2,
-  "fichier": "js",
-  "enonce": ["Écris une fonction `double(n)` qui retourne le double du nombre reçu."],
-  "depart": "// Ton code ici\n",
-  "verification": "return typeof double === 'function' && double(4) === 8;",
-  "solution": ["function double(n) {", "  return n * 2;", "}"]
+  "id": "C049",
+  "categorie": "CSS",
+  "niveau": 4,
+  "enonce": ["Ajoute les bonnes classes aux tâches pour obtenir le **rendu attendu**."],
+  "fichiers": {
+    "html": { "code": ["<!DOCTYPE html>", "..."], "verrouille": false },
+    "css":  { "code": ["/* Dans cette question, tu n'as pas besoin de modifier le CSS */", "..."], "verrouille": true },
+    "js":   { "code": "// Dans cette question, tu n'as pas besoin de modifier le JavaScript\n", "verrouille": true }
+  },
+  "rendu_attendu": true,
+  "verification": "return document.getElementById('t1').classList.contains('urgente');",
+  "solution": { "html": ["<!DOCTYPE html>", "..."] }
 }
 ```
 
 | Champ | Valeurs |
 | --- | --- |
-| `fichier` | `html` : le stagiaire édite un document HTML complet / `js` : il écrit uniquement un script |
+| `fichiers` | Les 3 fichiers de départ. La page est assemblée ainsi : le CSS dans le `<head>`, le JS en bas du `<body>` |
 | `enonce` | Les lignes qui commencent par `1.`, `2.`… deviennent une liste numérotée |
-| `depart` | Le code affiché au départ dans l'éditeur |
-| `verification` | Corps d'une fonction JS exécutée dans la page du stagiaire après le chargement : elle doit retourner `true` si l'exercice est réussi. La variable `code` contient le code source tel qu'écrit par le stagiaire (utile quand le navigateur corrige le HTML tout seul, par exemple en ajoutant un `<tbody>` absent) |
-| `solution` | Affichée dans la correction |
+| `apres` | Facultatif : script caché exécuté après le JS du stagiaire (ex. un tableau « Appel / Résultat » des tests, comme à l'examen) |
+| `rendu_attendu` | Facultatif : affiche le rendu de la solution à côté du rendu du stagiaire |
+| `verification` | Corps d'une fonction JS exécutée dans la page du stagiaire après le chargement : elle doit retourner `true` si l'exercice est réussi. Les variables `code`, `css` et `js` contiennent le code source des 3 fichiers tel qu'écrit par le stagiaire (utile quand le navigateur corrige le HTML tout seul, ex. un `<tbody>` absent) |
+| `solution` | Uniquement les fichiers à modifier ; affichée dans la correction |
+
+La console affiche les `console.log`, les erreurs et la **pile d'appels** avec les numéros de ligne de `script.js`.
 
 Le code du stagiaire et la vérification s'exécutent dans une iframe isolée (`sandbox="allow-scripts"`), avec 3 secondes maximum.
 
