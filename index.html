@@ -143,6 +143,7 @@ pre.code { background: var(--code-bg); color: var(--code-ink); padding: 14px 16p
 .console div { padding: 2px 0; border-bottom: 1px dashed var(--line); white-space: pre-wrap; word-break: break-word; }
 .console .error { color: var(--ko); }
 .console .warn { color: var(--warn); }
+.console .info { color: var(--muted); font-style: italic; }
 .console .empty { color: var(--muted); border: 0; font-family: "IBM Plex Sans", sans-serif; }
 .checker { position: fixed; left: -10000px; top: 0; width: 800px; height: 600px; border: 0; }
 
@@ -253,6 +254,7 @@ let tick = null;
 const pending = new Map();
 let previewToken = null;
 let previewSink = null;
+let previewReload = null;
 
 const app = document.getElementById("app");
 
@@ -315,7 +317,7 @@ function fmt(ms) {
 
 // ─── Bac à sable (iframe) pour les exercices pratiques ───
 function shim(t, apercu) {
-  return '<script>(function(){var T="' + t + '";function s(v){try{if(v===undefined)return"undefined";if(typeof v==="string")return v;if(v instanceof Error)return v.name+": "+v.message;if(v&&v.nodeType===1)return"<"+v.tagName.toLowerCase()+(v.id?"#"+v.id:"")+">";return JSON.stringify(v)}catch(e){return String(v)}}function p(k,a){try{parent.postMessage({__ex:T,log:[k,Array.prototype.map.call(a,s).join(" ")]},"*")}catch(e){}}["log","info","warn","error","table"].forEach(function(k){var o=console[k];console[k]=function(){p(k,arguments);try{o.apply(console,arguments)}catch(e){}}});window.addEventListener("error",function(e){p("error",[(e.message||"Erreur")+(e.lineno?" (ligne "+e.lineno+")":"")])})' + (apercu ? ';window.addEventListener("submit",function(e){if(!e.defaultPrevented){e.preventDefault();p("warn",["Formulaire envoyé : la page aurait été rechargée (e.preventDefault() manquant ?)"])}})' : '') + '})()<\/script>';
+  return '<script>(function(){var T="' + t + '";function s(v){try{if(v===undefined)return"undefined";if(typeof v==="string")return v;if(v instanceof Error)return v.name+": "+v.message;if(v&&v.nodeType===1)return"<"+v.tagName.toLowerCase()+(v.id?"#"+v.id:"")+">";return JSON.stringify(v)}catch(e){return String(v)}}function p(k,a){try{parent.postMessage({__ex:T,log:[k,Array.prototype.map.call(a,s).join(" ")]},"*")}catch(e){}}["log","info","warn","error","table"].forEach(function(k){var o=console[k];console[k]=function(){p(k,arguments);try{o.apply(console,arguments)}catch(e){}}});window.addEventListener("error",function(e){p("error",[(e.message||"Erreur")+(e.lineno?" (ligne "+e.lineno+")":"")])})' + (apercu ? ';window.addEventListener("submit",function(e){if(!e.defaultPrevented){e.preventDefault();try{parent.postMessage({__ex:T,reload:true},"*")}catch(x){}}})' : '') + '})()<\/script>';
 }
 function checkScript(body, t) {
   return '<script>window.addEventListener("load",function(){setTimeout(function(){var ok=false;try{ok=!!(function(){' + body + '})()}catch(e){}parent.postMessage({__ex:"' + t + '",ok:ok},"*")},60)})<\/script>';
@@ -340,6 +342,7 @@ window.addEventListener("message", (e) => {
   if (!d || typeof d !== "object" || !d.__ex) return;
   if ("ok" in d && pending.has(d.__ex)) pending.get(d.__ex)(d.ok === true);
   else if (d.log && d.__ex === previewToken && previewSink) previewSink(d.log[0], d.log[1]);
+  else if (d.reload && d.__ex === previewToken && previewReload) previewReload();
 });
 function runInSandbox(html, t) {
   return new Promise((resolve) => {
@@ -566,9 +569,10 @@ function renderPratique(q) {
   const preview = q.p === "doc" ? h("iframe", { class: "preview", sandbox: "allow-scripts allow-forms", title: "Aperçu" }) : null;
   const hiddenRun = q.p === "js" ? h("iframe", { sandbox: "allow-scripts", title: "Exécution", style: "display:none" }) : null;
 
-  const executer = () => {
+  const executer = (recharge) => {
     previewToken = token();
     cons.replaceChildren();
+    if (recharge === true) cons.append(h("div", { class: "info" }, "Navigated to index.html"));
     previewSink = (k, txt) => {
       cons.querySelectorAll(".empty").forEach((el) => el.remove());
       cons.append(h("div", { class: k === "error" ? "error" : k === "warn" ? "warn" : "" }, txt));
@@ -577,6 +581,7 @@ function renderPratique(q) {
     (preview || hiddenRun).srcdoc = html;
     setTimeout(() => { if (!cons.childElementCount) cons.append(h("div", { class: "empty" }, "Rien dans la console.")); }, 600);
   };
+  previewReload = () => executer(true);
   const reset = h("button", { type: "button" }, "Réinitialiser");
   let armed = false;
   reset.addEventListener("click", () => {
@@ -600,7 +605,7 @@ function renderPratique(q) {
     block(q.q),
     h("div", { class: "ws" },
       h("div", { class: "ide" },
-        h("div", { class: "ide-bar" }, h("span", { class: "file" }, q.p === "js" ? "script.js" : "index.html"), reset, h("button", { type: "button", class: "run", onclick: executer }, "▶ Exécuter")),
+        h("div", { class: "ide-bar" }, h("span", { class: "file" }, q.p === "js" ? "script.js" : "index.html"), reset, h("button", { type: "button", class: "run", onclick: () => executer() }, "▶ Exécuter")),
         h("div", { class: "editor" }, gutter, ta)),
       h("div", { class: "out" },
         preview ? h("div", { class: "out-bar" }, "Aperçu") : null,
