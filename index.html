@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Examen blanc Web</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f3f0e8;
+  --surface: #fffdf8;
+  --surface-2: #f8f5ee;
+  --ink: #1a2332;
+  --muted: #5d6574;
+  --line: #ddd6c6;
+  --accent: #1e3a5f;
+  --accent-ink: #ffffff;
+  --accent-soft: #e3e9f1;
+  --ok: #2c7a4b;
+  --ok-soft: #e2f1e7;
+  --ko: #b03434;
+  --ko-soft: #f8e3e1;
+  --warn: #b5650d;
+  --code-bg: #1d2533;
+  --code-ink: #e9e4d6;
+  --code-line: #2c3646;
+  --c-H: #c0531b;
+  --c-C: #2867ad;
+  --c-J: #9a7a06;
+  --c-I: #6a4aa3;
+  --shadow: 0 1px 2px rgba(26,35,50,.06), 0 4px 16px rgba(26,35,50,.05);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12161d; --surface: #1a2029; --surface-2: #161b23; --ink: #e8e6e0; --muted: #9aa3b2; --line: #2d3542;
+    --accent: #8fb4e3; --accent-ink: #10161f; --accent-soft: #1f2c3d; --ok: #6cc391; --ok-soft: #173325; --ko: #f08a84; --ko-soft: #3a1d1d;
+    --warn: #f0a650; --code-bg: #0e1218; --code-ink: #e3dfd3; --code-line: #232b37;
+    --c-H: #f08a52; --c-C: #6aa8ec; --c-J: #e0bf45; --c-I: #b097e6; --shadow: none;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12161d; --surface: #1a2029; --surface-2: #161b23; --ink: #e8e6e0; --muted: #9aa3b2; --line: #2d3542;
+  --accent: #8fb4e3; --accent-ink: #10161f; --accent-soft: #1f2c3d; --ok: #6cc391; --ok-soft: #173325; --ko: #f08a84; --ko-soft: #3a1d1d;
+  --warn: #f0a650; --code-bg: #0e1218; --code-ink: #e3dfd3; --code-line: #232b37;
+  --c-H: #f08a52; --c-C: #6aa8ec; --c-J: #e0bf45; --c-I: #b097e6; --shadow: none;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.55 "IBM Plex Sans", system-ui, sans-serif;
+  min-height: 100vh;
+}
+code, pre, textarea, .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+button { font: inherit; cursor: pointer; }
+button:disabled { cursor: not-allowed; opacity: .5; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Barre du haut */
+.bar {
+  position: sticky; top: 0; z-index: 5;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  padding: 10px max(16px, env(safe-area-inset-left)) 10px max(16px, env(safe-area-inset-right));
+}
+.bar-inner { max-width: 1180px; margin: 0 auto; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.brand { font-weight: 700; letter-spacing: .01em; margin-right: auto; display: flex; align-items: baseline; gap: 10px; }
+.brand small { font-weight: 500; color: var(--muted); font-size: 13px; }
+.stat { font-size: 14px; color: var(--muted); }
+.stat b { color: var(--ink); font-weight: 600; }
+.timer { font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 17px; padding: 3px 10px; border-radius: 6px; background: var(--surface-2); border: 1px solid var(--line); }
+.timer.low { color: var(--warn); border-color: currentColor; }
+.progress { height: 3px; background: var(--line); }
+.progress span { display: block; height: 100%; width: 0; background: var(--accent); transition: width .3s; }
+
+main { max-width: 1180px; margin: 0 auto; padding: 28px 16px 64px; }
+.narrow { max-width: 760px; margin: 0 auto; }
+
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow); padding: 28px; }
+@media (max-width: 600px) { .card { padding: 20px 16px; } }
+
+h1 { font-size: 28px; line-height: 1.2; margin: 0 0 8px; }
+h2 { font-size: 20px; line-height: 1.35; margin: 0; font-weight: 600; }
+h3 { font-size: 16px; margin: 0 0 10px; }
+p { margin: 0 0 12px; }
+.muted { color: var(--muted); }
+:not(pre) > code { background: var(--accent-soft); padding: 1px 5px; border-radius: 4px; font-size: .9em; word-break: break-word; }
+
+/* Accueil */
+.rules { list-style: none; padding: 0; margin: 20px 0 24px; display: grid; gap: 10px; }
+.rules li { display: flex; gap: 12px; align-items: baseline; }
+.rules .k { flex: 0 0 120px; font-weight: 600; font-size: 14px; color: var(--muted); }
+.field label { display: block; font-weight: 600; margin-bottom: 6px; }
+.field input { width: 100%; font: inherit; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); }
+.note { font-size: 13px; color: var(--muted); border-left: 3px solid var(--line); padding-left: 12px; margin-top: 20px; }
+
+.btn { border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 10px 18px; border-radius: 8px; font-weight: 600; }
+.btn:hover:not(:disabled) { border-color: var(--ink); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn.primary:hover:not(:disabled) { filter: brightness(1.1); }
+.btn.small { padding: 6px 12px; font-size: 14px; }
+.btn.danger { color: var(--ko); }
+.row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.actions { display: flex; gap: 10px; justify-content: flex-end; align-items: center; flex-wrap: wrap; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line); }
+.actions .hint { margin-right: auto; font-size: 13px; color: var(--muted); }
+
+/* Question */
+.meta { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; padding: 3px 9px; border-radius: 999px; border: 1px solid currentColor; }
+.chip::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.c-H { color: var(--c-H); } .c-C { color: var(--c-C); } .c-J { color: var(--c-J); } .c-I { color: var(--c-I); }
+.tag { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+pre.code { background: var(--code-bg); color: var(--code-ink); padding: 14px 16px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.6; margin: 16px 0 0; }
+.opts { display: grid; gap: 10px; margin-top: 20px; }
+.opt { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-2); cursor: pointer; }
+.opt:hover { border-color: var(--muted); }
+.opt input { margin: 4px 0 0; accent-color: var(--accent); flex: none; }
+.opt:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
+.opt .letter { font-family: "IBM Plex Mono", monospace; font-weight: 600; color: var(--muted); flex: none; }
+
+/* Exercice pratique */
+.statement p { margin: 0 0 8px; }
+.statement ol { margin: 4px 0 8px; padding-left: 22px; }
+.ws { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 16px; margin-top: 20px; }
+@media (max-width: 860px) { .ws { grid-template-columns: 1fr; } }
+.ide, .out { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; min-width: 0; }
+.ide { background: var(--code-bg); border-color: var(--code-line); }
+.ide-bar, .out-bar { display: flex; align-items: center; gap: 8px; padding: 6px 8px 6px 12px; font-size: 13px; }
+.ide-bar { background: #151b25; color: #aab3c2; border-bottom: 1px solid var(--code-line); }
+.ide-bar .file { font-family: "IBM Plex Mono", monospace; color: #e9e4d6; margin-right: auto; }
+.ide-bar button { background: transparent; color: #e9e4d6; border: 1px solid #3a4557; border-radius: 6px; padding: 3px 10px; font-size: 13px; }
+.ide-bar button.run { background: #2c7a4b; border-color: #2c7a4b; color: #fff; }
+.editor { display: flex; min-height: 340px; flex: 1; }
+.gutter { margin: 0; padding: 12px 8px 12px 12px; color: #5f6b7e; text-align: right; user-select: none; overflow: hidden; font-size: 14px; line-height: 1.6; min-width: 40px; }
+.editor textarea { flex: 1; min-width: 0; resize: vertical; min-height: 340px; border: 0; outline: 0; background: transparent; color: var(--code-ink); padding: 12px 12px 12px 4px; font-size: 14px; line-height: 1.6; tab-size: 2; white-space: pre; overflow: auto; }
+.out { background: var(--surface-2); }
+.out-bar { color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; font-size: 11px; border-bottom: 1px solid var(--line); }
+.preview { width: 100%; height: 220px; border: 0; background: #fff; display: block; }
+.console { font-family: "IBM Plex Mono", monospace; font-size: 13px; padding: 8px 12px; min-height: 90px; max-height: 200px; overflow: auto; flex: 1; }
+.console div { padding: 2px 0; border-bottom: 1px dashed var(--line); white-space: pre-wrap; word-break: break-word; }
+.console .error { color: var(--ko); }
+.console .warn { color: var(--warn); }
+.console .empty { color: var(--muted); border: 0; font-family: "IBM Plex Sans", sans-serif; }
+.checker { position: fixed; left: -10000px; top: 0; width: 800px; height: 600px; border: 0; }
+
+/* Résultats */
+.hero { display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: center; }
+@media (max-width: 640px) { .hero { grid-template-columns: 1fr; } }
+.score { font-family: "IBM Plex Mono", monospace; font-size: 64px; font-weight: 600; line-height: 1; letter-spacing: -.02em; }
+.score small { font-size: 22px; color: var(--muted); font-weight: 500; }
+.level-name { font-size: 22px; font-weight: 700; margin-top: 6px; }
+.bands { display: grid; grid-template-columns: 350fr 200fr 175fr 150fr 125fr; gap: 3px; margin-top: 8px; position: relative; padding-top: 18px; }
+.bands span { height: 10px; background: var(--line); border-radius: 2px; }
+.bands span.on { background: var(--accent); }
+.bands .marker { position: absolute; top: 0; transform: translateX(-50%); font-size: 12px; font-weight: 700; color: var(--accent); }
+.band-labels { display: grid; grid-template-columns: 350fr 200fr 175fr 150fr 125fr; gap: 3px; font-size: 11px; color: var(--muted); margin-top: 4px; }
+.band-labels span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.kpis { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 16px; font-size: 14px; color: var(--muted); }
+.kpis b { display: block; font-size: 20px; color: var(--ink); font-family: "IBM Plex Mono", monospace; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+@media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
+.cat-row { display: grid; grid-template-columns: 110px 1fr 56px; gap: 12px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+.cat-row:last-child { border-bottom: 0; }
+.meter { height: 8px; background: var(--line); border-radius: 4px; overflow: hidden; }
+.meter span { display: block; height: 100%; background: currentColor; }
+.cat-row .n { font-family: "IBM Plex Mono", monospace; text-align: right; }
+.copy-box { width: 100%; min-height: 150px; font-size: 13px; border: 1px solid var(--line); border-radius: 8px; padding: 10px; background: var(--surface-2); color: var(--ink); resize: vertical; }
+.review { display: grid; gap: 12px; margin-top: 14px; }
+.rv { border: 1px solid var(--line); border-left: 4px solid var(--ok); border-radius: 8px; padding: 16px 18px; background: var(--surface); }
+.rv.bad { border-left-color: var(--ko); }
+.rv .head { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; font-size: 14px; }
+.rv .verdict { margin-left: auto; font-weight: 700; font-size: 13px; }
+.rv .verdict.ok { color: var(--ok); } .rv .verdict.ko { color: var(--ko); }
+.rv ul { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 4px; font-size: 15px; }
+.rv li { padding: 5px 10px; border-radius: 6px; }
+.rv li.good { background: var(--ok-soft); }
+.rv li.picked { background: var(--ko-soft); }
+.rv li .mark { font-weight: 700; margin-right: 6px; }
+.rv .expl { margin-top: 10px; font-size: 14px; color: var(--muted); }
+.rv pre.code { font-size: 13px; margin-top: 8px; }
+.rv details { margin-top: 8px; font-size: 14px; }
+.rv summary { cursor: pointer; font-weight: 600; }
+.toggle { display: inline-flex; gap: 8px; align-items: center; font-size: 14px; }
+.section-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 32px; }
+.section-title h2 { font-size: 20px; }
+</style>
+</head>
+<body>
+<header class="bar">
+  <div class="bar-inner">
+    <div class="brand">Examen blanc <small>Développement web · simulation</small></div>
+    <div class="stat" id="who"></div>
+    <div class="stat" id="count"></div>
+    <div class="timer" id="timer" hidden>90:00</div>
+  </div>
+</header>
+<div class="progress"><span id="bar"></span></div>
+<main id="app"></main>
+
+<script>
+let BANK = [];
+
+// ─── Chargement des questions (questions.json) ───
+const CODES = { "HTML": "H", "CSS": "C", "JavaScript": "J", "Intégration": "I" };
+const txt = (v) => Array.isArray(v) ? v.join("\n") : (v || "");
+async function chargerQuestions() {
+  const rep = await fetch("questions.json", { cache: "no-cache" });
+  if (!rep.ok) throw new Error("questions.json introuvable (" + rep.status + ")");
+  const data = await rep.json();
+  const bank = [];
+  (data.qcm || []).forEach((q, i) => {
+    const c = CODES[q.categorie];
+    if (!c || !(q.niveau >= 1 && q.niveau <= 5) || !Array.isArray(q.options) || q.options.length !== 4 || !(q.reponse >= 0 && q.reponse <= 3)) {
+      console.warn("QCM ignoré (index " + i + ") :", q.question);
+      return;
+    }
+    const d = { c, n: q.niveau, q: txt(q.question), o: q.options, a: q.reponse, e: txt(q.explication) };
+    if (q.code) d.code = txt(q.code);
+    bank.push(d);
+  });
+  (data.pratiques || []).forEach((q, i) => {
+    const c = CODES[q.categorie];
+    if (!c || !(q.niveau >= 1 && q.niveau <= 5) || !["html", "js"].includes(q.fichier) || !q.verification) {
+      console.warn("Exercice pratique ignoré (index " + i + ")");
+      return;
+    }
+    bank.push({ c, n: q.niveau, q: txt(q.enonce), p: q.fichier === "js" ? "js" : "doc", start: txt(q.depart), check: txt(q.verification), sol: txt(q.solution) });
+  });
+  return bank;
+}
+
+const CATS = { H: "HTML", C: "CSS", J: "JavaScript", I: "Intégration" };
+const TOTAL = 35;
+const DUREE = 90 * 60 * 1000;
+const QUOTA = { H: 8, C: 9, J: 11, I: 7 };
+const PRAT_POS = [4, 10, 16, 22, 28, 33];          // positions (index 0) des exercices pratiques
+const PRAT_CATS = ["H", "C", "J", "J", "I", "I"];
+const NIVEAUX = [
+  { max: 350, nom: "Initial" },
+  { max: 550, nom: "Basique" },
+  { max: 725, nom: "Opérationnel" },
+  { max: 875, nom: "Avancé" },
+  { max: 1000, nom: "Expert" },
+];
+const KEY = "examen-blanc-web-v1";
+
+let S = null;            // état de l'examen
+let pratOK = true;       // les exercices pratiques peuvent-ils être vérifiés ici ?
+let tick = null;
+const pending = new Map();
+let previewToken = null;
+let previewSink = null;
+
+const app = document.getElementById("app");
+
+// ─── Outils ───
+function h(tag, attrs, ...kids) {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (k === "class") el.className = v;
+    else if (k.startsWith("on") && typeof v === "function") el.addEventListener(k.slice(2), v);
+    else if (v === true) el.setAttribute(k, "");
+    else if (v !== false && v != null) el.setAttribute(k, v);
+  }
+  for (const k of kids.flat()) {
+    if (k == null || k === false) continue;
+    el.append(k.nodeType ? k : String(k));
+  }
+  return el;
+}
+function inline(parent, s) {
+  const re = /`([^`]+)`|\*\*([^*]+)\*\*/g;
+  let last = 0, m;
+  while ((m = re.exec(s))) {
+    if (m.index > last) parent.append(s.slice(last, m.index));
+    if (m[1] !== undefined) parent.append(h("code", {}, m[1]));
+    else parent.append(h("strong", {}, m[2]));
+    last = re.lastIndex;
+  }
+  if (last < s.length) parent.append(s.slice(last));
+  return parent;
+}
+function rich(tag, s, cls) { return inline(h(tag, cls ? { class: cls } : {}), s); }
+function block(text) {
+  const wrap = h("div", { class: "statement" });
+  let list = null;
+  for (const line of text.split("\n")) {
+    const m = line.match(/^\d+\.\s+(.*)$/);
+    if (m) {
+      if (!list) { list = h("ol"); wrap.append(list); }
+      list.append(rich("li", m[1]));
+    } else {
+      list = null;
+      if (line.trim()) wrap.append(rich("p", line));
+    }
+  }
+  return wrap;
+}
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a;
+}
+function token() { return Math.random().toString(36).slice(2) + Date.now().toString(36); }
+function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+function load() { try { return JSON.parse(localStorage.getItem(KEY)); } catch (e) { return null; } }
+function clear() { try { localStorage.removeItem(KEY); } catch (e) {} }
+function chip(c) { return h("span", { class: "chip c-" + c }, CATS[c]); }
+function fmt(ms) {
+  const s = Math.max(0, Math.round(ms / 1000));
+  return String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0");
+}
+
+// ─── Bac à sable (iframe) pour les exercices pratiques ───
+function shim(t) {
+  return '<script>(function(){var T="' + t + '";function s(v){try{if(v===undefined)return"undefined";if(typeof v==="string")return v;if(v instanceof Error)return v.name+": "+v.message;if(v&&v.nodeType===1)return"<"+v.tagName.toLowerCase()+(v.id?"#"+v.id:"")+">";return JSON.stringify(v)}catch(e){return String(v)}}function p(k,a){try{parent.postMessage({__ex:T,log:[k,Array.prototype.map.call(a,s).join(" ")]},"*")}catch(e){}}["log","info","warn","error","table"].forEach(function(k){var o=console[k];console[k]=function(){p(k,arguments);try{o.apply(console,arguments)}catch(e){}}});window.addEventListener("error",function(e){p("error",[(e.message||"Erreur")+(e.lineno?" (ligne "+e.lineno+")":"")])})})()<\/script>';
+}
+function checkScript(body, t) {
+  return '<script>window.addEventListener("load",function(){setTimeout(function(){var ok=false;try{ok=!!(function(){' + body + '})()}catch(e){}parent.postMessage({__ex:"' + t + '",ok:ok},"*")},60)})<\/script>';
+}
+function buildDoc(q, code, extra, t) {
+  if (q.p === "js") {
+    return '<!DOCTYPE html><html><head><meta charset="UTF-8">' + shim(t) + '</head><body><script>' + code + '\n<\/script>' + extra + '</body></html>';
+  }
+  let d = code;
+  const head = d.search(/<head[^>]*>/i);
+  if (head >= 0) {
+    const end = d.indexOf(">", head) + 1;
+    d = d.slice(0, end) + shim(t) + d.slice(end);
+  } else {
+    d = shim(t) + d;
+  }
+  const body = d.toLowerCase().lastIndexOf("</body>");
+  return body >= 0 ? d.slice(0, body) + extra + d.slice(body) : d + extra;
+}
+window.addEventListener("message", (e) => {
+  const d = e.data;
+  if (!d || typeof d !== "object" || !d.__ex) return;
+  if ("ok" in d && pending.has(d.__ex)) pending.get(d.__ex)(d.ok === true);
+  else if (d.log && d.__ex === previewToken && previewSink) previewSink(d.log[0], d.log[1]);
+});
+function runInSandbox(html, t) {
+  return new Promise((resolve) => {
+    const fr = h("iframe", { sandbox: "allow-scripts", class: "checker", title: "Vérification", "aria-hidden": "true", tabindex: "-1" });
+    const done = (v) => { pending.delete(t); fr.remove(); resolve(v); };
+    pending.set(t, done);
+    setTimeout(() => { if (pending.has(t)) done(false); }, 3000);
+    fr.srcdoc = html;
+    document.body.append(fr);
+  });
+}
+function runCheck(q, code) {
+  const t = token();
+  return runInSandbox(buildDoc(q, code, checkScript(q.check, t), t), t);
+}
+function probe() {
+  const t = token();
+  return runInSandbox('<!DOCTYPE html><html><body>' + checkScript("return 1 + 1 === 2;", t) + '</body></html>', t);
+}
+
+// ─── Déroulement ───
+function nouvelExamen(nom) {
+  const pc = shuffle(PRAT_CATS.slice());
+  const reste = { ...QUOTA };
+  if (pratOK) for (const c of pc) reste[c]--;
+  const qcm = shuffle(Object.entries(reste).flatMap(([c, n]) => Array(n).fill(c)));
+  const seq = [];
+  for (let i = 0; i < TOTAL; i++) {
+    if (pratOK && PRAT_POS.includes(i)) seq.push({ c: pc.pop(), p: true });
+    else seq.push({ c: qcm.pop(), p: false });
+  }
+  S = { nom, seq, idx: 0, level: 2, used: [], answers: [], cur: null, start: Date.now(), end: Date.now() + DUREE, fini: false };
+  preparer();
+  save();
+}
+function choisir(slot) {
+  const libre = (i) => !S.used.includes(i);
+  let pool = BANK.map((q, i) => i).filter((i) => BANK[i].c === slot.c && !!BANK[i].p === slot.p && libre(i));
+  if (!pool.length) pool = BANK.map((q, i) => i).filter((i) => !!BANK[i].p === slot.p && libre(i));
+  const dist = (i) => Math.abs(BANK[i].n - S.level);
+  const min = Math.min(...pool.map(dist));
+  const best = pool.filter((i) => dist(i) === min);
+  return best[Math.floor(Math.random() * best.length)];
+}
+function preparer() {
+  const id = choisir(S.seq[S.idx]);
+  S.used.push(id);
+  const q = BANK[id];
+  S.cur = { id, order: q.o ? shuffle([0, 1, 2, 3]) : null, draft: q.p ? q.start : null };
+}
+function repondre(ok, extra) {
+  const q = BANK[S.cur.id];
+  S.answers.push({ id: S.cur.id, c: q.c, ok, level: S.level, order: S.cur.order, ...extra });
+  S.level = Math.min(5, Math.max(1, S.level + (ok ? 1 : -1)));
+  S.idx++;
+  S.cur = null;
+  if (S.idx >= TOTAL) terminer();
+  else { preparer(); save(); render(); window.scrollTo(0, 0); }
+}
+function terminer() {
+  while (S.answers.length < TOTAL) {
+    const i = S.answers.length;
+    const id = S.cur && S.answers.length === S.idx ? S.cur.id : null;
+    S.answers.push({ id, c: S.seq[i].c, ok: false, level: S.level, order: S.cur ? S.cur.order : null, timeout: true });
+    S.cur = null;
+  }
+  S.fini = true;
+  S.endedAt = Math.min(Date.now(), S.end);
+  save();
+  render();
+  window.scrollTo(0, 0);
+}
+
+// ─── Score (estimation adaptative) ───
+function score(answers) {
+  let sw = 0, sl = 0;
+  answers.forEach((a, i) => {
+    const w = 1 + i / (TOTAL - 1);
+    sw += w;
+    sl += w * (a.level + (a.ok ? 0.5 : -0.5));
+  });
+  const L = sl / sw;
+  const pts = [[0.5, 1], [1, 150], [2, 450], [3, 640], [4, 800], [5, 940], [5.5, 1000]];
+  if (L <= pts[0][0]) return 1;
+  for (let i = 1; i < pts.length; i++) {
+    if (L <= pts[i][0]) {
+      const [x0, y0] = pts[i - 1], [x1, y1] = pts[i];
+      return Math.round(y0 + (y1 - y0) * (L - x0) / (x1 - x0));
+    }
+  }
+  return 1000;
+}
+function niveau(sc) { return NIVEAUX.find((n) => sc <= n.max).nom; }
+
+// ─── En-tête ───
+function majBarre() {
+  const who = document.getElementById("who");
+  const count = document.getElementById("count");
+  const timer = document.getElementById("timer");
+  const bar = document.getElementById("bar");
+  if (!S) { who.textContent = ""; count.textContent = ""; timer.hidden = true; bar.style.width = "0"; return; }
+  who.replaceChildren("Candidat : ", h("b", {}, S.nom));
+  if (S.fini) {
+    count.textContent = "Examen terminé";
+    timer.hidden = true;
+    bar.style.width = "100%";
+    return;
+  }
+  count.replaceChildren("Question ", h("b", {}, String(S.idx + 1)), " / " + TOTAL);
+  const reste = S.end - Date.now();
+  timer.hidden = false;
+  timer.textContent = fmt(reste);
+  timer.classList.toggle("low", reste < 10 * 60 * 1000);
+  bar.style.width = (S.idx / TOTAL * 100) + "%";
+}
+function demarrerChrono() {
+  clearInterval(tick);
+  tick = setInterval(() => {
+    if (!S || S.fini) { clearInterval(tick); return; }
+    if (Date.now() >= S.end) { clearInterval(tick); terminer(); return; }
+    majBarre();
+  }, 1000);
+}
+
+// ─── Écrans ───
+function render() {
+  majBarre();
+  if (!S) return renderAccueil();
+  if (S.fini) return renderResultats();
+  const q = BANK[S.cur.id];
+  return q.p ? renderPratique(q) : renderQcm(q);
+}
+
+function renderAccueil() {
+  const saved = load();
+  const input = h("input", { id: "nom", type: "text", autocomplete: "name", placeholder: "Nom Prénom", maxlength: "60" });
+  const go = h("button", { class: "btn primary", disabled: true }, "Commencer l'examen");
+  input.addEventListener("input", () => { go.disabled = input.value.trim().length < 2; });
+  input.addEventListener("keydown", (e) => { if (e.key === "Enter" && !go.disabled) go.click(); });
+  go.addEventListener("click", () => { nouvelExamen(input.value.trim()); demarrerChrono(); render(); });
+
+  const reprise = saved && saved.seq && !saved.fini && Date.now() < saved.end
+    ? h("div", { class: "card", style: "margin-bottom:16px" },
+        h("h3", {}, "Un examen est en cours"),
+        h("p", { class: "muted" }, `${saved.nom} — question ${saved.idx + 1} / ${TOTAL}, ${fmt(saved.end - Date.now())} restantes.`),
+        h("div", { class: "row" },
+          h("button", { class: "btn primary", onclick: () => { S = saved; demarrerChrono(); render(); } }, "Reprendre"),
+          h("button", { class: "btn danger", onclick: () => { clear(); render(); } }, "Abandonner cet examen")))
+    : saved && saved.fini
+      ? h("div", { class: "card", style: "margin-bottom:16px" },
+          h("h3", {}, "Dernier examen terminé"),
+          h("p", { class: "muted" }, `${saved.nom} — score estimé ${score(saved.answers)} / 1000.`),
+          h("button", { class: "btn", onclick: () => { S = saved; render(); } }, "Revoir les résultats"))
+      : null;
+
+  app.replaceChildren(h("div", { class: "narrow" },
+    reprise,
+    h("section", { class: "card" },
+      h("p", { class: "tag" }, "Préparation à la certification"),
+      h("h1", {}, "Examen blanc · Développement web"),
+      h("p", { class: "muted" }, "Une simulation dans les conditions de l'examen : HTML, CSS, JavaScript et intégration."),
+      h("ul", { class: "rules" },
+        h("li", {}, h("span", { class: "k" }, "Questions"), h("span", {}, `${TOTAL} questions : des QCM et ${pratOK ? PRAT_POS.length : 0} exercices pratiques à coder.`)),
+        h("li", {}, h("span", { class: "k" }, "Durée"), h("span", {}, "1 h 30. À la fin du temps, l'examen se termine automatiquement.")),
+        h("li", {}, h("span", { class: "k" }, "Réponses"), h("span", {}, "Une réponse validée est définitive : pas de retour en arrière.")),
+        h("li", {}, h("span", { class: "k" }, "Adaptatif"), h("span", {}, "La difficulté s'adapte à tes réponses : une bonne réponse amène une question plus difficile.")),
+        h("li", {}, h("span", { class: "k" }, "Règles"), h("span", {}, "Sans documentation, sans autre onglet et sans aide extérieure."))),
+      h("div", { class: "field" }, h("label", { for: "nom" }, "Ton nom et prénom"), input),
+      h("div", { class: "actions" }, h("span", { class: "hint" }, "Le chronomètre démarre au clic."), go),
+      h("p", { class: "note" }, "Simulation d'entraînement non officielle. Le score sur 1000 est une estimation."),
+      !pratOK ? h("p", { class: "note" }, "Les exercices pratiques ne peuvent pas être vérifiés dans ce navigateur : l'examen ne contiendra que des QCM.") : null)));
+  input.focus();
+}
+
+function enteteQuestion(q) {
+  return h("div", { class: "meta" }, chip(q.c), h("span", { class: "tag" }, q.p ? "Exercice pratique" : "QCM"));
+}
+
+function renderQcm(q) {
+  const next = h("button", { class: "btn primary", disabled: true }, "Valider la réponse");
+  const opts = h("div", { class: "opts", role: "radiogroup" });
+  S.cur.order.forEach((oi, k) => {
+    const r = h("input", { type: "radio", name: "rep", value: String(oi) });
+    r.addEventListener("change", () => { next.disabled = false; });
+    opts.append(h("label", { class: "opt" }, r, h("span", { class: "letter" }, "ABCD"[k]), rich("span", q.o[oi])));
+  });
+  next.addEventListener("click", () => {
+    const sel = opts.querySelector("input:checked");
+    if (!sel) return;
+    const choix = Number(sel.value);
+    repondre(choix === q.a, { choix });
+  });
+  const skip = h("button", { class: "btn", onclick: () => repondre(false, { choix: null }) }, "Je ne sais pas");
+  app.replaceChildren(h("div", { class: "narrow" }, h("section", { class: "card" },
+    enteteQuestion(q),
+    rich("h2", q.q),
+    q.code ? h("pre", { class: "code" }, h("code", {}, q.code)) : null,
+    opts,
+    h("div", { class: "actions" }, h("span", { class: "hint" }, "Une réponse validée est définitive."), skip, next))));
+}
+
+function renderPratique(q) {
+  const ta = h("textarea", { spellcheck: "false", autocapitalize: "off", autocomplete: "off", "aria-label": "Éditeur de code" });
+  ta.value = S.cur.draft;
+  const gutter = h("pre", { class: "gutter mono", "aria-hidden": "true" });
+  const majGutter = () => {
+    const n = ta.value.split("\n").length;
+    gutter.textContent = Array.from({ length: n }, (_, i) => i + 1).join("\n");
+    gutter.scrollTop = ta.scrollTop;
+  };
+  let t = null;
+  ta.addEventListener("input", () => { S.cur.draft = ta.value; majGutter(); clearTimeout(t); t = setTimeout(save, 400); });
+  ta.addEventListener("scroll", () => { gutter.scrollTop = ta.scrollTop; });
+  ta.addEventListener("keydown", (e) => {
+    if (e.key === "Tab" && !e.shiftKey) {
+      e.preventDefault();
+      ta.setRangeText("  ", ta.selectionStart, ta.selectionEnd, "end");
+      ta.dispatchEvent(new Event("input"));
+    }
+  });
+  majGutter();
+
+  const cons = h("div", { class: "console", role: "log" }, h("div", { class: "empty" }, "Clique sur « Exécuter » pour tester ton code."));
+  const preview = q.p === "doc" ? h("iframe", { class: "preview", sandbox: "allow-scripts", title: "Aperçu" }) : null;
+  const hiddenRun = q.p === "js" ? h("iframe", { sandbox: "allow-scripts", title: "Exécution", style: "display:none" }) : null;
+
+  const executer = () => {
+    previewToken = token();
+    cons.replaceChildren();
+    previewSink = (k, txt) => cons.append(h("div", { class: k === "error" ? "error" : k === "warn" ? "warn" : "" }, txt));
+    const html = buildDoc(q, ta.value, "", previewToken);
+    (preview || hiddenRun).srcdoc = html;
+    setTimeout(() => { if (!cons.childElementCount) cons.append(h("div", { class: "empty" }, "Rien dans la console.")); }, 600);
+  };
+  const reset = h("button", { type: "button" }, "Réinitialiser");
+  let armed = false;
+  reset.addEventListener("click", () => {
+    if (!armed) { armed = true; reset.textContent = "Confirmer ?"; setTimeout(() => { armed = false; reset.textContent = "Réinitialiser"; }, 2500); return; }
+    ta.value = q.start; ta.dispatchEvent(new Event("input")); armed = false; reset.textContent = "Réinitialiser";
+  });
+
+  const valider = h("button", { class: "btn primary" }, "Valider et continuer");
+  const passer = h("button", { class: "btn" }, "Je passe");
+  valider.addEventListener("click", async () => {
+    valider.disabled = passer.disabled = true;
+    valider.textContent = "Vérification…";
+    const code = ta.value;
+    const ok = await runCheck(q, code);
+    repondre(ok, { code });
+  });
+  passer.addEventListener("click", () => repondre(false, { code: ta.value, passe: true }));
+
+  app.replaceChildren(h("section", { class: "card" },
+    enteteQuestion(q),
+    block(q.q),
+    h("div", { class: "ws" },
+      h("div", { class: "ide" },
+        h("div", { class: "ide-bar" }, h("span", { class: "file" }, q.p === "js" ? "script.js" : "index.html"), reset, h("button", { type: "button", class: "run", onclick: executer }, "▶ Exécuter")),
+        h("div", { class: "editor" }, gutter, ta)),
+      h("div", { class: "out" },
+        preview ? h("div", { class: "out-bar" }, "Aperçu") : null,
+        preview,
+        hiddenRun,
+        h("div", { class: "out-bar" }, "Console"),
+        cons)),
+    h("div", { class: "actions" }, h("span", { class: "hint" }, "Ton code est vérifié automatiquement à la validation. Pas de retour en arrière."), passer, valider)));
+  if (preview) executer();
+}
+
+function stats() {
+  const parCat = {};
+  for (const c of Object.keys(CATS)) parCat[c] = { ok: 0, n: 0 };
+  let ok = 0, pOk = 0, pN = 0;
+  for (const a of S.answers) {
+    parCat[a.c].n++;
+    if (a.ok) { parCat[a.c].ok++; ok++; }
+    if (a.id != null && BANK[a.id].p) { pN++; if (a.ok) pOk++; }
+  }
+  return { parCat, ok, pOk, pN };
+}
+
+function texteDiscord(sc, st) {
+  const duree = Math.round(((S.endedAt || Date.now()) - S.start) / 60000);
+  return [
+    `Examen blanc - ${S.nom}`,
+    `Score estimé : ${sc} / 1000 (${niveau(sc)})`,
+    `Bonnes réponses : ${st.ok} / ${TOTAL} (${Math.round(st.ok / TOTAL * 100)} %)`,
+    Object.keys(CATS).map((c) => `${CATS[c]} : ${st.parCat[c].ok}/${st.parCat[c].n}`).join(" · "),
+    `Exercices pratiques : ${st.pOk}/${st.pN}`,
+    `Durée : ${duree} min`,
+  ].join("\n");
+}
+
+function copier(text, btn) {
+  const fini = (ok) => { btn.textContent = ok ? "Copié ✓" : "Sélectionne le texte et copie-le"; setTimeout(() => { btn.textContent = "Copier pour Discord"; }, 2500); };
+  const fallback = () => {
+    const box = document.getElementById("copy-box");
+    box.focus(); box.select();
+    let ok = false;
+    try { ok = document.execCommand("copy"); } catch (e) {}
+    fini(ok);
+  };
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(() => fini(true), fallback);
+    else fallback();
+  } catch (e) { fallback(); }
+}
+
+function renderResultats() {
+  const sc = score(S.answers);
+  const st = stats();
+  const nivIdx = NIVEAUX.findIndex((n) => sc <= n.max);
+  const txt = texteDiscord(sc, st);
+
+  const bands = h("div", { class: "bands" }, NIVEAUX.map((n, i) => h("span", { class: i <= nivIdx ? "on" : "" })));
+  bands.append(h("span", { class: "marker", style: `left:${sc / 10}%` }, "▼"));
+
+  const copyBtn = h("button", { class: "btn primary" }, "Copier pour Discord");
+  copyBtn.addEventListener("click", () => copier(txt, copyBtn));
+
+  const onlyErr = h("input", { type: "checkbox" });
+  const review = h("div", { class: "review" });
+  const majReview = () => {
+    review.replaceChildren(...S.answers.map((a, i) => carteCorrection(a, i)).filter((el, i) => !onlyErr.checked || !S.answers[i].ok));
+  };
+  onlyErr.addEventListener("change", majReview);
+  majReview();
+
+  let armed = false;
+  const again = h("button", { class: "btn" }, "Nouvel examen");
+  again.addEventListener("click", () => {
+    if (!armed) { armed = true; again.textContent = "Confirmer : effacer ce résultat ?"; setTimeout(() => { armed = false; again.textContent = "Nouvel examen"; }, 3000); return; }
+    clear(); S = null; render(); window.scrollTo(0, 0);
+  });
+
+  app.replaceChildren(
+    h("section", { class: "card hero" },
+      h("div", {},
+        h("p", { class: "tag" }, "Score estimé"),
+        h("div", { class: "score" }, String(sc), h("small", {}, " / 1000")),
+        h("div", { class: "level-name" }, niveau(sc))),
+      h("div", {},
+        bands,
+        h("div", { class: "band-labels" }, NIVEAUX.map((n) => h("span", {}, n.nom))),
+        h("div", { class: "kpis" },
+          h("div", {}, h("b", {}, `${st.ok}/${TOTAL}`), "bonnes réponses"),
+          h("div", {}, h("b", {}, `${Math.round(st.ok / TOTAL * 100)} %`), "de réussite"),
+          h("div", {}, h("b", {}, `${st.pOk}/${st.pN}`), "exercices pratiques"),
+          h("div", {}, h("b", {}, `${Math.round(((S.endedAt || Date.now()) - S.start) / 60000)} min`), "durée")),
+        h("p", { class: "note" }, "Simulation non officielle : le score est une estimation basée sur la difficulté des questions réussies."))),
+    h("div", { class: "grid2" },
+      h("section", { class: "card" },
+        h("h3", {}, "Par domaine"),
+        Object.keys(CATS).map((c) => {
+          const v = st.parCat[c];
+          const pct = v.n ? Math.round(v.ok / v.n * 100) : 0;
+          return h("div", { class: "cat-row" }, chip(c), h("div", { class: "meter c-" + c }, h("span", { style: `width:${pct}%` })), h("span", { class: "n" }, `${v.ok}/${v.n}`));
+        })),
+      h("section", { class: "card" },
+        h("h3", {}, "À poster sur ton canal Discord"),
+        h("textarea", { id: "copy-box", class: "copy-box mono", readonly: true }, txt),
+        h("div", { class: "row", style: "margin-top:10px" }, copyBtn, again))),
+    h("div", { class: "section-title" },
+      h("h2", {}, "Correction"),
+      h("label", { class: "toggle" }, onlyErr, "Seulement mes erreurs")),
+    review);
+}
+
+function carteCorrection(a, i) {
+  const head = (q) => h("div", { class: "head" },
+    h("span", { class: "mono" }, `Q${i + 1}`), chip(a.c), h("span", { class: "tag" }, q && q.p ? "Exercice pratique" : "QCM"),
+    h("span", { class: "verdict " + (a.ok ? "ok" : "ko") }, a.ok ? "Réussie" : a.timeout ? "Temps écoulé" : (a.choix === null || a.passe) ? "Sans réponse" : "Ratée"));
+  if (a.id == null) {
+    return h("article", { class: "rv bad" }, head(null), h("p", { class: "muted" }, "Question non atteinte avant la fin du temps."));
+  }
+  const q = BANK[a.id];
+  const el = h("article", { class: "rv" + (a.ok ? "" : " bad") }, head(q));
+  if (q.p) {
+    el.append(block(q.q));
+    if (a.code != null && !a.ok) el.append(h("details", {}, h("summary", {}, "Ton code"), h("pre", { class: "code" }, h("code", {}, a.code))));
+    el.append(h("details", { open: !a.ok }, h("summary", {}, "Une solution possible"), h("pre", { class: "code" }, h("code", {}, q.sol))));
+    return el;
+  }
+  el.append(rich("p", q.q));
+  if (q.code) el.append(h("pre", { class: "code" }, h("code", {}, q.code)));
+  const ul = h("ul");
+  (a.order || [0, 1, 2, 3]).forEach((oi, k) => {
+    const good = oi === q.a, picked = oi === a.choix;
+    const li = h("li", { class: good ? "good" : picked ? "picked" : "" },
+      h("span", { class: "mark" }, good ? "✓" : picked ? "✗" : "ABCD"[k]));
+    inline(li, q.o[oi]);
+    if (picked) li.append(h("span", { class: "muted" }, " — ta réponse"));
+    ul.append(li);
+  });
+  el.append(ul, rich("p", q.e, "expl"));
+  return el;
+}
+
+// ─── Démarrage ───
+(async function init() {
+  app.replaceChildren(h("p", { class: "muted narrow" }, "Chargement…"));
+  try {
+    BANK = await chargerQuestions();
+  } catch (e) {
+    app.replaceChildren(h("div", { class: "narrow card" }, h("h2", {}, "Impossible de charger les questions"), h("p", { class: "muted" }, String(e.message || e))));
+    return;
+  }
+  pratOK = await probe();
+  const saved = load();
+  if (saved && saved.seq && !saved.fini && Date.now() >= saved.end) {
+    S = saved;
+    terminer();
+    S = null;
+  }
+  render();
+})();
+</script>
+</body>
+</html>

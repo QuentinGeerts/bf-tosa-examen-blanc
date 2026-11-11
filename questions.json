@@ -1,0 +1,2730 @@
+{
+  "qcm": [
+    {
+      "categorie": "HTML",
+      "niveau": 1,
+      "question": "Quelle balise définit le titre affiché dans l'onglet du navigateur ?",
+      "options": [
+        "`<title>`",
+        "`<h1>`",
+        "`<header>`",
+        "`<meta name=\"title\">`"
+      ],
+      "reponse": 0,
+      "explication": "`<title>` se place dans le `<head>` et donne le nom de l'onglet (et du favori)."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 1,
+      "question": "Quelle balise représente le titre principal du contenu d'une page ?",
+      "options": [
+        "`<h1>`",
+        "`<head>`",
+        "`<title>`",
+        "`<header>`"
+      ],
+      "reponse": 0,
+      "explication": "`<h1>` est le titre de plus haut niveau du contenu. `<head>` contient les métadonnées, `<header>` est un en-tête de section."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 1,
+      "question": "À quoi sert l'attribut `alt` d'une image ?",
+      "options": [
+        "Fournir un texte alternatif, lu par les lecteurs d'écran et affiché si l'image ne charge pas",
+        "Afficher une infobulle au survol",
+        "Définir la taille de l'image",
+        "Transformer l'image en lien"
+      ],
+      "reponse": 0,
+      "explication": "`alt` est essentiel pour l'accessibilité. L'infobulle au survol, c'est l'attribut `title`."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 1,
+      "question": "Quelle balise crée un lien hypertexte ?",
+      "options": [
+        "`<a>`",
+        "`<link>`",
+        "`<href>`",
+        "`<url>`"
+      ],
+      "reponse": 0,
+      "explication": "`<a href=\"...\">`. La balise `<link>` sert à relier une ressource dans le `<head>` (feuille CSS, favicon)."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 1,
+      "question": "Comment écrit-on un commentaire en HTML ?",
+      "options": [
+        "`<!-- commentaire -->`",
+        "`// commentaire`",
+        "`/* commentaire */`",
+        "`# commentaire`"
+      ],
+      "reponse": 0,
+      "explication": "`//` et `/* */` sont des commentaires JavaScript (et `/* */` CSS)."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 1,
+      "question": "Quelle balise crée une liste numérotée ?",
+      "options": [
+        "`<ol>`",
+        "`<ul>`",
+        "`<li>`",
+        "`<dl>`"
+      ],
+      "reponse": 0,
+      "explication": "`<ol>` = ordered list. `<ul>` = liste à puces. `<li>` = un élément de liste."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 1,
+      "question": "Quelle balise insère un retour à la ligne dans un texte ?",
+      "options": [
+        "`<br>`",
+        "`<hr>`",
+        "`<lb>`",
+        "`<break>`"
+      ],
+      "reponse": 0,
+      "explication": "`<br>` est une balise orpheline. `<hr>` trace une ligne de séparation."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 2,
+      "question": "Quelle est la différence entre `<div>` et `<span>` ?",
+      "options": [
+        "`<div>` est un élément de type bloc, `<span>` est un élément en ligne",
+        "`<span>` est un élément de type bloc, `<div>` est en ligne",
+        "`<div>` est réservé aux images",
+        "Il n'y a aucune différence"
+      ],
+      "reponse": 0,
+      "explication": "Un bloc prend toute la largeur et passe à la ligne. Un élément en ligne reste dans le flux du texte."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 2,
+      "question": "Quelle balise définit une cellule d'en-tête dans un tableau ?",
+      "options": [
+        "`<th>`",
+        "`<thead>`",
+        "`<td>`",
+        "`<tr>`"
+      ],
+      "reponse": 0,
+      "explication": "`<th>` = cellule d'en-tête. `<thead>` est le groupe de lignes d'en-tête, `<td>` une cellule normale, `<tr>` une ligne."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 2,
+      "question": "Que fait l'attribut `colspan=\"2\"` sur une cellule ?",
+      "options": [
+        "La cellule s'étend sur 2 colonnes",
+        "La cellule s'étend sur 2 lignes",
+        "La cellule fait 2 pixels de large",
+        "La cellule est dupliquée"
+      ],
+      "reponse": 0,
+      "explication": "`colspan` fusionne des colonnes, `rowspan` fusionne des lignes."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 2,
+      "question": "Comment relie-t-on un `<label>` à son champ ?",
+      "options": [
+        "L'attribut `for` du label a la même valeur que l'`id` du champ",
+        "L'attribut `name` du label a la même valeur que le `name` du champ",
+        "L'`id` du label a la même valeur que l'`id` du champ",
+        "On ajoute l'attribut `label` sur l'input"
+      ],
+      "reponse": 0,
+      "explication": "`<label for=\"email\">` + `<input id=\"email\">`. Cliquer sur le label active alors le champ."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 2,
+      "question": "Quelle méthode d'envoi d'un formulaire place les données dans l'URL ?",
+      "options": [
+        "`GET`",
+        "`POST`",
+        "`PUT`",
+        "`SEND`"
+      ],
+      "reponse": 0,
+      "explication": "Avec `method=\"get\"`, les données apparaissent après le `?` dans l'URL. `POST` les envoie dans le corps de la requête."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 2,
+      "question": "Que fait `target=\"_blank\"` sur un lien ?",
+      "options": [
+        "Il ouvre le lien dans un nouvel onglet",
+        "Il télécharge le fichier",
+        "Il ouvre le lien dans le même onglet",
+        "Il désactive le lien"
+      ],
+      "reponse": 0,
+      "explication": "`_blank` = nouvel onglet ou nouvelle fenêtre."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 2,
+      "question": "Pour que des boutons radio forment un groupe (un seul choix possible), ils doivent avoir…",
+      "options": [
+        "le même `name`",
+        "le même `id`",
+        "la même `value`",
+        "le même parent `<div>`"
+      ],
+      "reponse": 0,
+      "explication": "Le `name` définit le groupe. Un `id` doit toujours être unique dans la page."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 2,
+      "question": "Quel attribut affiche les boutons lecture / pause d'une `<video>` ?",
+      "options": [
+        "`controls`",
+        "`play`",
+        "`autoplay`",
+        "`buttons`"
+      ],
+      "reponse": 0,
+      "explication": "`controls` affiche la barre de contrôle. `autoplay` lance la vidéo automatiquement."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 2,
+      "question": "Quelle déclaration d'encodage est recommandée ?",
+      "options": [
+        "`<meta charset=\"UTF-8\">`",
+        "`<meta encoding=\"utf8\">`",
+        "`<charset>UTF-8</charset>`",
+        "`<html charset=\"UTF-8\">`"
+      ],
+      "reponse": 0,
+      "explication": "Elle se place au début du `<head>`. Sans elle, les accents peuvent mal s'afficher."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 3,
+      "question": "Ce bouton est-il cliquable ?",
+      "code": "<button disabled=\"false\">Envoyer</button>",
+      "options": [
+        "Non : `disabled` est un attribut booléen, sa seule présence désactive le bouton",
+        "Oui, car la valeur est `false`",
+        "Oui, mais seulement dans Chrome",
+        "Non, le navigateur affiche une erreur"
+      ],
+      "reponse": 0,
+      "explication": "Pour un attribut booléen (`disabled`, `required`, `checked`…), la valeur n'a pas d'importance : il faut retirer l'attribut pour réactiver."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 3,
+      "question": "Quelle balise sémantique contient les liens de navigation principaux ?",
+      "options": [
+        "`<nav>`",
+        "`<menu>`",
+        "`<aside>`",
+        "`<section>`"
+      ],
+      "reponse": 0,
+      "explication": "`<nav>` signale un bloc de navigation aux lecteurs d'écran et aux moteurs de recherche."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 3,
+      "question": "Quel couple de balises regroupe des champs d'un formulaire sous un titre ?",
+      "options": [
+        "`<fieldset>` et `<legend>`",
+        "`<group>` et `<title>`",
+        "`<div>` et `<label>`",
+        "`<form>` et `<caption>`"
+      ],
+      "reponse": 0,
+      "explication": "`<fieldset>` encadre le groupe, `<legend>` lui donne son titre."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 3,
+      "question": "Quelle balise donne un titre à un tableau ?",
+      "options": [
+        "`<caption>`",
+        "`<th>`",
+        "`<title>`",
+        "`<legend>`"
+      ],
+      "reponse": 0,
+      "explication": "`<caption>` se place juste après la balise ouvrante `<table>`."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 3,
+      "question": "Quel attribut est valide pour stocker une donnée personnalisée sur un élément ?",
+      "options": [
+        "`data-prix=\"12\"`",
+        "`prix=\"12\"`",
+        "`custom-prix=\"12\"`",
+        "`var-prix=\"12\"`"
+      ],
+      "reponse": 0,
+      "explication": "Les attributs personnalisés commencent par `data-`. On les lit en JS avec `element.dataset`."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 3,
+      "question": "Quelle valeur ce champ accepte-t-il ?",
+      "code": "<input type=\"text\" pattern=\"[0-9]{4}\">",
+      "options": [
+        "\"1000\"",
+        "\"999\"",
+        "\"12345\"",
+        "\"abcd\""
+      ],
+      "reponse": 0,
+      "explication": "`pattern` doit correspondre à toute la valeur : exactement 4 chiffres. \"12345\" en a 5."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 3,
+      "question": "Quel élément SVG dessine un cercle ?",
+      "options": [
+        "`<circle>`",
+        "`<round>`",
+        "`<arc>`",
+        "`<disc>`"
+      ],
+      "reponse": 0,
+      "explication": "`<circle cx=\"50\" cy=\"50\" r=\"40\">` : centre (cx, cy) et rayon r."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 3,
+      "question": "Comment afficher le caractère `<` dans le texte d'une page ?",
+      "options": [
+        "`&lt;`",
+        "`&gt;`",
+        "`\\<`",
+        "`&less;`"
+      ],
+      "reponse": 0,
+      "explication": "`&lt;` = less than. `&gt;` = greater than (`>`). Sinon le navigateur croit à une balise."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 3,
+      "question": "Où place-t-on l'attribut `lang=\"fr\"` pour indiquer la langue de la page ?",
+      "options": [
+        "Sur la balise `<html>`",
+        "Sur la balise `<head>`",
+        "Sur la balise `<body>`",
+        "Dans une balise `<meta>`"
+      ],
+      "reponse": 0,
+      "explication": "`<html lang=\"fr\">` aide les lecteurs d'écran (prononciation) et les traducteurs automatiques."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 3,
+      "question": "Quel type d'input ouvre un sélecteur de couleur ?",
+      "options": [
+        "`type=\"color\"`",
+        "`type=\"palette\"`",
+        "`type=\"rgb\"`",
+        "`type=\"picker\"`"
+      ],
+      "reponse": 0,
+      "explication": "`<input type=\"color\">` renvoie une valeur au format `#rrggbb`."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 4,
+      "question": "En JavaScript, comment lire la valeur de cet attribut ?",
+      "code": "<div id=\"produit\" data-prix-ht=\"12.5\"></div>",
+      "options": [
+        "`produit.dataset.prixHt`",
+        "`produit.dataset[\"prix-ht\"]`",
+        "`produit.dataset.prix_ht`",
+        "`produit.getAttribute(\"prixHt\")`"
+      ],
+      "reponse": 0,
+      "explication": "Dans `dataset`, le nom après `data-` passe en camelCase : `prix-ht` devient `prixHt`. (`getAttribute(\"data-prix-ht\")` fonctionnerait aussi.)"
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 4,
+      "question": "À quoi sert cette balise ?",
+      "code": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">",
+      "options": [
+        "À adapter la largeur de la page à l'écran de l'appareil (responsive)",
+        "À améliorer le référencement",
+        "À définir l'encodage des caractères",
+        "À interdire le zoom"
+      ],
+      "reponse": 0,
+      "explication": "Sans elle, un mobile affiche la page comme sur un écran d'ordinateur, en tout petit."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 4,
+      "question": "Un `<button>` placé dans un `<form>`, sans attribut `type`…",
+      "options": [
+        "envoie le formulaire, car son type par défaut est `submit`",
+        "ne fait rien",
+        "réinitialise le formulaire",
+        "provoque une erreur"
+      ],
+      "reponse": 0,
+      "explication": "Pour un bouton qui ne doit pas envoyer le formulaire, on écrit `type=\"button\"`."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 4,
+      "question": "Quelle balise est la plus adaptée à un contenu autonome et réutilisable (article de blog, fiche produit) ?",
+      "options": [
+        "`<article>`",
+        "`<section>`",
+        "`<div>`",
+        "`<aside>`"
+      ],
+      "reponse": 0,
+      "explication": "`<article>` a du sens seul. `<section>` regroupe une partie thématique d'un document, `<aside>` un contenu annexe."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 4,
+      "question": "Comment relier un `<label>` à un champ sans utiliser `for` ?",
+      "code": "<label>Email <input type=\"email\"></label>",
+      "options": [
+        "En plaçant le champ à l'intérieur du `<label>`",
+        "Avec l'attribut `aria-for`",
+        "En donnant le même `name` aux deux",
+        "C'est impossible"
+      ],
+      "reponse": 0,
+      "explication": "Un champ placé dans le label lui est automatiquement associé."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 5,
+      "question": "Quel attribut de `<input>` le relie à une liste de suggestions `<datalist>` ?",
+      "code": [
+        "<input list=\"villes\">",
+        "<datalist id=\"villes\">",
+        "  <option value=\"Bruxelles\">",
+        "  <option value=\"Liège\">",
+        "</datalist>"
+      ],
+      "options": [
+        "`list`",
+        "`options`",
+        "`datalist`",
+        "`suggest`"
+      ],
+      "reponse": 0,
+      "explication": "L'attribut `list` reçoit l'`id` du `<datalist>`."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 5,
+      "question": "Que fait `loading=\"lazy\"` ?",
+      "code": "<img src=\"photo.jpg\" alt=\"Plage\" loading=\"lazy\">",
+      "options": [
+        "L'image n'est chargée que lorsqu'elle approche de la zone visible",
+        "L'image est chargée en basse qualité",
+        "L'image est chargée après tous les scripts",
+        "Le cache est désactivé pour cette image"
+      ],
+      "reponse": 0,
+      "explication": "Le chargement différé accélère l'affichage des pages longues."
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 5,
+      "question": "Quelle balise permet de proposer plusieurs sources d'une image selon la taille de l'écran ?",
+      "options": [
+        "`<picture>`",
+        "`<figure>`",
+        "`<gallery>`",
+        "`<srcset>`"
+      ],
+      "reponse": 0,
+      "explication": "`<picture>` contient des `<source media=\"...\">` et un `<img>` de secours. `srcset` est un attribut, pas une balise."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 1,
+      "question": "Comment relier une feuille de style externe ?",
+      "options": [
+        "`<link rel=\"stylesheet\" href=\"style.css\">`",
+        "`<style src=\"style.css\">`",
+        "`<script href=\"style.css\">`",
+        "`<css>style.css</css>`"
+      ],
+      "reponse": 0,
+      "explication": "La balise `<link>` se place dans le `<head>`."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 1,
+      "question": "Quel sélecteur cible les éléments de classe `carte` ?",
+      "options": [
+        "`.carte`",
+        "`#carte`",
+        "`carte`",
+        "`*carte`"
+      ],
+      "reponse": 0,
+      "explication": "Le point = classe, le dièse = id, sans symbole = nom de balise."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 1,
+      "question": "Quel sélecteur cible l'élément d'id `menu` ?",
+      "options": [
+        "`#menu`",
+        "`.menu`",
+        "`menu`",
+        "`@menu`"
+      ],
+      "reponse": 0,
+      "explication": "`#` cible un id."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 1,
+      "question": "Quelle propriété change la couleur du texte ?",
+      "options": [
+        "`color`",
+        "`font-color`",
+        "`text-color`",
+        "`background-color`"
+      ],
+      "reponse": 0,
+      "explication": "`background-color` change la couleur de fond."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 1,
+      "question": "Comment écrit-on un commentaire en CSS ?",
+      "options": [
+        "`/* commentaire */`",
+        "`// commentaire`",
+        "`<!-- commentaire -->`",
+        "`# commentaire`"
+      ],
+      "reponse": 0,
+      "explication": "En CSS, seul `/* */` existe."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 2,
+      "question": "Dans le modèle de boîte, quel est l'ordre de l'intérieur vers l'extérieur ?",
+      "options": [
+        "contenu, padding, border, margin",
+        "contenu, margin, border, padding",
+        "padding, contenu, border, margin",
+        "contenu, border, padding, margin"
+      ],
+      "reponse": 0,
+      "explication": "Le padding est l'espace intérieur (avant la bordure), la margin l'espace extérieur."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 2,
+      "question": "Que signifie cette déclaration ?",
+      "code": "margin: 10px 20px;",
+      "options": [
+        "10px en haut et en bas, 20px à gauche et à droite",
+        "10px en haut, 20px en bas",
+        "10px à gauche et à droite, 20px en haut et en bas",
+        "10px en haut, 20px à droite, 0 ailleurs"
+      ],
+      "reponse": 0,
+      "explication": "Avec 2 valeurs : vertical puis horizontal. Avec 4 : haut, droite, bas, gauche (sens horaire)."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 2,
+      "question": "Quelle couleur correspond à `#fff` ?",
+      "options": [
+        "Blanc",
+        "Noir",
+        "Rouge",
+        "Gris clair"
+      ],
+      "reponse": 0,
+      "explication": "`#fff` = `#ffffff` = rouge, vert et bleu au maximum. Le noir est `#000`."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 2,
+      "question": "Dans `rgba(0, 0, 0, 0.5)`, que représente `0.5` ?",
+      "options": [
+        "L'opacité (50 %)",
+        "La luminosité",
+        "La quantité de bleu",
+        "L'épaisseur"
+      ],
+      "reponse": 0,
+      "explication": "Le `a` de rgba = alpha : 0 = transparent, 1 = opaque."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 2,
+      "question": "Quelle déclaration met un texte en majuscules ?",
+      "options": [
+        "`text-transform: uppercase;`",
+        "`font-variant: upper;`",
+        "`text-style: caps;`",
+        "`font-case: upper;`"
+      ],
+      "reponse": 0,
+      "explication": "`text-transform` accepte `uppercase`, `lowercase` et `capitalize`."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 2,
+      "question": "Quelle valeur numérique de `font-weight` correspond à `bold` ?",
+      "options": [
+        "700",
+        "400",
+        "900",
+        "100"
+      ],
+      "reponse": 0,
+      "explication": "`normal` = 400, `bold` = 700."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 2,
+      "question": "Quelle pseudo-classe s'applique au survol de la souris ?",
+      "options": [
+        "`:hover`",
+        "`:focus`",
+        "`:active`",
+        "`::over`"
+      ],
+      "reponse": 0,
+      "explication": "`:focus` = élément sélectionné (clavier, clic dans un champ), `:active` = pendant le clic."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 2,
+      "question": "Quelle position garde un élément au même endroit de l'écran pendant le défilement ?",
+      "options": [
+        "`fixed`",
+        "`absolute`",
+        "`relative`",
+        "`static`"
+      ],
+      "reponse": 0,
+      "explication": "`fixed` se positionne par rapport à la fenêtre. (`sticky` existe aussi, mais seulement à partir d'un seuil.)"
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 2,
+      "question": "Dans un conteneur flex en ligne (direction par défaut), quelle propriété répartit les éléments horizontalement ?",
+      "options": [
+        "`justify-content`",
+        "`align-items`",
+        "`text-align`",
+        "`align-content`"
+      ],
+      "reponse": 0,
+      "explication": "`justify-content` agit sur l'axe principal, `align-items` sur l'axe secondaire."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 3,
+      "question": "À quoi est relative l'unité `rem` ?",
+      "options": [
+        "À la taille de police de l'élément racine `<html>`",
+        "À la taille de police du parent",
+        "À la largeur de l'écran",
+        "À la taille de l'élément lui-même"
+      ],
+      "reponse": 0,
+      "explication": "`rem` = root em. Par défaut, 1rem = 16px."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 3,
+      "question": "Quelle est la taille de police de `.enfant` ?",
+      "code": [
+        ".parent { font-size: 20px; }",
+        ".enfant { font-size: 1.5em; }"
+      ],
+      "options": [
+        "30px",
+        "24px",
+        "1.5px",
+        "20px"
+      ],
+      "reponse": 0,
+      "explication": "Pour `font-size`, `em` est relatif à la police du parent : 20 × 1.5 = 30px."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 3,
+      "question": "Que vaut `50vw` ?",
+      "options": [
+        "50 % de la largeur de la fenêtre",
+        "50 % de la largeur du parent",
+        "50 pixels",
+        "50 % de la hauteur de la fenêtre"
+      ],
+      "reponse": 0,
+      "explication": "`vw` = viewport width, `vh` = viewport height."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 3,
+      "question": "De quelle couleur est le titre ?",
+      "code": [
+        "#titre { color: blue; }",
+        ".rouge { color: red; }",
+        "",
+        "<h1 id=\"titre\" class=\"rouge\">Bienvenue</h1>"
+      ],
+      "options": [
+        "Bleu, car l'id est plus spécifique que la classe",
+        "Rouge, car c'est la dernière règle",
+        "Violet",
+        "Noir"
+      ],
+      "reponse": 0,
+      "explication": "Spécificité : id (1,0,0) > classe (0,1,0) > balise (0,0,1). L'ordre ne compte qu'à spécificité égale."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 3,
+      "question": "De quelle couleur sont les paragraphes ?",
+      "code": [
+        "p { color: green; }",
+        "p { color: orange; }"
+      ],
+      "options": [
+        "Orange : même spécificité, la dernière règle l'emporte",
+        "Vert : la première règle l'emporte",
+        "Un mélange des deux",
+        "Cela dépend du navigateur"
+      ],
+      "reponse": 0,
+      "explication": "C'est la cascade : à spécificité égale, la règle écrite en dernier gagne."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 3,
+      "question": "Quelle propriété est obligatoire pour qu'un pseudo-élément `::before` s'affiche ?",
+      "options": [
+        "`content`",
+        "`display`",
+        "`position`",
+        "`z-index`"
+      ],
+      "reponse": 0,
+      "explication": "Même vide : `content: \"\";`."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 3,
+      "question": "Laquelle de ces propriétés est héritée par défaut par les éléments enfants ?",
+      "options": [
+        "`color`",
+        "`border`",
+        "`margin`",
+        "`padding`"
+      ],
+      "reponse": 0,
+      "explication": "Les propriétés de texte (`color`, `font-family`, `font-size`…) sont héritées. Les propriétés de boîte ne le sont pas."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 3,
+      "question": "Quel sélecteur cible une ligne paire sur deux d'un tableau ?",
+      "options": [
+        "`tr:nth-child(even)`",
+        "`tr:even`",
+        "`tr:nth(2)`",
+        "`tr:odd-child`"
+      ],
+      "reponse": 0,
+      "explication": "`even` = pairs, `odd` = impairs. On peut aussi écrire `2n`."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 3,
+      "question": "Un élément en `position: absolute` se positionne par rapport…",
+      "options": [
+        "à son ancêtre positionné le plus proche (sinon à la page)",
+        "toujours à son parent direct",
+        "toujours à la fenêtre",
+        "à sa position normale dans le flux"
+      ],
+      "reponse": 0,
+      "explication": "D'où l'habitude de mettre `position: relative` sur le conteneur."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 3,
+      "question": "Comment empiler les éléments d'un conteneur flex verticalement ?",
+      "options": [
+        "`flex-direction: column;`",
+        "`flex-wrap: column;`",
+        "`display: column;`",
+        "`align-items: column;`"
+      ],
+      "reponse": 0,
+      "explication": "`flex-direction` change l'axe principal."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 3,
+      "question": "Quelle déclaration permet aux éléments flex de passer à la ligne suivante ?",
+      "options": [
+        "`flex-wrap: wrap;`",
+        "`flex-direction: wrap;`",
+        "`flex-flow: break;`",
+        "`white-space: wrap;`"
+      ],
+      "reponse": 0,
+      "explication": "Par défaut `flex-wrap: nowrap` : les éléments se compressent sur une seule ligne."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 3,
+      "question": "Que fait cette déclaration sur un conteneur grid ?",
+      "code": "grid-template-columns: repeat(3, 1fr);",
+      "options": [
+        "Elle crée 3 colonnes de même largeur",
+        "Elle crée 3 lignes",
+        "Elle crée 1 colonne de 3fr",
+        "Elle répète l'élément 3 fois"
+      ],
+      "reponse": 0,
+      "explication": "`fr` = une fraction de l'espace disponible."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 3,
+      "question": "Quelle propriété anime en douceur le changement d'une propriété (par exemple au survol) ?",
+      "options": [
+        "`transition`",
+        "`animation-hover`",
+        "`transform`",
+        "`smooth`"
+      ],
+      "reponse": 0,
+      "explication": "Exemple : `transition: background-color 0.3s;`. `transform` déplace ou tourne, sans animer à lui seul."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 4,
+      "question": "Quand ces règles s'appliquent-elles ?",
+      "code": [
+        "@media (min-width: 768px) {",
+        "  .menu { display: flex; }",
+        "}"
+      ],
+      "options": [
+        "Quand la fenêtre fait 768px de large ou plus",
+        "Quand la fenêtre fait moins de 768px",
+        "Uniquement à exactement 768px",
+        "Uniquement à l'impression"
+      ],
+      "reponse": 0,
+      "explication": "`min-width` = à partir de. C'est l'approche mobile first."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 4,
+      "question": "Quelle propriété répartit un texte sur plusieurs colonnes, comme dans un journal ?",
+      "options": [
+        "`column-count`",
+        "`grid-columns`",
+        "`text-columns`",
+        "`flex-columns`"
+      ],
+      "reponse": 0,
+      "explication": "Avec `column-gap` et `column-rule` pour l'espace et le trait entre les colonnes."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 4,
+      "question": "De quelle couleur est le paragraphe ?",
+      "code": [
+        "#info { color: blue; }",
+        "p { color: red !important; }",
+        "",
+        "<p id=\"info\">Texte</p>"
+      ],
+      "options": [
+        "Rouge : `!important` passe au-dessus de la spécificité",
+        "Bleu : l'id est plus spécifique",
+        "Violet",
+        "Noir"
+      ],
+      "reponse": 0,
+      "explication": "`!important` l'emporte sur toute règle normale. À utiliser avec modération."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 4,
+      "question": "À quoi sert la règle `@font-face` ?",
+      "options": [
+        "À charger une police personnalisée depuis un fichier",
+        "À choisir une police installée sur l'ordinateur",
+        "À importer une autre feuille CSS",
+        "À définir la taille de police par défaut"
+      ],
+      "reponse": 0,
+      "explication": "On y déclare `font-family` (le nom à utiliser) et `src: url(...)`."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 4,
+      "question": "Quelle valeur de `box-sizing` inclut le padding et la bordure dans la largeur définie ?",
+      "options": [
+        "`border-box`",
+        "`content-box`",
+        "`padding-box`",
+        "`full-box`"
+      ],
+      "reponse": 0,
+      "explication": "Avec `border-box`, `width: 200px` = 200px au total. `content-box` est la valeur par défaut."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 4,
+      "question": "Quel sélecteur cible uniquement les `<li>` enfants directs d'un `<ul>` ?",
+      "options": [
+        "`ul > li`",
+        "`ul li`",
+        "`ul + li`",
+        "`ul ~ li`"
+      ],
+      "reponse": 0,
+      "explication": "`>` = enfant direct, espace = descendant à n'importe quel niveau, `+` = frère qui suit immédiatement, `~` = frères suivants."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 5,
+      "question": "Ce code est dans `css/style.css`. Où le navigateur cherche-t-il l'image ?",
+      "code": [
+        "body {",
+        "  background-image: url(\"img/fond.png\");",
+        "}"
+      ],
+      "options": [
+        "Dans `css/img/fond.png`",
+        "Dans `img/fond.png` à la racine du site",
+        "Relativement au fichier HTML",
+        "Nulle part : erreur"
+      ],
+      "reponse": 0,
+      "explication": "Dans un fichier CSS, les chemins sont relatifs au fichier CSS. Il faudrait écrire `url(\"../img/fond.png\")`."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 5,
+      "question": "Un élément a `z-index: 10` mais reste sous un autre élément. Quelle est la cause la plus probable ?",
+      "options": [
+        "Il est en `position: static`, donc `z-index` n'a pas d'effet",
+        "10 n'est pas assez grand",
+        "`z-index` ne fonctionne qu'en grid",
+        "Il manque `!important`"
+      ],
+      "reponse": 0,
+      "explication": "`z-index` agit sur les éléments positionnés (`relative`, `absolute`, `fixed`, `sticky`) et sur les enfants de flex ou grid."
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 5,
+      "question": "Quelle déclaration centre les éléments d'un conteneur grid sur les deux axes ?",
+      "options": [
+        "`place-items: center;`",
+        "`align: center;`",
+        "`center: both;`",
+        "`justify: middle;`"
+      ],
+      "reponse": 0,
+      "explication": "`place-items` est le raccourci de `align-items` + `justify-items`."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 1,
+      "question": "Quel mot-clé déclare une constante ?",
+      "options": [
+        "`const`",
+        "`let`",
+        "`var`",
+        "`constant`"
+      ],
+      "reponse": 0,
+      "explication": "`let` déclare une variable modifiable. `var` est l'ancienne syntaxe."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 1,
+      "question": "Quelle instruction affiche un message dans la console ?",
+      "options": [
+        "`console.log(\"Salut\")`",
+        "`print(\"Salut\")`",
+        "`echo(\"Salut\")`",
+        "`document.console(\"Salut\")`"
+      ],
+      "reponse": 0,
+      "explication": "La console s'ouvre avec F12, onglet Console."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 1,
+      "question": "Comment écrit-on un commentaire sur une seule ligne en JavaScript ?",
+      "options": [
+        "`// commentaire`",
+        "`<!-- commentaire -->`",
+        "`# commentaire`",
+        "`-- commentaire`"
+      ],
+      "reponse": 0,
+      "explication": "`/* */` sert aux commentaires sur plusieurs lignes."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 1,
+      "question": "Comment relier un fichier JavaScript externe ?",
+      "options": [
+        "`<script src=\"script.js\"></script>`",
+        "`<script href=\"script.js\"></script>`",
+        "`<link rel=\"script\" href=\"script.js\">`",
+        "`<js src=\"script.js\">`"
+      ],
+      "reponse": 0,
+      "explication": "Attention : `src` pour un script, `href` pour un `<link>`."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 1,
+      "question": "Que renvoie cette expression ?",
+      "code": "typeof \"42\"",
+      "options": [
+        "`\"string\"`",
+        "`\"number\"`",
+        "`\"text\"`",
+        "`\"char\"`"
+      ],
+      "reponse": 0,
+      "explication": "Les guillemets en font une chaîne de caractères, même si elle contient des chiffres."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 2,
+      "question": "Quelle est la différence entre `==` et `===` ?",
+      "options": [
+        "`===` compare aussi le type, `==` convertit les valeurs avant de comparer",
+        "`==` est plus strict que `===`",
+        "Il n'y a aucune différence",
+        "`===` ne sert qu'aux objets"
+      ],
+      "reponse": 0,
+      "explication": "`5 == \"5\"` vaut `true`, `5 === \"5\"` vaut `false`. On préfère `===`."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 2,
+      "question": "Quel est le résultat ?",
+      "code": "\"5\" + 1",
+      "options": [
+        "`\"51\"`",
+        "`6`",
+        "`\"6\"`",
+        "`NaN`"
+      ],
+      "reponse": 0,
+      "explication": "Avec une chaîne, `+` concatène : le nombre est converti en texte."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 2,
+      "question": "Quel est le résultat ?",
+      "code": "\"5\" - 1",
+      "options": [
+        "`4`",
+        "`\"51\"`",
+        "`\"4\"`",
+        "`NaN`"
+      ],
+      "reponse": 0,
+      "explication": "`-` n'existe que pour les nombres : la chaîne est convertie en nombre."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 2,
+      "question": "Que vaut `x` ?",
+      "code": [
+        "let x = 5;",
+        "x += 3;"
+      ],
+      "options": [
+        "`8`",
+        "`53`",
+        "`5`",
+        "`3`"
+      ],
+      "reponse": 0,
+      "explication": "`x += 3` est un raccourci de `x = x + 3`."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 2,
+      "question": "Que vaut `10 % 3` ?",
+      "options": [
+        "`1`",
+        "`3`",
+        "`3.33`",
+        "`0`"
+      ],
+      "reponse": 0,
+      "explication": "`%` (modulo) donne le reste de la division entière : 10 = 3 × 3 + 1."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 2,
+      "question": "Qu'affiche cette boucle ?",
+      "code": [
+        "for (let i = 0; i < 3; i++) {",
+        "  console.log(i);",
+        "}"
+      ],
+      "options": [
+        "0, 1, 2",
+        "1, 2, 3",
+        "0, 1, 2, 3",
+        "3"
+      ],
+      "reponse": 0,
+      "explication": "i commence à 0 et la boucle s'arrête dès que `i < 3` est faux."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 2,
+      "question": "Quel est l'index du dernier élément du tableau `tab` ?",
+      "options": [
+        "`tab.length - 1`",
+        "`tab.length`",
+        "`tab.last`",
+        "`-1`"
+      ],
+      "reponse": 0,
+      "explication": "Les index commencent à 0. Pour 3 éléments : index 0, 1 et 2."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 2,
+      "question": "Quelle méthode ajoute un élément à la fin d'un tableau ?",
+      "options": [
+        "`push()`",
+        "`pop()`",
+        "`shift()`",
+        "`unshift()`"
+      ],
+      "reponse": 0,
+      "explication": "`pop` retire le dernier, `shift` retire le premier, `unshift` ajoute au début."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 2,
+      "question": "Que vaut `statut` ?",
+      "code": [
+        "const age = 20;",
+        "const statut = age >= 18 ? \"majeur\" : \"mineur\";"
+      ],
+      "options": [
+        "`\"majeur\"`",
+        "`\"mineur\"`",
+        "`true`",
+        "Une erreur"
+      ],
+      "reponse": 0,
+      "explication": "Ternaire : `condition ? valeurSiVrai : valeurSiFaux`."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 2,
+      "question": "Laquelle est une fonction fléchée correcte ?",
+      "options": [
+        "`const carre = n => n * n;`",
+        "`const carre = n -> n * n;`",
+        "`function => carre(n) { return n * n; }`",
+        "`arrow carre(n) { return n * n; }`"
+      ],
+      "reponse": 0,
+      "explication": "Avec un seul paramètre, les parenthèses sont facultatives. Sans accolades, le `return` est implicite."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 2,
+      "question": "Quel est le résultat ?",
+      "code": "\"Bonjour\".slice(0, 3)",
+      "options": [
+        "`\"Bon\"`",
+        "`\"Bonj\"`",
+        "`\"onj\"`",
+        "`\"jour\"`"
+      ],
+      "reponse": 0,
+      "explication": "`slice(début, fin)` : la fin est exclue. Index 0, 1 et 2."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 2,
+      "question": "Qu'affiche ce code ?",
+      "code": "console.log(`Total : ${2 + 3}`);",
+      "options": [
+        "`Total : 5`",
+        "`Total : ${2 + 3}`",
+        "`Total : 23`",
+        "Une erreur"
+      ],
+      "reponse": 0,
+      "explication": "Dans un template literal (backticks), `${...}` est évalué."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 3,
+      "question": "Qu'affichent ces deux lignes ?",
+      "code": [
+        "console.log(true && false);",
+        "console.log(true || false);"
+      ],
+      "options": [
+        "`false` puis `true`",
+        "`true` puis `false`",
+        "`false` puis `false`",
+        "`true` puis `true`"
+      ],
+      "reponse": 0,
+      "explication": "`&&` (ET) : vrai si les deux le sont. `||` (OU) : vrai si au moins un l'est."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 3,
+      "question": "Qu'affiche ce code ?",
+      "code": [
+        "const user = { nom: \"Léa\" };",
+        "console.log(user.age);"
+      ],
+      "options": [
+        "`undefined`",
+        "`null`",
+        "Une ReferenceError",
+        "`\"\"`"
+      ],
+      "reponse": 0,
+      "explication": "Lire une propriété qui n'existe pas renvoie `undefined`, sans erreur."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 3,
+      "question": "Que se passe-t-il ?",
+      "code": [
+        "const user = { nom: \"Léa\" };",
+        "console.log(user.adresse.ville);"
+      ],
+      "options": [
+        "Une TypeError",
+        "`undefined` s'affiche",
+        "`null` s'affiche",
+        "Une ReferenceError"
+      ],
+      "reponse": 0,
+      "explication": "`user.adresse` vaut `undefined`, et on ne peut rien lire dans `undefined` : Cannot read properties of undefined."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 3,
+      "question": "Quel est le résultat ?",
+      "code": "[1, 2, 3].map(n => n * 2)",
+      "options": [
+        "`[2, 4, 6]`",
+        "`12`",
+        "`[1, 2, 3]`",
+        "`[1, 4, 9]`"
+      ],
+      "reponse": 0,
+      "explication": "`map` renvoie un nouveau tableau de même longueur, avec chaque élément transformé."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 3,
+      "question": "Quel est le résultat ?",
+      "code": "[5, 12, 8].filter(n => n > 6)",
+      "options": [
+        "`[12, 8]`",
+        "`[5]`",
+        "`true`",
+        "`12`"
+      ],
+      "reponse": 0,
+      "explication": "`filter` renvoie un nouveau tableau avec les éléments pour lesquels la condition est vraie."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 3,
+      "question": "Quel est le résultat ?",
+      "code": "[5, 12, 8].find(n => n > 6)",
+      "options": [
+        "`12`",
+        "`[12, 8]`",
+        "`8`",
+        "`true`"
+      ],
+      "reponse": 0,
+      "explication": "`find` renvoie le premier élément qui respecte la condition (ou `undefined`)."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 3,
+      "question": "Que renvoie l'appel `f(3)` ?",
+      "code": [
+        "function f(a, b = 2) {",
+        "  return a * b;",
+        "}",
+        "",
+        "f(3);"
+      ],
+      "options": [
+        "`6`",
+        "`NaN`",
+        "`3`",
+        "Une erreur"
+      ],
+      "reponse": 0,
+      "explication": "`b` n'est pas fourni, il prend sa valeur par défaut : 3 × 2."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 3,
+      "question": "Quel est le résultat ?",
+      "code": "\"a,b,c\".split(\",\")",
+      "options": [
+        "`[\"a\", \"b\", \"c\"]`",
+        "`\"abc\"`",
+        "`[\"a,b,c\"]`",
+        "`3`"
+      ],
+      "reponse": 0,
+      "explication": "`split` découpe une chaîne en tableau selon le séparateur. L'inverse est `join`."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 3,
+      "question": "Que renvoie cette expression ?",
+      "code": "typeof JSON.stringify({ a: 1 })",
+      "options": [
+        "`\"string\"`",
+        "`\"object\"`",
+        "`\"json\"`",
+        "`\"undefined\"`"
+      ],
+      "reponse": 0,
+      "explication": "`JSON.stringify` transforme un objet en texte. `JSON.parse` fait l'inverse."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 3,
+      "question": "Que se passe-t-il ?",
+      "code": [
+        "const tab = [1, 2];",
+        "tab.push(3);"
+      ],
+      "options": [
+        "`tab` vaut `[1, 2, 3]` : on modifie le contenu, pas la variable",
+        "Une TypeError",
+        "`tab` vaut toujours `[1, 2]`",
+        "Une ReferenceError"
+      ],
+      "reponse": 0,
+      "explication": "`const` interdit de réaffecter la variable (`tab = ...`), pas de modifier le tableau."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 3,
+      "question": "Que se passe-t-il ?",
+      "code": [
+        "const total = 10;",
+        "total = 20;"
+      ],
+      "options": [
+        "Une TypeError : Assignment to constant variable",
+        "`total` vaut 20",
+        "`total` vaut toujours 10, sans erreur",
+        "`total` vaut `undefined`"
+      ],
+      "reponse": 0,
+      "explication": "Une constante ne peut pas être réaffectée. Il faut `let` si la valeur doit changer."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 3,
+      "question": "Quelle boucle parcourt directement les valeurs d'un tableau ?",
+      "options": [
+        "`for...of`",
+        "`for...in`",
+        "`while...of`",
+        "`foreach...in`"
+      ],
+      "reponse": 0,
+      "explication": "`for (const fruit of fruits)`. `for...in` parcourt les clés (les index pour un tableau)."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 3,
+      "question": "Comment convertir un objet JavaScript en chaîne JSON ?",
+      "options": [
+        "`JSON.stringify(obj)`",
+        "`JSON.parse(obj)`",
+        "`String(obj)`",
+        "`obj.json()`"
+      ],
+      "reponse": 0,
+      "explication": "`String(obj)` donne `\"[object Object]\"`. `JSON.parse` fait la conversion inverse (texte vers objet)."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 4,
+      "question": "Quelle valeur renvoie cette expression ?",
+      "code": [
+        "const user = { nom: \"Léa\" };",
+        "user.adresse?.ville"
+      ],
+      "options": [
+        "`undefined`",
+        "Une TypeError",
+        "`null`",
+        "`\"\"`"
+      ],
+      "reponse": 0,
+      "explication": "L'optional chaining `?.` s'arrête et renvoie `undefined` si la valeur de gauche est `null` ou `undefined`."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 4,
+      "question": "Quel est le résultat ?",
+      "code": "[1, 2, 3, 4].reduce((acc, n) => acc + n, 0)",
+      "options": [
+        "`10`",
+        "`[1, 3, 6, 10]`",
+        "`24`",
+        "`0`"
+      ],
+      "reponse": 0,
+      "explication": "`reduce` accumule : 0+1, puis +2, +3, +4. Le 0 est la valeur de départ de `acc`."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 4,
+      "question": "Lequel de ces textes est du JSON valide ?",
+      "options": [
+        "`{\"nom\": \"Léa\", \"age\": 20}`",
+        "`{nom: \"Léa\"}`",
+        "`{'nom': 'Léa'}`",
+        "`{\"nom\": \"Léa\",}`"
+      ],
+      "reponse": 0,
+      "explication": "En JSON : clés entre guillemets doubles, chaînes entre guillemets doubles, pas de virgule finale."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 4,
+      "question": "Qu'affiche ce code ?",
+      "code": [
+        "const n = 1;",
+        "switch (n) {",
+        "  case 1: console.log(\"A\");",
+        "  case 2: console.log(\"B\"); break;",
+        "  case 3: console.log(\"C\");",
+        "}"
+      ],
+      "options": [
+        "A puis B",
+        "A",
+        "A, B puis C",
+        "B"
+      ],
+      "reponse": 0,
+      "explication": "Sans `break`, l'exécution continue dans le `case` suivant jusqu'au prochain `break`."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 4,
+      "question": "Qu'affiche ce code ?",
+      "code": [
+        "const a = { x: 1 };",
+        "const b = a;",
+        "b.x = 2;",
+        "console.log(a.x);"
+      ],
+      "options": [
+        "`2`",
+        "`1`",
+        "`undefined`",
+        "Une erreur"
+      ],
+      "reponse": 0,
+      "explication": "`b = a` ne copie pas l'objet : les deux variables désignent le même objet. Pour copier : `{ ...a }`."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 4,
+      "question": "Qu'affiche cette boucle ?",
+      "code": [
+        "const t = [\"a\", \"b\"];",
+        "for (const i in t) {",
+        "  console.log(i);",
+        "}"
+      ],
+      "options": [
+        "`\"0\"` puis `\"1\"`",
+        "`\"a\"` puis `\"b\"`",
+        "`0`, `1` puis `2`",
+        "Rien"
+      ],
+      "reponse": 0,
+      "explication": "`for...in` donne les clés, ici les index, sous forme de chaînes. Pour les valeurs : `for...of`."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 4,
+      "question": "Que se passe-t-il ?",
+      "code": [
+        "if (true) {",
+        "  let x = 1;",
+        "}",
+        "console.log(x);"
+      ],
+      "options": [
+        "Une ReferenceError",
+        "`1` s'affiche",
+        "`undefined` s'affiche",
+        "`null` s'affiche"
+      ],
+      "reponse": 0,
+      "explication": "`let` et `const` n'existent que dans le bloc `{ }` où ils sont déclarés."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 4,
+      "question": "Quelles sont les valeurs de `i` et `j` ?",
+      "code": [
+        "let i = 5;",
+        "const j = i++;"
+      ],
+      "options": [
+        "i = 6, j = 5",
+        "i = 6, j = 6",
+        "i = 5, j = 6",
+        "i = 5, j = 5"
+      ],
+      "reponse": 0,
+      "explication": "`i++` (post-incrémentation) renvoie l'ancienne valeur, puis incrémente. Avec `++i`, j vaudrait 6."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 4,
+      "question": "Que renvoie cette expression ?",
+      "code": "typeof null",
+      "options": [
+        "`\"object\"`",
+        "`\"null\"`",
+        "`\"undefined\"`",
+        "Une erreur"
+      ],
+      "reponse": 0,
+      "explication": "C'est un bug historique de JavaScript, conservé pour la compatibilité."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 4,
+      "question": "Que renvoient ces deux expressions ?",
+      "code": [
+        "parseInt(\"12px\")",
+        "Number(\"12px\")"
+      ],
+      "options": [
+        "`12` et `NaN`",
+        "`NaN` et `12`",
+        "`12` et `12`",
+        "`NaN` et `NaN`"
+      ],
+      "reponse": 0,
+      "explication": "`parseInt` lit les chiffres du début et s'arrête au premier caractère invalide. `Number` exige une chaîne entièrement numérique."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 5,
+      "question": "Quel est le résultat ?",
+      "code": "1 + 2 + \"3\"",
+      "options": [
+        "`\"33\"`",
+        "`\"123\"`",
+        "`6`",
+        "`\"6\"`"
+      ],
+      "reponse": 0,
+      "explication": "Lecture de gauche à droite : 1 + 2 = 3 (nombre), puis 3 + \"3\" = \"33\" (concaténation)."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 5,
+      "question": "Que renvoie cette expression ?",
+      "code": "NaN === NaN",
+      "options": [
+        "`false`",
+        "`true`",
+        "`NaN`",
+        "Une erreur"
+      ],
+      "reponse": 0,
+      "explication": "`NaN` n'est égal à rien, pas même à lui-même. Pour tester : `Number.isNaN(x)`."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 5,
+      "question": "Quel est le résultat ?",
+      "code": "[10, 1, 5].sort()",
+      "options": [
+        "`[1, 10, 5]`",
+        "`[1, 5, 10]`",
+        "`[10, 5, 1]`",
+        "Une erreur"
+      ],
+      "reponse": 0,
+      "explication": "Sans fonction de comparaison, `sort` trie comme du texte : \"10\" < \"5\". Pour des nombres : `sort((a, b) => a - b)`."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 5,
+      "question": "Que renvoie cette expression ?",
+      "code": "[1] === [1]",
+      "options": [
+        "`false`",
+        "`true`",
+        "Une erreur",
+        "`undefined`"
+      ],
+      "reponse": 0,
+      "explication": "Les tableaux (et objets) sont comparés par référence : ce sont deux tableaux différents en mémoire."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 5,
+      "question": "Qu'affiche ce code ?",
+      "code": [
+        "try {",
+        "  null.length;",
+        "} catch (e) {",
+        "  console.log(e.name);",
+        "}"
+      ],
+      "options": [
+        "`TypeError`",
+        "`ReferenceError`",
+        "`SyntaxError`",
+        "`null`"
+      ],
+      "reponse": 0,
+      "explication": "Lire une propriété de `null` provoque une TypeError, attrapée par le `catch`. `e.message` donne le détail."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 5,
+      "question": "Que renvoie cette expression ?",
+      "code": "0.1 + 0.2 === 0.3",
+      "options": [
+        "`false`",
+        "`true`",
+        "`NaN`",
+        "Une erreur"
+      ],
+      "reponse": 0,
+      "explication": "Les nombres à virgule sont stockés en binaire : 0.1 + 0.2 vaut 0.30000000000000004."
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 5,
+      "question": "Que vaut `tab` à la fin ?",
+      "code": [
+        "const tab = [1, 2, 3];",
+        "const copie = [...tab];",
+        "copie.push(4);"
+      ],
+      "options": [
+        "`[1, 2, 3]`",
+        "`[1, 2, 3, 4]`",
+        "`[]`",
+        "Une erreur"
+      ],
+      "reponse": 0,
+      "explication": "Le spread `[...tab]` crée un nouveau tableau : modifier la copie ne touche pas l'original."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 1,
+      "question": "Quelle instruction récupère l'élément d'id `menu` ?",
+      "options": [
+        "`document.getElementById(\"menu\")`",
+        "`document.getElement(\"#menu\")`",
+        "`document.id(\"menu\")`",
+        "`document.querySelectorAll(\"menu\")`"
+      ],
+      "reponse": 0,
+      "explication": "Sans `#` avec `getElementById`. Avec `querySelector`, il faudrait `\"#menu\"`."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 1,
+      "question": "Quelle propriété modifie le texte d'un élément ?",
+      "options": [
+        "`textContent`",
+        "`text`",
+        "`value`",
+        "`content`"
+      ],
+      "reponse": 0,
+      "explication": "`value` concerne les champs de formulaire."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 2,
+      "question": "Quelle instruction sélectionne le premier élément de classe `carte` ?",
+      "options": [
+        "`document.querySelector(\".carte\")`",
+        "`document.querySelector(\"carte\")`",
+        "`document.getElementById(\".carte\")`",
+        "`document.querySelectorAll(\".carte\")`"
+      ],
+      "reponse": 0,
+      "explication": "`querySelector` prend un sélecteur CSS et renvoie le premier résultat. `querySelectorAll` les renvoie tous."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 2,
+      "question": "Que renvoie `document.querySelectorAll(\"li\")` ?",
+      "options": [
+        "Une NodeList contenant tous les `<li>`",
+        "Le premier `<li>` uniquement",
+        "Un tableau `Array`",
+        "`null` s'il y a plusieurs `<li>`"
+      ],
+      "reponse": 0,
+      "explication": "Une NodeList se parcourt avec `for...of` ou `forEach`, mais n'a pas `map` ni `filter`."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 2,
+      "question": "Comment ajouter la classe `actif` à un élément ?",
+      "options": [
+        "`el.classList.add(\"actif\")`",
+        "`el.classList.push(\"actif\")`",
+        "`el.addClass(\"actif\")`",
+        "`el.className.add(\"actif\")`"
+      ],
+      "reponse": 0,
+      "explication": "`classList` propose `add`, `remove`, `toggle` et `contains`."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 2,
+      "question": "Quelle propriété donne le texte saisi dans un `<input>` ?",
+      "options": [
+        "`.value`",
+        "`.textContent`",
+        "`.text`",
+        "`.innerHTML`"
+      ],
+      "reponse": 0,
+      "explication": "La valeur d'un champ est toujours une chaîne de caractères."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 2,
+      "question": "Que manque-t-il pour que ce paragraphe apparaisse dans la page ?",
+      "code": [
+        "const p = document.createElement(\"p\");",
+        "p.textContent = \"Salut\";"
+      ],
+      "options": [
+        "L'insérer dans la page (par exemple `document.body.append(p)`)",
+        "Rien, il s'affiche déjà",
+        "Appeler `p.show()`",
+        "Utiliser `innerHTML` à la place"
+      ],
+      "reponse": 0,
+      "explication": "`createElement` crée l'élément en mémoire. Il faut ensuite l'ajouter avec `append` ou `appendChild`."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 2,
+      "question": "Quelle méthode attache un écouteur d'événement ?",
+      "options": [
+        "`addEventListener(\"click\", fn)`",
+        "`onEvent(\"click\", fn)`",
+        "`listen(\"click\", fn)`",
+        "`attachClick(fn)`"
+      ],
+      "reponse": 0,
+      "explication": "Le premier argument est le nom de l'événement, sans \"on\"."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 2,
+      "question": "Quel attribut ajouter sur un `<script>` placé dans le `<head>` pour qu'il s'exécute après le chargement du HTML ?",
+      "options": [
+        "`defer`",
+        "`wait`",
+        "`onload`",
+        "`later`"
+      ],
+      "reponse": 0,
+      "explication": "Avec `defer`, le script est téléchargé en parallèle et exécuté une fois le HTML entièrement lu."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 2,
+      "question": "Quelle propriété indique si une case à cocher est cochée ?",
+      "options": [
+        "`.checked`",
+        "`.value`",
+        "`.selected`",
+        "`.on`"
+      ],
+      "reponse": 0,
+      "explication": "`.checked` vaut `true` ou `false`. `.selected` concerne les `<option>` d'un `<select>`."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 3,
+      "question": "Que se passe-t-il au clic ?",
+      "code": [
+        "bouton.onclick = () => console.log(\"A\");",
+        "bouton.onclick = () => console.log(\"B\");"
+      ],
+      "options": [
+        "Seul « B » s'affiche",
+        "« A » puis « B » s'affichent",
+        "Seul « A » s'affiche",
+        "Rien"
+      ],
+      "reponse": 0,
+      "explication": "`onclick` est une propriété : la deuxième affectation remplace la première."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 3,
+      "question": "Que se passe-t-il au clic ?",
+      "code": [
+        "bouton.addEventListener(\"click\", () => console.log(\"A\"));",
+        "bouton.addEventListener(\"click\", () => console.log(\"B\"));"
+      ],
+      "options": [
+        "« A » puis « B » s'affichent",
+        "Seul « B » s'affiche",
+        "Seul « A » s'affiche",
+        "Une erreur"
+      ],
+      "reponse": 0,
+      "explication": "`addEventListener` ajoute des écouteurs sans remplacer les précédents. Ils s'exécutent dans l'ordre d'ajout."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 3,
+      "question": "Dans un écouteur `submit`, à quoi sert `e.preventDefault()` ?",
+      "options": [
+        "À empêcher l'envoi du formulaire et le rechargement de la page",
+        "À arrêter la propagation de l'événement",
+        "À vider le formulaire",
+        "À désactiver le bouton d'envoi"
+      ],
+      "reponse": 0,
+      "explication": "Arrêter la propagation, c'est `e.stopPropagation()`."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 3,
+      "question": "Quel événement se déclenche à chaque caractère tapé dans un champ ?",
+      "options": [
+        "`input`",
+        "`change`",
+        "`submit`",
+        "`blur`"
+      ],
+      "reponse": 0,
+      "explication": "`change` se déclenche quand la valeur est validée (en quittant le champ, ou au choix dans un select)."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 3,
+      "question": "Quel événement se déclenche quand on quitte un champ ?",
+      "options": [
+        "`blur`",
+        "`focus`",
+        "`input`",
+        "`leave`"
+      ],
+      "reponse": 0,
+      "explication": "`focus` = on entre dans le champ, `blur` = on en sort."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 3,
+      "question": "Quelle méthode retire un élément de la page ?",
+      "options": [
+        "`el.remove()`",
+        "`el.delete()`",
+        "`el.hide()`",
+        "`document.remove(el)`"
+      ],
+      "reponse": 0,
+      "explication": "Pour masquer sans retirer, on change le style ou une classe."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 3,
+      "question": "La console affiche `ReferenceError: prenon is not defined`. Qu'est-ce que cela signifie ?",
+      "options": [
+        "La variable n'existe pas (faute de frappe ou variable non déclarée)",
+        "La variable vaut `null`",
+        "La variable n'est pas du bon type",
+        "Il y a une erreur de syntaxe"
+      ],
+      "reponse": 0,
+      "explication": "Ici, probablement une faute de frappe : `prenon` au lieu de `prenom`."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 3,
+      "question": "Vous découvrez une bibliothèque JavaScript. Par quelle page de sa documentation commencer ?",
+      "options": [
+        "« Quick start » / « Getting started »",
+        "La référence complète (API) de A à Z",
+        "Le changelog",
+        "Le code source"
+      ],
+      "reponse": 0,
+      "explication": "Le démarrage rapide montre quoi inclure et un premier exemple. La référence sert ensuite pour aller plus loin."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 3,
+      "question": "Comment arrêter l'exécution du code sur une ligne précise pour inspecter les variables ?",
+      "options": [
+        "Placer un point d'arrêt (clic sur le numéro de ligne dans Sources, ou `debugger;`)",
+        "Appeler `console.clear()`",
+        "Ajouter `alert()` en début de fichier",
+        "Recharger la page avec F5"
+      ],
+      "reponse": 0,
+      "explication": "Ensuite : survoler les variables, F10 pour la ligne suivante, F8 pour reprendre."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 3,
+      "question": "Dans un écouteur, quelle propriété de l'événement donne l'élément sur lequel on a cliqué ?",
+      "options": [
+        "`e.target`",
+        "`e.element`",
+        "`e.source`",
+        "`e.clicked`"
+      ],
+      "reponse": 0,
+      "explication": "`e.currentTarget` donne l'élément qui porte l'écouteur, `e.target` celui réellement cliqué."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 4,
+      "question": "L'utilisateur tape 20. Qu'affiche ce code ?",
+      "code": [
+        "<input type=\"number\" id=\"age\">",
+        "",
+        "const age = document.getElementById(\"age\").value;",
+        "console.log(age + 1);"
+      ],
+      "options": [
+        "`\"201\"`",
+        "`21`",
+        "`NaN`",
+        "Une erreur"
+      ],
+      "reponse": 0,
+      "explication": "`.value` est toujours une chaîne, même pour `type=\"number\"`. Il faut `Number(...)` ou `.valueAsNumber`."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 4,
+      "question": "Un `<script>` placé dans le `<head>`, sans `defer`, exécute `document.getElementById(\"titre\")`. Que renvoie cet appel ?",
+      "options": [
+        "`null`, car le HTML n'est pas encore chargé",
+        "L'élément `#titre`",
+        "Une erreur de syntaxe",
+        "`undefined`"
+      ],
+      "reponse": 0,
+      "explication": "Solutions : `defer`, le script en bas du `<body>`, ou l'événement `DOMContentLoaded`."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 4,
+      "question": "Que fait `ancien.replaceWith(nouveau)` ?",
+      "options": [
+        "Il remplace `ancien` par `nouveau` dans la page",
+        "Il copie `nouveau` dans `ancien`",
+        "Il ajoute `nouveau` après `ancien`",
+        "Il échange leur texte"
+      ],
+      "reponse": 0,
+      "explication": "`ancien` est retiré du DOM et `nouveau` prend sa place."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 4,
+      "question": "La console affiche `Cannot read properties of null (reading 'addEventListener')`. Quelle est la cause la plus probable ?",
+      "options": [
+        "L'élément n'a pas été trouvé (id mal écrit, ou script exécuté avant le HTML)",
+        "`addEventListener` est mal orthographié",
+        "L'événement n'existe pas",
+        "La fonction de l'écouteur est vide"
+      ],
+      "reponse": 0,
+      "explication": "`getElementById` ou `querySelector` a renvoyé `null`, et on appelle une méthode sur `null`."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 4,
+      "question": "À quoi sert l'attribut `aria-label` ?",
+      "code": "<button aria-label=\"Fermer\">✕</button>",
+      "options": [
+        "À fournir un nom accessible, lu par les lecteurs d'écran",
+        "À afficher une infobulle",
+        "À servir d'identifiant pour le CSS",
+        "À traduire automatiquement l'élément"
+      ],
+      "reponse": 0,
+      "explication": "Utile quand le contenu visible ne suffit pas (une icône seule, par exemple)."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 4,
+      "question": "Pourquoi éviter un `<div onclick=\"...\">` à la place d'un bouton ?",
+      "options": [
+        "Il n'est pas atteignable au clavier et n'est pas annoncé comme un bouton",
+        "Il ne fonctionne pas sur mobile",
+        "Il est plus lent",
+        "Il est interdit en HTML5"
+      ],
+      "reponse": 0,
+      "explication": "Un vrai `<button>` est focusable avec Tab, activable avec Entrée ou Espace, et reconnu par les lecteurs d'écran."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 4,
+      "question": "Comment enregistrer le tableau `panier` dans le `localStorage` ?",
+      "options": [
+        "`localStorage.setItem(\"panier\", JSON.stringify(panier))`",
+        "`localStorage.setItem(\"panier\", panier)`",
+        "`localStorage.panier.push(panier)`",
+        "`localStorage.saveItem(\"panier\", panier)`"
+      ],
+      "reponse": 0,
+      "explication": "`localStorage` ne stocke que du texte. On relit avec `JSON.parse(localStorage.getItem(\"panier\"))`."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 4,
+      "question": "Pourquoi préférer `textContent` à `innerHTML` pour afficher un texte saisi par l'utilisateur ?",
+      "options": [
+        "Pour éviter que du HTML ou un script injecté soit interprété (faille XSS)",
+        "Parce que c'est plus court à écrire",
+        "Parce que `innerHTML` n'existe plus",
+        "Pour garder la mise en forme"
+      ],
+      "reponse": 0,
+      "explication": "`textContent` affiche le texte tel quel. `innerHTML` interprète les balises."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 4,
+      "question": "Comment lire la valeur du bouton radio coché du groupe `niveau` ?",
+      "options": [
+        "`document.querySelector(\"input[name='niveau']:checked\").value`",
+        "`document.getElementById(\"niveau\").value`",
+        "`document.querySelector(\"niveau\").checked`",
+        "`document.querySelectorAll(\"[name=niveau]\").value`"
+      ],
+      "reponse": 0,
+      "explication": "Le groupe n'a pas d'id commun : on cherche l'input du groupe qui est `:checked`."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 5,
+      "question": "Où l'erreur se produit-elle ?",
+      "code": [
+        "Uncaught TypeError: Cannot read properties of undefined (reading 'toUpperCase')",
+        "    at formaterNom (script.js:12)",
+        "    at afficherClient (script.js:20)",
+        "    at HTMLButtonElement.<anonymous> (script.js:30)"
+      ],
+      "options": [
+        "Dans `formaterNom`, ligne 12",
+        "Dans `afficherClient`, ligne 20",
+        "Ligne 30, dans l'écouteur du bouton",
+        "Dans la méthode `toUpperCase` du navigateur"
+      ],
+      "reponse": 0,
+      "explication": "La stack trace se lit de haut en bas : la première ligne est l'endroit de l'erreur, les suivantes indiquent qui a appelé qui."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 5,
+      "question": "Pour qu'un `CustomEvent` déclenché sur un enfant soit capté par un écouteur placé sur son parent, il faut…",
+      "code": [
+        "enfant.dispatchEvent(",
+        "  new CustomEvent(\"ajout\", { detail: 42 })",
+        ");",
+        "",
+        "parent.addEventListener(\"ajout\", (e) => console.log(e.detail));"
+      ],
+      "options": [
+        "l'option `{ bubbles: true }`",
+        "l'option `{ parent: true }`",
+        "l'option `{ cancelable: true }`",
+        "rien de particulier"
+      ],
+      "reponse": 0,
+      "explication": "Par défaut, un événement créé avec `new CustomEvent` ne remonte pas (bubbling) vers les parents."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 5,
+      "question": "Qu'affiche ce code ?",
+      "code": [
+        "localStorage.setItem(\"panier\", [1, 2]);",
+        "console.log(localStorage.getItem(\"panier\"));"
+      ],
+      "options": [
+        "`\"1,2\"` (une chaîne)",
+        "`[1, 2]` (un tableau)",
+        "`null`",
+        "Une erreur"
+      ],
+      "reponse": 0,
+      "explication": "Le tableau est converti en texte avec `toString()`. D'où l'intérêt de `JSON.stringify`."
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 5,
+      "question": "Pourquoi ce code fonctionne-t-il aussi pour des `<li>` ajoutés plus tard ?",
+      "code": [
+        "document.getElementById(\"liste\").addEventListener(\"click\", (e) => {",
+        "  if (e.target.tagName === \"LI\") e.target.remove();",
+        "});"
+      ],
+      "options": [
+        "Grâce à la délégation : le clic remonte (bubbling) jusqu'à la liste",
+        "Parce que les `<li>` copient l'écouteur de leur parent",
+        "Parce que `addEventListener` s'applique aussi aux futurs éléments",
+        "Parce que `tagName` met la liste à jour"
+      ],
+      "reponse": 0,
+      "explication": "Un seul écouteur sur le parent suffit : `e.target` indique l'enfant cliqué."
+    }
+  ],
+  "pratiques": [
+    {
+      "categorie": "HTML",
+      "niveau": 2,
+      "fichier": "html",
+      "enonce": "Dans le `<body>`, écris un titre de niveau 2 « Fruits », suivi d'une liste à puces de 3 fruits.",
+      "depart": [
+        "<!DOCTYPE html>",
+        "<html lang=\"fr\">",
+        "<head>",
+        "  <meta charset=\"UTF-8\">",
+        "  <title>Exercice</title>",
+        "</head>",
+        "<body>",
+        "  ",
+        "</body>",
+        "</html>"
+      ],
+      "verification": "const h = document.querySelector('h2'); return !!h && h.textContent.trim() === 'Fruits' && document.querySelectorAll('ul > li').length === 3;",
+      "solution": [
+        "<!DOCTYPE html>",
+        "<html lang=\"fr\">",
+        "<head>",
+        "  <meta charset=\"UTF-8\">",
+        "  <title>Exercice</title>",
+        "</head>",
+        "<body>",
+        "  <h2>Fruits</h2>",
+        "  <ul>",
+        "    <li>Pomme</li>",
+        "    <li>Banane</li>",
+        "    <li>Kiwi</li>",
+        "  </ul>",
+        "</body>",
+        "</html>"
+      ]
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 3,
+      "fichier": "html",
+      "enonce": [
+        "Crée un formulaire contenant :",
+        "1. un champ email obligatoire ;",
+        "2. un label « Email » relié à ce champ ;",
+        "3. un bouton d'envoi."
+      ],
+      "depart": [
+        "<!DOCTYPE html>",
+        "<html lang=\"fr\">",
+        "<head>",
+        "  <meta charset=\"UTF-8\">",
+        "  <title>Exercice</title>",
+        "</head>",
+        "<body>",
+        "  ",
+        "</body>",
+        "</html>"
+      ],
+      "verification": "const i = document.querySelector('form input[type=email]'); if (!i || !i.required || !i.labels || i.labels.length === 0) return false; return !!document.querySelector('form button:not([type=button]):not([type=reset]), form input[type=submit]');",
+      "solution": [
+        "<!DOCTYPE html>",
+        "<html lang=\"fr\">",
+        "<head>",
+        "  <meta charset=\"UTF-8\">",
+        "  <title>Exercice</title>",
+        "</head>",
+        "<body>",
+        "  <form>",
+        "    <label for=\"email\">Email</label>",
+        "    <input type=\"email\" id=\"email\" name=\"email\" required>",
+        "    <button type=\"submit\">Envoyer</button>",
+        "  </form>",
+        "</body>",
+        "</html>"
+      ]
+    },
+    {
+      "categorie": "HTML",
+      "niveau": 4,
+      "fichier": "html",
+      "enonce": [
+        "Crée un tableau avec :",
+        "1. un `<thead>` contenant 2 cellules d'en-tête (Produit, Prix) ;",
+        "2. un `<tbody>` contenant 2 lignes ;",
+        "3. un `<tfoot>` avec une seule cellule qui s'étend sur les 2 colonnes."
+      ],
+      "depart": [
+        "<!DOCTYPE html>",
+        "<html lang=\"fr\">",
+        "<head>",
+        "  <meta charset=\"UTF-8\">",
+        "  <title>Exercice</title>",
+        "</head>",
+        "<body>",
+        "  ",
+        "</body>",
+        "</html>"
+      ],
+      "verification": "return document.querySelectorAll('table thead th').length === 2 && document.querySelectorAll('table tbody tr').length === 2 && !!document.querySelector('table tfoot td[colspan=\"2\"]');",
+      "solution": [
+        "<!DOCTYPE html>",
+        "<html lang=\"fr\">",
+        "<head>",
+        "  <meta charset=\"UTF-8\">",
+        "  <title>Exercice</title>",
+        "</head>",
+        "<body>",
+        "  <table>",
+        "    <thead>",
+        "      <tr><th>Produit</th><th>Prix</th></tr>",
+        "    </thead>",
+        "    <tbody>",
+        "      <tr><td>Pain</td><td>2,50 €</td></tr>",
+        "      <tr><td>Lait</td><td>1,20 €</td></tr>",
+        "    </tbody>",
+        "    <tfoot>",
+        "      <tr><td colspan=\"2\">Total : 3,70 €</td></tr>",
+        "    </tfoot>",
+        "  </table>",
+        "</body>",
+        "</html>"
+      ]
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 2,
+      "fichier": "html",
+      "enonce": "Complète le CSS pour que le paragraphe de classe `alerte` soit **rouge** et **en gras**.",
+      "depart": [
+        "<!DOCTYPE html>",
+        "<html lang=\"fr\">",
+        "<head>",
+        "  <meta charset=\"UTF-8\">",
+        "  <title>Exercice</title>",
+        "  <style>",
+        "    ",
+        "  </style>",
+        "</head>",
+        "<body>",
+        "  <p class=\"alerte\">Attention : stock épuisé !</p>",
+        "</body>",
+        "</html>"
+      ],
+      "verification": "const s = getComputedStyle(document.querySelector('.alerte')); return s.color === 'rgb(255, 0, 0)' && parseInt(s.fontWeight) >= 700;",
+      "solution": [
+        "<!DOCTYPE html>",
+        "<html lang=\"fr\">",
+        "<head>",
+        "  <meta charset=\"UTF-8\">",
+        "  <title>Exercice</title>",
+        "  <style>",
+        "    .alerte {",
+        "      color: red;",
+        "      font-weight: bold;",
+        "    }",
+        "  </style>",
+        "</head>",
+        "<body>",
+        "  <p class=\"alerte\">Attention : stock épuisé !</p>",
+        "</body>",
+        "</html>"
+      ]
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 3,
+      "fichier": "html",
+      "enonce": "Avec Flexbox, centre la boîte `.boite` horizontalement **et** verticalement dans `.conteneur`.",
+      "depart": [
+        "<!DOCTYPE html>",
+        "<html lang=\"fr\">",
+        "<head>",
+        "  <meta charset=\"UTF-8\">",
+        "  <title>Exercice</title>",
+        "  <style>",
+        "    .conteneur {",
+        "      height: 300px;",
+        "      border: 2px solid #333;",
+        "    }",
+        "",
+        "    .boite {",
+        "      width: 100px;",
+        "      padding: 10px;",
+        "      background: gold;",
+        "    }",
+        "  </style>",
+        "</head>",
+        "<body>",
+        "  <div class=\"conteneur\">",
+        "    <div class=\"boite\">Centré</div>",
+        "  </div>",
+        "</body>",
+        "</html>"
+      ],
+      "verification": "const c = document.querySelector('.conteneur').getBoundingClientRect(); const b = document.querySelector('.boite').getBoundingClientRect(); return Math.abs((c.left + c.right) / 2 - (b.left + b.right) / 2) < 3 && Math.abs((c.top + c.bottom) / 2 - (b.top + b.bottom) / 2) < 3;",
+      "solution": [
+        "<!DOCTYPE html>",
+        "<html lang=\"fr\">",
+        "<head>",
+        "  <meta charset=\"UTF-8\">",
+        "  <title>Exercice</title>",
+        "  <style>",
+        "    .conteneur {",
+        "      height: 300px;",
+        "      border: 2px solid #333;",
+        "      display: flex;",
+        "      justify-content: center;",
+        "      align-items: center;",
+        "    }",
+        "",
+        "    .boite {",
+        "      width: 100px;",
+        "      padding: 10px;",
+        "      background: gold;",
+        "    }",
+        "  </style>",
+        "</head>",
+        "<body>",
+        "  <div class=\"conteneur\">",
+        "    <div class=\"boite\">Centré</div>",
+        "  </div>",
+        "</body>",
+        "</html>"
+      ]
+    },
+    {
+      "categorie": "CSS",
+      "niveau": 4,
+      "fichier": "html",
+      "enonce": "Place le badge « Promo » dans le **coin supérieur droit** de la carte, avec un positionnement absolu.",
+      "depart": [
+        "<!DOCTYPE html>",
+        "<html lang=\"fr\">",
+        "<head>",
+        "  <meta charset=\"UTF-8\">",
+        "  <title>Exercice</title>",
+        "  <style>",
+        "    .carte {",
+        "      width: 250px;",
+        "      margin: 40px;",
+        "      padding: 20px;",
+        "      border: 1px solid #ccc;",
+        "    }",
+        "",
+        "    .badge {",
+        "      background: crimson;",
+        "      color: white;",
+        "      padding: 4px 8px;",
+        "    }",
+        "  </style>",
+        "</head>",
+        "<body>",
+        "  <div class=\"carte\">",
+        "    <span class=\"badge\">Promo</span>",
+        "    <h2>Casque audio</h2>",
+        "    <p>49,99 €</p>",
+        "  </div>",
+        "</body>",
+        "</html>"
+      ],
+      "verification": "const b = document.querySelector('.badge'); const c = document.querySelector('.carte').getBoundingClientRect(); const r = b.getBoundingClientRect(); return getComputedStyle(b).position === 'absolute' && Math.abs(r.top - c.top) < 3 && Math.abs(r.right - c.right) < 3;",
+      "solution": [
+        "<!DOCTYPE html>",
+        "<html lang=\"fr\">",
+        "<head>",
+        "  <meta charset=\"UTF-8\">",
+        "  <title>Exercice</title>",
+        "  <style>",
+        "    .carte {",
+        "      width: 250px;",
+        "      margin: 40px;",
+        "      padding: 20px;",
+        "      border: 1px solid #ccc;",
+        "      position: relative;",
+        "    }",
+        "",
+        "    .badge {",
+        "      background: crimson;",
+        "      color: white;",
+        "      padding: 4px 8px;",
+        "      position: absolute;",
+        "      top: 0;",
+        "      right: 0;",
+        "    }",
+        "  </style>",
+        "</head>",
+        "<body>",
+        "  <div class=\"carte\">",
+        "    <span class=\"badge\">Promo</span>",
+        "    <h2>Casque audio</h2>",
+        "    <p>49,99 €</p>",
+        "  </div>",
+        "</body>",
+        "</html>"
+      ]
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 2,
+      "fichier": "js",
+      "enonce": [
+        "Écris une fonction `double(n)` qui retourne le double du nombre reçu.",
+        "",
+        "Exemple : `double(4)` retourne `8`."
+      ],
+      "depart": [
+        "// Ton code ici",
+        ""
+      ],
+      "verification": "return typeof double === 'function' && double(4) === 8 && double(-3) === -6 && double(0) === 0;",
+      "solution": [
+        "function double(n) {",
+        "  return n * 2;",
+        "}"
+      ]
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 3,
+      "fichier": "js",
+      "enonce": [
+        "Écris une fonction `moyenne(notes)` qui reçoit un tableau de nombres et retourne leur moyenne.",
+        "",
+        "Exemple : `moyenne([12, 15, 18])` retourne `15`."
+      ],
+      "depart": [
+        "// Ton code ici",
+        ""
+      ],
+      "verification": "return typeof moyenne === 'function' && moyenne([12, 15, 18]) === 15 && moyenne([10, 20]) === 15 && moyenne([7]) === 7;",
+      "solution": [
+        "function moyenne(notes) {",
+        "  let somme = 0;",
+        "",
+        "  for (const note of notes) {",
+        "    somme += note;",
+        "  }",
+        "",
+        "  return somme / notes.length;",
+        "}"
+      ]
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 3,
+      "fichier": "js",
+      "enonce": "Écris une fonction `estMajeur(age)` qui retourne `true` si l'âge est de 18 ans ou plus, sinon `false`.",
+      "depart": [
+        "// Ton code ici",
+        ""
+      ],
+      "verification": "return typeof estMajeur === 'function' && estMajeur(18) === true && estMajeur(30) === true && estMajeur(17) === false;",
+      "solution": [
+        "function estMajeur(age) {",
+        "  return age >= 18;",
+        "}"
+      ]
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 4,
+      "fichier": "js",
+      "enonce": [
+        "Écris une fonction `compterVoyelles(texte)` qui retourne le nombre de voyelles (a, e, i, o, u, y) du texte, **majuscules comprises**.",
+        "",
+        "Exemples : `compterVoyelles(\"Bonjour\")` retourne `3`, `compterVoyelles(\"\")` retourne `0`."
+      ],
+      "depart": [
+        "// Ton code ici",
+        ""
+      ],
+      "verification": "return typeof compterVoyelles === 'function' && compterVoyelles('Bonjour') === 3 && compterVoyelles('Kayak') === 3 && compterVoyelles('AEIOUY') === 6 && compterVoyelles('') === 0;",
+      "solution": [
+        "function compterVoyelles(texte) {",
+        "  const voyelles = \"aeiouy\";",
+        "  let compteur = 0;",
+        "",
+        "  for (const lettre of texte.toLowerCase()) {",
+        "    if (voyelles.includes(lettre)) compteur++;",
+        "  }",
+        "",
+        "  return compteur;",
+        "}"
+      ]
+    },
+    {
+      "categorie": "JavaScript",
+      "niveau": 5,
+      "fichier": "js",
+      "enonce": "Cette fonction doit retourner la somme des nombres du tableau, mais elle contient **3 erreurs**. Corrige-les.",
+      "depart": [
+        "function somme(tab) {",
+        "  let total = 0;",
+        "",
+        "  for (let i = 1; i <= tab.length; i++) {",
+        "    total = tab[i];",
+        "  }",
+        "}",
+        ""
+      ],
+      "verification": "return typeof somme === 'function' && somme([1, 2, 3]) === 6 && somme([5]) === 5 && somme([]) === 0;",
+      "solution": [
+        "function somme(tab) {",
+        "  let total = 0;",
+        "",
+        "  for (let i = 0; i < tab.length; i++) {   // 1. commencer à 0, et < au lieu de <=",
+        "    total += tab[i];                        // 2. += au lieu de =",
+        "  }",
+        "",
+        "  return total;                             // 3. le return manquait",
+        "}"
+      ]
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 3,
+      "fichier": "html",
+      "enonce": "Au clic sur le bouton `#plus`, le nombre affiché dans `#compteur` doit augmenter de 1.",
+      "depart": [
+        "<!DOCTYPE html>",
+        "<html lang=\"fr\">",
+        "<head>",
+        "  <meta charset=\"UTF-8\">",
+        "  <title>Exercice</title>",
+        "</head>",
+        "<body>",
+        "  <p id=\"compteur\">0</p>",
+        "  <button id=\"plus\">+1</button>",
+        "",
+        "  <script>",
+        "    // Ton code ici",
+        "",
+        "  </script>",
+        "</body>",
+        "</html>"
+      ],
+      "verification": "const b = document.getElementById('plus'); b.click(); b.click(); return document.getElementById('compteur').textContent.trim() === '2';",
+      "solution": [
+        "<!DOCTYPE html>",
+        "<html lang=\"fr\">",
+        "<head>",
+        "  <meta charset=\"UTF-8\">",
+        "  <title>Exercice</title>",
+        "</head>",
+        "<body>",
+        "  <p id=\"compteur\">0</p>",
+        "  <button id=\"plus\">+1</button>",
+        "",
+        "  <script>",
+        "    const compteur = document.getElementById(\"compteur\");",
+        "    const plus = document.getElementById(\"plus\");",
+        "    let valeur = 0;",
+        "",
+        "    plus.addEventListener(\"click\", () => {",
+        "      valeur++;",
+        "      compteur.textContent = valeur;",
+        "    });",
+        "  </script>",
+        "</body>",
+        "</html>"
+      ]
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 4,
+      "fichier": "html",
+      "enonce": "Au clic sur « Saluer », le paragraphe `#message` doit afficher « Bonjour » suivi du prénom saisi. Le script contient **3 erreurs** : corrige-les.",
+      "depart": [
+        "<!DOCTYPE html>",
+        "<html lang=\"fr\">",
+        "<head>",
+        "  <meta charset=\"UTF-8\">",
+        "  <title>Exercice</title>",
+        "</head>",
+        "<body>",
+        "  <input type=\"text\" id=\"prenom\" value=\"Léa\">",
+        "  <button id=\"btn-saluer\">Saluer</button>",
+        "  <p id=\"message\"></p>",
+        "",
+        "  <script>",
+        "    const bouton = document.getElementById(\"btn-salut\");",
+        "    const prenom = document.getElementById(\"prenom\");",
+        "",
+        "    bouton.addEventListener(\"clic\", () => {",
+        "      document.getElementById(\"message\").textcontent = \"Bonjour \" + prenom.value;",
+        "    });",
+        "  </script>",
+        "</body>",
+        "</html>"
+      ],
+      "verification": "document.getElementById('prenom').value = 'Léa'; document.getElementById('btn-saluer').click(); return document.getElementById('message').textContent.trim() === 'Bonjour Léa';",
+      "solution": [
+        "<!DOCTYPE html>",
+        "<html lang=\"fr\">",
+        "<head>",
+        "  <meta charset=\"UTF-8\">",
+        "  <title>Exercice</title>",
+        "</head>",
+        "<body>",
+        "  <input type=\"text\" id=\"prenom\" value=\"Léa\">",
+        "  <button id=\"btn-saluer\">Saluer</button>",
+        "  <p id=\"message\"></p>",
+        "",
+        "  <script>",
+        "    const bouton = document.getElementById(\"btn-saluer\");    // 1. id : btn-saluer",
+        "    const prenom = document.getElementById(\"prenom\");",
+        "",
+        "    bouton.addEventListener(\"click\", () => {                  // 2. événement : click",
+        "      document.getElementById(\"message\").textContent = \"Bonjour \" + prenom.value;  // 3. textContent (C majuscule)",
+        "    });",
+        "  </script>",
+        "</body>",
+        "</html>"
+      ]
+    },
+    {
+      "categorie": "Intégration",
+      "niveau": 5,
+      "fichier": "html",
+      "enonce": [
+        "À l'envoi du formulaire :",
+        "1. empêche le rechargement de la page ;",
+        "2. si le pseudo est vide, affiche « Pseudo obligatoire » dans `#retour` ;",
+        "3. sinon, affiche « Bienvenue » suivi du pseudo (exemple : « Bienvenue Léa »)."
+      ],
+      "depart": [
+        "<!DOCTYPE html>",
+        "<html lang=\"fr\">",
+        "<head>",
+        "  <meta charset=\"UTF-8\">",
+        "  <title>Exercice</title>",
+        "</head>",
+        "<body>",
+        "  <form id=\"form-pseudo\">",
+        "    <label for=\"pseudo\">Pseudo</label>",
+        "    <input type=\"text\" id=\"pseudo\">",
+        "    <button type=\"submit\">Valider</button>",
+        "  </form>",
+        "  <p id=\"retour\"></p>",
+        "",
+        "  <script>",
+        "    // Ton code ici",
+        "",
+        "  </script>",
+        "</body>",
+        "</html>"
+      ],
+      "verification": "const f = document.getElementById('form-pseudo'); const p = document.getElementById('pseudo'); const r = document.getElementById('retour'); p.value = ''; const e1 = new Event('submit', { bubbles: true, cancelable: true }); f.dispatchEvent(e1); if (!e1.defaultPrevented || r.textContent.trim() !== 'Pseudo obligatoire') return false; p.value = 'Léa'; const e2 = new Event('submit', { bubbles: true, cancelable: true }); f.dispatchEvent(e2); return e2.defaultPrevented && r.textContent.trim() === 'Bienvenue Léa';",
+      "solution": [
+        "<!DOCTYPE html>",
+        "<html lang=\"fr\">",
+        "<head>",
+        "  <meta charset=\"UTF-8\">",
+        "  <title>Exercice</title>",
+        "</head>",
+        "<body>",
+        "  <form id=\"form-pseudo\">",
+        "    <label for=\"pseudo\">Pseudo</label>",
+        "    <input type=\"text\" id=\"pseudo\">",
+        "    <button type=\"submit\">Valider</button>",
+        "  </form>",
+        "  <p id=\"retour\"></p>",
+        "",
+        "  <script>",
+        "    const form = document.getElementById(\"form-pseudo\");",
+        "    const pseudo = document.getElementById(\"pseudo\");",
+        "    const retour = document.getElementById(\"retour\");",
+        "",
+        "    form.addEventListener(\"submit\", (e) => {",
+        "      e.preventDefault();",
+        "",
+        "      const valeur = pseudo.value.trim();",
+        "",
+        "      if (valeur == \"\") retour.textContent = \"Pseudo obligatoire\";",
+        "      else retour.textContent = `Bienvenue ${valeur}`;",
+        "    });",
+        "  </script>",
+        "</body>",
+        "</html>"
+      ]
+    }
+  ]
+}
