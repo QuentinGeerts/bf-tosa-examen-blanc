@@ -198,8 +198,8 @@ svg.progression .niveau { fill: none; stroke: var(--ink); stroke-width: 2; strok
 .envoi-ok { color: var(--ok); font-weight: 600; }
 .envoi-ko { color: var(--ko); }
 .copy-box { width: 100%; min-height: 150px; font-size: 13px; border: 1px solid var(--line); border-radius: 8px; padding: 10px; background: var(--surface-2); color: var(--ink); resize: vertical; }
-.review { display: grid; gap: 12px; margin-top: 14px; }
-.rv { border: 1px solid var(--line); border-left: 4px solid var(--ok); border-radius: 8px; padding: 16px 18px; background: var(--surface); }
+.review { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; margin-top: 14px; }
+.rv { min-width: 0; border: 1px solid var(--line); border-left: 4px solid var(--ok); border-radius: 8px; padding: 16px 18px; background: var(--surface); }
 .rv.bad { border-left-color: var(--ko); }
 .rv .head { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; font-size: 14px; }
 .rv .qid { font-size: 12px; }
@@ -242,7 +242,7 @@ svg.progression .niveau { fill: none; stroke: var(--ink); stroke-width: 2; strok
 pre.code.trou { line-height: 2.1; }
 .trou-input { font: inherit; font-size: 14px; padding: 2px 6px; margin: 0 2px; border: 0; border-bottom: 2px solid #8fb4e3; border-radius: 4px 4px 0 0; background: #2c3646; color: #fff; }
 .trou-input:focus { outline: 2px solid #8fb4e3; }
-.lignes { border-radius: 8px; overflow: hidden; background: var(--code-bg); margin-bottom: 12px; }
+.lignes { border-radius: 8px; overflow-x: auto; background: var(--code-bg); margin-bottom: 12px; }
 .lignes .ligne { display: flex; align-items: baseline; gap: 12px; width: 100%; border: 0; background: transparent; color: var(--code-ink); text-align: left; padding: 5px 12px; font-size: 14px; border-left: 4px solid transparent; }
 button.ligne { cursor: pointer; }
 button.ligne:hover { background: #2a3445; }
@@ -1378,6 +1378,7 @@ function renderHistorique() {
 }
 
 function renderResultats() {
+  if (S.vue !== "resultats") { S.vue = "resultats"; save(); }   // un rechargement réaffiche les résultats
   ajouterHistorique();
   const sc = score(S.answers);
   const st = stats();
@@ -1598,6 +1599,7 @@ function allerAccueil(e) {
   const enBanque = location.hash === "#banque";
   if (enBanque) history.replaceState(null, "", location.pathname + location.search);
   if (S && !S.fini) { if (enBanque) render(); return; }   // examen en cours : on y reste
+  if (S) { S.vue = "accueil"; save(); }
   S = null;
   render();
   window.scrollTo(0, 0);
@@ -1616,8 +1618,12 @@ function allerAccueil(e) {
   const saved = load();
   if (saved && saved.seq && !saved.fini && Date.now() >= saved.end) {
     S = saved;
-    terminer();
-    S = null;
+    terminer();               // temps écoulé pendant l'absence : l'examen se termine
+  } else if (saved && saved.seq && !saved.fini) {
+    S = saved;                // examen en cours : il reprend directement là où il s'était arrêté
+    demarrerChrono();
+  } else if (saved && saved.fini && saved.vue === "resultats") {
+    S = saved;                // la page de résultats reste affichée après un rechargement
   }
   const router = () => (location.hash === "#banque" ? renderBanque() : render());
   window.addEventListener("hashchange", () => { router(); window.scrollTo(0, 0); });
