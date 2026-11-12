@@ -3862,6 +3862,20 @@
         }
       },
       "verification": "const h = document.querySelector('h2'); return !!h && h.textContent.trim() === 'Fruits' && document.querySelectorAll('ul > li').length === 3;",
+      "criteres": [
+        {
+          "nom": "Un titre <h2> « Fruits »",
+          "test": "const h = document.querySelector('h2'); return !!h && h.textContent.trim() === 'Fruits';"
+        },
+        {
+          "nom": "Une liste à puces <ul>",
+          "test": "return !!document.querySelector('ul');"
+        },
+        {
+          "nom": "3 éléments <li> dans la liste",
+          "test": "return document.querySelectorAll('ul > li').length === 3;"
+        }
+      ],
       "solution": {
         "html": [
           "<!DOCTYPE html>",
@@ -3924,6 +3938,24 @@
         }
       },
       "verification": "const i = document.querySelector('form input[type=email]'); if (!i || !i.required || !i.labels || i.labels.length === 0) return false; return !!document.querySelector('form button:not([type=button]):not([type=reset]), form input[type=submit]');",
+      "criteres": [
+        {
+          "nom": "Un champ de type email dans un <form>",
+          "test": "return !!document.querySelector('form input[type=email]');"
+        },
+        {
+          "nom": "Le champ est obligatoire (required)",
+          "test": "const i = document.querySelector('form input[type=email]'); return !!i && i.required;"
+        },
+        {
+          "nom": "Un label « Email » relié au champ",
+          "test": "const i = document.querySelector('form input[type=email]'); return !!i && i.labels && i.labels.length > 0;"
+        },
+        {
+          "nom": "Un bouton d'envoi",
+          "test": "return !!document.querySelector('form button:not([type=button]):not([type=reset]), form input[type=submit]');"
+        }
+      ],
       "solution": {
         "html": [
           "<!DOCTYPE html>",
@@ -3985,6 +4017,20 @@
         }
       },
       "verification": "const src = code.toLowerCase(); const pied = document.querySelectorAll('table tfoot td, table tfoot th'); return /<thead[^>]*>\\s*<tr/.test(src) && /<tbody/.test(src) && document.querySelectorAll('table thead th').length === 2 && document.querySelectorAll('table tbody tr').length === 2 && pied.length === 1 && pied[0].colSpan === 2;",
+      "criteres": [
+        {
+          "nom": "<thead> avec 2 cellules d'en-tête dans un <tr>",
+          "test": "return /<thead[^>]*>\\s*<tr/.test(code.toLowerCase()) && document.querySelectorAll('table thead th').length === 2;"
+        },
+        {
+          "nom": "<tbody> écrit, avec 2 lignes",
+          "test": "return /<tbody/.test(code.toLowerCase()) && document.querySelectorAll('table tbody tr').length === 2;"
+        },
+        {
+          "nom": "<tfoot> : une seule cellule sur 2 colonnes",
+          "test": "const p = document.querySelectorAll('table tfoot td, table tfoot th'); return p.length === 1 && p[0].colSpan === 2;"
+        }
+      ],
       "solution": {
         "html": [
           "<!DOCTYPE html>",
@@ -4049,6 +4095,16 @@
         }
       },
       "verification": "const s = getComputedStyle(document.querySelector('.alerte')); return s.color === 'rgb(255, 0, 0)' && parseInt(s.fontWeight) >= 700;",
+      "criteres": [
+        {
+          "nom": "Texte rouge",
+          "test": "return getComputedStyle(document.querySelector('.alerte')).color === 'rgb(255, 0, 0)';"
+        },
+        {
+          "nom": "Texte en gras",
+          "test": "return parseInt(getComputedStyle(document.querySelector('.alerte')).fontWeight) >= 700;"
+        }
+      ],
       "solution": {
         "css": [
           ".alerte {",
@@ -4108,6 +4164,16 @@
         }
       },
       "verification": "const c = document.querySelector('.conteneur').getBoundingClientRect(); const b = document.querySelector('.boite').getBoundingClientRect(); return Math.abs((c.left + c.right) / 2 - (b.left + b.right) / 2) < 3 && Math.abs((c.top + c.bottom) / 2 - (b.top + b.bottom) / 2) < 3;",
+      "criteres": [
+        {
+          "nom": "Centrée horizontalement",
+          "test": "const c = document.querySelector('.conteneur').getBoundingClientRect(), b = document.querySelector('.boite').getBoundingClientRect(); return Math.abs((c.left + c.right) / 2 - (b.left + b.right) / 2) < 3;"
+        },
+        {
+          "nom": "Centrée verticalement",
+          "test": "const c = document.querySelector('.conteneur').getBoundingClientRect(), b = document.querySelector('.boite').getBoundingClientRect(); return Math.abs((c.top + c.bottom) / 2 - (b.top + b.bottom) / 2) < 3;"
+        }
+      ],
       "solution": {
         "css": [
           ".conteneur {",
@@ -4180,6 +4246,20 @@
         }
       },
       "verification": "const b = document.querySelector('.badge'); const c = document.querySelector('.carte').getBoundingClientRect(); const r = b.getBoundingClientRect(); return getComputedStyle(b).position === 'absolute' && Math.abs(r.top - c.top) < 3 && Math.abs(r.right - c.right) < 3;",
+      "criteres": [
+        {
+          "nom": "Le badge est en position absolue",
+          "test": "return getComputedStyle(document.querySelector('.badge')).position === 'absolute';"
+        },
+        {
+          "nom": "Collé en haut de la carte",
+          "test": "return Math.abs(document.querySelector('.badge').getBoundingClientRect().top - document.querySelector('.carte').getBoundingClientRect().top) < 3;"
+        },
+        {
+          "nom": "Collé à droite de la carte",
+          "test": "return Math.abs(document.querySelector('.badge').getBoundingClientRect().right - document.querySelector('.carte').getBoundingClientRect().right) < 3;"
+        }
+      ],
       "solution": {
         "css": [
           ".carte {",
@@ -4267,6 +4347,20 @@
         "})();"
       ],
       "verification": "return typeof double === 'function' && double(4) === 8 && double(-3) === -6 && double(0) === 0;",
+      "criteres": [
+        {
+          "nom": "double(4) renvoie 8",
+          "test": "return typeof double === 'function' && double(4) === 8;"
+        },
+        {
+          "nom": "double(-3) renvoie -6",
+          "test": "return typeof double === 'function' && double(-3) === -6;"
+        },
+        {
+          "nom": "double(0) renvoie 0",
+          "test": "return typeof double === 'function' && double(0) === 0;"
+        }
+      ],
       "solution": {
         "js": [
           "function double(n) {",
@@ -4341,6 +4435,20 @@
         "})();"
       ],
       "verification": "return typeof moyenne === 'function' && moyenne([12, 15, 18]) === 15 && moyenne([10, 20]) === 15 && moyenne([7]) === 7;",
+      "criteres": [
+        {
+          "nom": "moyenne([12, 15, 18]) renvoie 15",
+          "test": "return typeof moyenne === 'function' && moyenne([12, 15, 18]) === 15;"
+        },
+        {
+          "nom": "moyenne([10, 20]) renvoie 15",
+          "test": "return typeof moyenne === 'function' && moyenne([10, 20]) === 15;"
+        },
+        {
+          "nom": "moyenne([7]) renvoie 7",
+          "test": "return typeof moyenne === 'function' && moyenne([7]) === 7;"
+        }
+      ],
       "solution": {
         "js": [
           "function moyenne(notes) {",
@@ -4417,6 +4525,20 @@
         "})();"
       ],
       "verification": "return typeof estMajeur === 'function' && estMajeur(18) === true && estMajeur(30) === true && estMajeur(17) === false;",
+      "criteres": [
+        {
+          "nom": "estMajeur(18) renvoie true",
+          "test": "return typeof estMajeur === 'function' && estMajeur(18) === true;"
+        },
+        {
+          "nom": "estMajeur(30) renvoie true",
+          "test": "return typeof estMajeur === 'function' && estMajeur(30) === true;"
+        },
+        {
+          "nom": "estMajeur(17) renvoie false",
+          "test": "return typeof estMajeur === 'function' && estMajeur(17) === false;"
+        }
+      ],
       "solution": {
         "js": [
           "function estMajeur(age) {",
@@ -4491,6 +4613,24 @@
         "})();"
       ],
       "verification": "return typeof compterVoyelles === 'function' && compterVoyelles('Bonjour') === 3 && compterVoyelles('Kayak') === 3 && compterVoyelles('AEIOUY') === 6 && compterVoyelles('') === 0;",
+      "criteres": [
+        {
+          "nom": "compterVoyelles('Bonjour') renvoie 3",
+          "test": "return typeof compterVoyelles === 'function' && compterVoyelles('Bonjour') === 3;"
+        },
+        {
+          "nom": "compterVoyelles('Kayak') renvoie 3",
+          "test": "return typeof compterVoyelles === 'function' && compterVoyelles('Kayak') === 3;"
+        },
+        {
+          "nom": "compterVoyelles('AEIOUY') renvoie 6",
+          "test": "return typeof compterVoyelles === 'function' && compterVoyelles('AEIOUY') === 6;"
+        },
+        {
+          "nom": "compterVoyelles('') renvoie 0",
+          "test": "return typeof compterVoyelles === 'function' && compterVoyelles('') === 0;"
+        }
+      ],
       "solution": {
         "js": [
           "function compterVoyelles(texte) {",
@@ -4574,6 +4714,20 @@
         "})();"
       ],
       "verification": "return typeof somme === 'function' && somme([1, 2, 3]) === 6 && somme([5]) === 5 && somme([]) === 0;",
+      "criteres": [
+        {
+          "nom": "somme([1, 2, 3]) renvoie 6",
+          "test": "return typeof somme === 'function' && somme([1, 2, 3]) === 6;"
+        },
+        {
+          "nom": "somme([5]) renvoie 5",
+          "test": "return typeof somme === 'function' && somme([5]) === 5;"
+        },
+        {
+          "nom": "somme([]) renvoie 0",
+          "test": "return typeof somme === 'function' && somme([]) === 0;"
+        }
+      ],
       "solution": {
         "js": [
           "function somme(tab) {",
@@ -4628,6 +4782,16 @@
         }
       },
       "verification": "const b = document.getElementById('plus'); b.click(); b.click(); return document.getElementById('compteur').textContent.trim() === '2';",
+      "criteres": [
+        {
+          "nom": "1 clic → 1",
+          "test": "document.getElementById('plus').click(); return document.getElementById('compteur').textContent.trim() === '1';"
+        },
+        {
+          "nom": "2e clic → 2",
+          "test": "document.getElementById('plus').click(); return document.getElementById('compteur').textContent.trim() === '2';"
+        }
+      ],
       "solution": {
         "js": [
           "const compteur = document.getElementById(\"compteur\");",
@@ -4687,6 +4851,20 @@
         }
       },
       "verification": "document.getElementById('prenom').value = 'Léa'; document.getElementById('btn-saluer').click(); return document.getElementById('message').textContent.trim() === 'Bonjour Léa';",
+      "criteres": [
+        {
+          "nom": "Le bon bouton est récupéré (id btn-saluer)",
+          "test": "return /getElementById\\(\\s*[\"']btn-saluer[\"']\\s*\\)/.test(js) || /querySelector\\(\\s*[\"']#btn-saluer[\"']\\s*\\)/.test(js);"
+        },
+        {
+          "nom": "L'événement « click » est écouté",
+          "test": "return /addEventListener\\(\\s*[\"']click[\"']/.test(js);"
+        },
+        {
+          "nom": "Le message affiche « Bonjour Léa »",
+          "test": "document.getElementById('prenom').value = 'Léa'; document.getElementById('btn-saluer').click(); return document.getElementById('message').textContent.trim() === 'Bonjour Léa';"
+        }
+      ],
       "solution": {
         "js": [
           "const bouton = document.getElementById(\"btn-saluer\");    // 1. id : btn-saluer",
@@ -4747,6 +4925,20 @@
         }
       },
       "verification": "const f = document.getElementById('form-pseudo'); const p = document.getElementById('pseudo'); const r = document.getElementById('retour'); p.value = ''; const e1 = new Event('submit', { bubbles: true, cancelable: true }); f.dispatchEvent(e1); if (!e1.defaultPrevented || r.textContent.trim() !== 'Pseudo obligatoire') return false; p.value = 'Léa'; const e2 = new Event('submit', { bubbles: true, cancelable: true }); f.dispatchEvent(e2); return e2.defaultPrevented && r.textContent.trim() === 'Bienvenue Léa';",
+      "criteres": [
+        {
+          "nom": "Le rechargement de la page est empêché",
+          "test": "document.getElementById('pseudo').value = ''; const e = new Event('submit', { bubbles: true, cancelable: true }); document.getElementById('form-pseudo').dispatchEvent(e); return e.defaultPrevented;"
+        },
+        {
+          "nom": "Pseudo vide → « Pseudo obligatoire »",
+          "test": "document.getElementById('pseudo').value = ''; document.getElementById('form-pseudo').dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })); return document.getElementById('retour').textContent.trim() === 'Pseudo obligatoire';"
+        },
+        {
+          "nom": "Pseudo rempli → « Bienvenue Léa »",
+          "test": "document.getElementById('pseudo').value = 'Léa'; document.getElementById('form-pseudo').dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })); return document.getElementById('retour').textContent.trim() === 'Bienvenue Léa';"
+        }
+      ],
       "solution": {
         "js": [
           "const form = document.getElementById(\"form-pseudo\");",
@@ -4846,6 +5038,16 @@
         }
       },
       "verification": "return typeof getLargeurBalle === 'function' && getLargeurBalle() === 60 && position.x > 0;",
+      "criteres": [
+        {
+          "nom": "getLargeurBalle() renvoie la largeur de la balle (60)",
+          "test": "return typeof getLargeurBalle === 'function' && getLargeurBalle() === 60;"
+        },
+        {
+          "nom": "La balle se déplace à l'écran",
+          "test": "return parseFloat(document.querySelector('.balle').style.left) > 0;"
+        }
+      ],
       "solution": {
         "js": [
           "const position = { x: 0, y: 0 };",
@@ -4953,6 +5155,20 @@
         "})();"
       ],
       "verification": "return typeof totalPanier === 'function' && totalPanier([10, 20]) === 30 && totalPanier([4.5, 3, 2.5]) === 10 && totalPanier([]) === 0;",
+      "criteres": [
+        {
+          "nom": "totalPanier([10, 20]) renvoie 30",
+          "test": "return typeof totalPanier === 'function' && totalPanier([10, 20]) === 30;"
+        },
+        {
+          "nom": "totalPanier([4.5, 3, 2.5]) renvoie 10",
+          "test": "return typeof totalPanier === 'function' && totalPanier([4.5, 3, 2.5]) === 10;"
+        },
+        {
+          "nom": "totalPanier([]) renvoie 0",
+          "test": "return typeof totalPanier === 'function' && totalPanier([]) === 0;"
+        }
+      ],
       "solution": {
         "js": [
           "function totalPanier(prix) {",
@@ -5060,6 +5276,20 @@
       },
       "rendu_attendu": true,
       "verification": "const a = (id, oui, non) => { const c = document.getElementById(id).classList; return oui.every((x) => c.contains(x)) && non.every((x) => !c.contains(x)); }; return a('t1', ['tache', 'urgente', 'bug'], ['terminee']) && a('t2', ['tache', 'terminee'], ['urgente', 'bug']) && a('t3', ['tache', 'urgente'], ['terminee', 'bug']);",
+      "criteres": [
+        {
+          "nom": "Tâche 1 : tache urgente bug",
+          "test": "const c = document.getElementById('t1').classList; return c.contains(\"tache\") && c.contains(\"urgente\") && c.contains(\"bug\") && !c.contains(\"terminee\");"
+        },
+        {
+          "nom": "Tâche 2 : tache terminee",
+          "test": "const c = document.getElementById('t2').classList; return c.contains(\"tache\") && c.contains(\"terminee\") && !c.contains(\"urgente\") && !c.contains(\"bug\");"
+        },
+        {
+          "nom": "Tâche 3 : tache urgente",
+          "test": "const c = document.getElementById('t3').classList; return c.contains(\"tache\") && c.contains(\"urgente\") && !c.contains(\"terminee\") && !c.contains(\"bug\");"
+        }
+      ],
       "solution": {
         "html": [
           "<!DOCTYPE html>",
@@ -5174,6 +5404,20 @@
       },
       "rendu_attendu": true,
       "verification": "const m = getComputedStyle(document.querySelector('.menu-lateral')); const l = getComputedStyle(document.querySelector('.lien:not(.actif)')); return m.backgroundColor === 'rgb(29, 37, 51)' && m.width === '180px' && l.display === 'block' && l.color === 'rgb(207, 214, 225)' && document.querySelector('.page').getBoundingClientRect().width > 400;",
+      "criteres": [
+        {
+          "nom": "Barre latérale : fond sombre et 180px de large",
+          "test": "const m = getComputedStyle(document.querySelector('.menu-lateral')); return m.backgroundColor === 'rgb(29, 37, 51)' && m.width === '180px';"
+        },
+        {
+          "nom": "Liens du menu : en bloc et en gris clair",
+          "test": "const l = getComputedStyle(document.querySelector('.lien:not(.actif)')); return l.display === 'block' && l.color === 'rgb(207, 214, 225)';"
+        },
+        {
+          "nom": "La page n'est plus réduite à 180px",
+          "test": "return document.querySelector('.page').getBoundingClientRect().width > 400;"
+        }
+      ],
       "solution": {
         "css": [
           "body {",
@@ -5286,6 +5530,16 @@
         }
       },
       "verification": "const p = document.getElementById('btn-pommes'); p.click(); p.click(); document.getElementById('btn-pain').click(); return document.getElementById('nb-articles').textContent.trim() === '3' && p.textContent.trim() === 'Ajouter';",
+      "criteres": [
+        {
+          "nom": "Le compteur affiche le nombre d'articles",
+          "test": "const p = document.getElementById('btn-pommes'); p.click(); p.click(); document.getElementById('btn-pain').click(); return document.getElementById('nb-articles').textContent.trim() === '3';"
+        },
+        {
+          "nom": "Le texte des boutons reste « Ajouter »",
+          "test": "document.getElementById('btn-pommes').click(); return document.getElementById('btn-pommes').textContent.trim() === 'Ajouter';"
+        }
+      ],
       "solution": {
         "js": [
           "let nbArticles = 0;",
@@ -5352,6 +5606,16 @@
         }
       },
       "verification": "const n = (re) => (code.match(re) || []).length; return n(/<li[\\s>]/gi) === 3 && n(/<\\/li>/gi) === 3 && n(/<p[\\s>]/gi) === n(/<\\/p>/gi) && n(/<\\/ul>/gi) === 1;",
+      "criteres": [
+        {
+          "nom": "Les 3 <li> sont fermés",
+          "test": "const n = (re) => (code.match(re) || []).length; return n(/<li[\\s>]/gi) === 3 && n(/<\\/li>/gi) === 3;"
+        },
+        {
+          "nom": "Le <p> est fermé",
+          "test": "const n = (re) => (code.match(re) || []).length; return n(/<p[\\s>]/gi) >= 1 && n(/<p[\\s>]/gi) === n(/<\\/p>/gi);"
+        }
+      ],
       "solution": {
         "html": [
           "<!DOCTYPE html>",

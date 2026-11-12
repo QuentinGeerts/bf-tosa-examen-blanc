@@ -29,7 +29,7 @@ function resume(d) {
     description: [
       `Score estimé : **${score} / 1000** (${niveau})`,
       `Bonnes réponses : **${ok} / ${total}** (${Math.round((ok / total) * 100)} %)`,
-      `Exercices pratiques : ${nombre(d.pOk, 0, 10)}/${nombre(d.pN, 0, 10)}`,
+      `Exercices pratiques : ${nombre(d.pOk, 0, 10)}/${nombre(d.pN, 0, 10)} réussis · score moyen ${nombre(d.pScore, 0, 100)}/100`,
       `Durée : ${nombre(d.duree, 0, 600)} min${d.timeout ? " (temps écoulé)" : ""}`,
       nombre(d.sorties, 0, 999)
         ? `⚠️ A quitté l'onglet de l'examen **${nombre(d.sorties, 0, 999)} fois** (${Math.round(nombre(d.sortiesMs, 0, 1e8) / 1000)} s au total)`
@@ -54,7 +54,8 @@ function listeQuestions(liste) {
     const id = /^[A-Za-z0-9-]{1,12}$/.test(e.id || "") ? e.id : "";
     const t = nombre(e.t, 0, 6000);
     const temps = t ? (t < 60 ? `${t} s` : `${Math.floor(t / 60)} min ${String(t % 60).padStart(2, "0")}`) : "";
-    const details = [id, temps].filter(Boolean).join(" · ");
+    const score = e.s != null && e.s !== "" ? `${nombre(e.s, 0, 100)}/100` : "";
+    const details = [id, temps, score].filter(Boolean).join(" · ");
     return `Q${nombre(e.i, 1, 100)}${details ? ` (${details})` : ""}`;
   });
   return coupe(items.join(", "), 1024) || "—";
