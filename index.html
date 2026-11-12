@@ -215,6 +215,8 @@ svg.progression .niveau { fill: none; stroke: var(--ink); stroke-width: 2; strok
 .rv li.picked { background: var(--ko-soft); }
 .rv li .mark { font-weight: 700; margin-right: 6px; }
 .rv .expl { margin-top: 10px; font-size: 14px; color: var(--muted); }
+.rv .statement.expl { margin: 10px 0 14px; padding: 10px 14px; border-left: 3px solid var(--accent); background: var(--accent-soft); border-radius: 4px; color: var(--ink); font-size: 14px; }
+.rv .statement.expl p { margin: 6px 0; }
 .rv pre.code { font-size: 13px; margin-top: 8px; }
 .rv details { margin-top: 8px; font-size: 14px; }
 .rv summary { cursor: pointer; font-weight: 600; }
@@ -409,7 +411,7 @@ async function chargerQuestions() {
       sol = js ? { js: txt(q.solution) } : { html: txt(q.solution) };
     }
     const criteres = Array.isArray(q.criteres) && q.criteres.length ? q.criteres.map((k) => [k.nom, txt(k.test)]) : null;
-    bank.push({ id: q.id || c + "-p" + i, c, n: q.niveau, q: txt(q.enonce), p: "multi", start, lock, sol, apres: txt(q.apres), attendu: q.rendu_attendu === true, check: txt(q.verification), criteres });
+    bank.push({ id: q.id || c + "-p" + i, c, n: q.niveau, q: txt(q.enonce), p: "multi", start, lock, sol, apres: txt(q.apres), attendu: q.rendu_attendu === true, check: txt(q.verification), criteres, e: txt(q.explication) });
   });
   return bank;
 }
@@ -489,14 +491,15 @@ function inline(parent, s) {
   return parent;
 }
 function rich(tag, s, cls) { return inline(h(tag, cls ? { class: cls } : {}), s); }
-function block(text) {
-  const wrap = h("div", { class: "statement" });
+function block(text, classe) {
+  const wrap = h("div", { class: "statement" + (classe ? " " + classe : "") });
   let list = null;
   for (const line of text.split("\n")) {
-    const m = line.match(/^\d+\.\s+(.*)$/);
+    const m = line.match(/^(\d+\.|-)\s+(.*)$/);   // "1. …" = liste numérotée, "- …" = liste à puces
+    const balise = m && (m[1] === "-" ? "UL" : "OL");
     if (m) {
-      if (!list) { list = h("ol"); wrap.append(list); }
-      list.append(rich("li", m[1]));
+      if (!list || list.tagName !== balise) { list = h(balise.toLowerCase()); wrap.append(list); }
+      list.append(rich("li", m[2]));
     } else {
       list = null;
       if (line.trim()) wrap.append(rich("p", line));
@@ -1570,7 +1573,7 @@ function carteCorrection(a, i) {
       ? [h("pre", { class: "code" }, h("code", {}, obj))]
       : FICHIERS.filter((k) => obj && obj[k] != null).flatMap((k) => [h("p", { class: "fichier" }, NOMS_FICHIERS[k]), h("pre", { class: "code" }, h("code", {}, obj[k]))]);
     if (a.code != null && !a.ok) el.append(h("details", {}, h("summary", {}, "Ton code"), ...blocs(a.code)));
-    el.append(h("details", { open: !a.ok }, h("summary", {}, "Une solution possible"), ...blocs(q.sol)));
+    el.append(h("details", { open: !a.ok }, h("summary", {}, "Une solution possible"), q.e ? block(q.e, "expl") : null, ...blocs(q.sol)));
     return el;
   }
   if (q.t) {
@@ -1608,7 +1611,7 @@ function carteBanque(q) {
   if (q.p) {
     el.append(block(q.q),
       h("details", {}, h("summary", {}, "Fichiers de départ"), ...fichiers(q.start, q.lock)),
-      h("details", { open: true }, h("summary", {}, "Solution"), ...fichiers(q.sol)),
+      h("details", { open: true }, h("summary", {}, "Solution"), q.e ? block(q.e, "expl") : null, ...fichiers(q.sol)),
       h("details", {}, h("summary", {}, "Critères de correction"), h("ul", { class: "criteres" }, nomsCriteres(q).map((nom, k) => h("li", {}, h("span", { class: "mark" }, "•"), nom, q.criteres ? h("pre", { class: "code" }, h("code", {}, q.criteres[k][1])) : code(q.check))))));
     return el;
   }
@@ -1688,6 +1691,8 @@ function renderBanque() {
   };
   [fCat, fType, fNiv].forEach((s) => s.addEventListener("change", maj));
   fTexte.addEventListener("input", maj);
+  // un clic dans le champ le vide (pour taper directement un autre identifiant)
+  fTexte.addEventListener("mousedown", () => { if (fTexte.value) { fTexte.value = ""; maj(); } });
   app.replaceChildren(
     h("section", { class: "card" },
       h("p", { class: "tag" }, "Page formateur"),

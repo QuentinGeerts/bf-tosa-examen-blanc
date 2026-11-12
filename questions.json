@@ -529,7 +529,7 @@
         "`@menu`"
       ],
       "reponse": 0,
-      "explication": "`#` cible un id."
+      "explication": "`#` cible un **id** (`#menu` ↔ `id=\"menu\"`), `.` cible une **classe** (`.menu` ↔ `class=\"menu\"`). Sans symbole, `menu` cible une balise `<menu>`."
     },
     {
       "id": "C004",
@@ -3374,7 +3374,7 @@
       "intrus": [
         "Trie le tableau"
       ],
-      "explication": "Trier : `sort()`."
+      "explication": "`push` / `pop` agissent à la **fin** du tableau, `unshift` / `shift` au **début**. Pour trier, c'est `sort()`."
     },
     {
       "type": "relier",
@@ -4537,7 +4537,12 @@
           "</body>",
           "</html>"
         ]
-      }
+      },
+      "explication": [
+        "Un titre de niveau 2 s'écrit `<h2>`. Une liste à puces est une `<ul>` (unordered list) qui contient **uniquement** des `<li>` : chaque fruit est dans son propre `<li>`.",
+        "",
+        "Piège fréquent : utiliser `<ol>` (liste numérotée) ou écrire les fruits directement dans la `<ul>` sans `<li>`."
+      ]
     },
     {
       "id": "H036",
@@ -4616,7 +4621,14 @@
           "</body>",
           "</html>"
         ]
-      }
+      },
+      "explication": [
+        "Le champ email s'écrit `<input type=\"email\">` : le navigateur vérifie alors le format de l'adresse. L'attribut booléen `required` le rend obligatoire.",
+        "",
+        "Pour relier le label au champ, le `for` du `<label>` doit être identique à l'`id` du champ (`for=\"email\"` ↔ `id=\"email\"`). Un clic sur le texte \"Email\" place alors le curseur dans le champ.",
+        "",
+        "Un `<button>` dans un `<form>` est un bouton d'envoi par défaut (`type=\"submit\"`)."
+      ]
     },
     {
       "id": "H037",
@@ -4698,7 +4710,14 @@
           "</body>",
           "</html>"
         ]
-      }
+      },
+      "explication": [
+        "Un tableau se découpe en 3 parties : `<thead>` (en-têtes), `<tbody>` (données) et `<tfoot>` (pied, ex. un total). Chacune contient des lignes `<tr>`.",
+        "",
+        "Les cellules d'en-tête sont des `<th>`, les autres des `<td>`. Pour qu'une cellule s'étende sur 2 colonnes : `colspan=\"2\"`.",
+        "",
+        "Piège fréquent : écrire `<body>` au lieu de `<tbody>`, ou mettre les `<th>` directement dans le `<thead>` sans `<tr>`."
+      ]
     },
     {
       "id": "C037",
@@ -4756,7 +4775,12 @@
           "}",
           ""
         ]
-      }
+      },
+      "explication": [
+        "`color` change la couleur du **texte** (et non `background-color`, qui change le fond). `font-weight: bold` (ou `700`) met le texte en gras.",
+        "",
+        "Le sélecteur `.alerte` (avec un point) cible les éléments qui ont la classe `alerte`."
+      ]
     },
     {
       "id": "C038",
@@ -4834,7 +4858,14 @@
           "}",
           ""
         ]
-      }
+      },
+      "explication": [
+        "`display: flex` se met sur le **parent** (`.conteneur`), pas sur la boîte. Ensuite :",
+        "- `justify-content: center` centre sur l'axe principal (horizontal par défaut) ;",
+        "- `align-items: center` centre sur l'axe secondaire (vertical).",
+        "",
+        "Le centrage vertical ne se voit que si le conteneur est plus haut que la boîte : ici `height: 300px`."
+      ]
     },
     {
       "id": "C039",
@@ -4923,7 +4954,12 @@
           "}",
           ""
         ]
-      }
+      },
+      "explication": [
+        "Un élément en `position: absolute` se place par rapport au premier ancêtre **positionné** (qui a une `position` autre que `static`). Sans `position: relative` sur `.carte`, le badge se placerait par rapport à la page.",
+        "",
+        "`top: 0` et `right: 0` collent ensuite le badge au bord haut et au bord droit de la carte."
+      ]
     },
     {
       "id": "J048",
@@ -5011,7 +5047,12 @@
           "}",
           ""
         ]
-      }
+      },
+      "explication": [
+        "Une fonction reçoit des paramètres (`n`) et renvoie un résultat avec `return`.",
+        "",
+        "Piège fréquent : afficher le résultat avec `console.log(n * 2)` au lieu de le **retourner** : la fonction renvoie alors `undefined`."
+      ]
     },
     {
       "id": "J049",
@@ -5105,7 +5146,12 @@
           "}",
           ""
         ]
-      }
+      },
+      "explication": [
+        "La moyenne = la somme des valeurs ÷ le nombre de valeurs. On additionne chaque note dans une variable `somme` (initialisée à `0`) avec une boucle `for...of`, puis on divise par `notes.length`.",
+        "",
+        "Variante plus courte : `return notes.reduce((s, n) => s + n, 0) / notes.length;`"
+      ]
     },
     {
       "id": "J050",
@@ -5189,7 +5235,14 @@
           "}",
           ""
         ]
-      }
+      },
+      "explication": [
+        "Une comparaison (`>=`) donne déjà `true` ou `false` : on peut la retourner directement.",
+        "",
+        "Équivalent plus long : `if (age >= 18) { return true; } else { return false; }`.",
+        "",
+        "Piège fréquent : `> 18`, qui oublie le cas des 18 ans pile."
+      ]
     },
     {
       "id": "J051",
@@ -5288,7 +5341,14 @@
           "}",
           ""
         ]
-      }
+      },
+      "explication": [
+        "On parcourt chaque lettre du texte avec `for...of` et on teste si elle fait partie de la chaîne `\"aeiouy\"` avec `includes()`.",
+        "",
+        "Pour compter aussi les majuscules, on convertit d'abord le texte avec `toLowerCase()` : `\"A\"` devient `\"a\"`.",
+        "",
+        "Un texte vide ne passe jamais dans la boucle : le compteur reste à `0`."
+      ]
     },
     {
       "id": "J052",
@@ -5384,7 +5444,14 @@
           "}",
           ""
         ]
-      }
+      },
+      "explication": [
+        "Les 4 erreurs :",
+        "1. l'index doit commencer à `0` (premier élément d'un tableau) ;",
+        "2. la condition doit être `i < tab.length` : avec `<=`, on lit `tab[tab.length]`, qui vaut `undefined` (et la somme devient `NaN`) ;",
+        "3. `total += tab[i]` ajoute la valeur ; `total = tab[i]` remplaçait le total à chaque tour ;",
+        "4. sans `return total`, la fonction renvoie `undefined`."
+      ]
     },
     {
       "id": "I034",
@@ -5447,7 +5514,12 @@
           "});",
           ""
         ]
-      }
+      },
+      "explication": [
+        "On récupère les deux éléments avec `getElementById`, puis on écoute le clic avec `addEventListener(\"click\", ...)`.",
+        "",
+        "La valeur est gardée dans une variable déclarée **en dehors** de l'écouteur (sinon elle repartirait de 0 à chaque clic). À chaque clic : `valeur++`, puis on affiche la nouvelle valeur avec `textContent`."
+      ]
     },
     {
       "id": "I035",
@@ -5518,7 +5590,15 @@
           "});",
           ""
         ]
-      }
+      },
+      "explication": [
+        "Les 3 erreurs :",
+        "1. l'id du bouton est `btn-saluer` et non `btn-salut` : il doit être identique à celui du HTML (sinon `getElementById` renvoie `null`) ;",
+        "2. le nom de l'événement est en anglais : `\"click\"` (et non `\"clic\"`). Un nom inconnu ne provoque aucune erreur : l'écouteur ne se déclenche simplement jamais ;",
+        "3. la propriété s'écrit `textContent`, avec un C majuscule. JavaScript est sensible à la casse : `textcontent` crée juste une nouvelle propriété inutile, sans erreur.",
+        "",
+        "Le texte saisi se lit avec `.value`."
+      ]
     },
     {
       "id": "I036",
@@ -5598,7 +5678,14 @@
           "});",
           ""
         ]
-      }
+      },
+      "explication": [
+        "Par défaut, l'envoi d'un formulaire recharge la page : `e.preventDefault()` l'empêche (`e` est l'événement reçu par l'écouteur).",
+        "",
+        "On écoute l'événement `\"submit\"` sur le **formulaire**, et non le clic sur le bouton : il se déclenche aussi quand on appuie sur Entrée.",
+        "",
+        "`trim()` retire les espaces avant et après : un pseudo composé uniquement d'espaces est considéré comme vide."
+      ]
     },
     {
       "id": "I051",
@@ -5723,7 +5810,12 @@
           "setInterval(deplacer, 30);",
           ""
         ]
-      }
+      },
+      "explication": [
+        "La pile d'appels indique où l'erreur s'est produite : `getLargeurBalle`, appelée par `rebondir`, elle-même appelée par `deplacer`. La ligne fautive est celle tout en haut de la pile.",
+        "",
+        "`getBalle()` renvoie déjà l'élément `.balle` : on lit directement `getBalle().offsetWidth`. Un élément n'a pas de propriété `balle`, donc `getBalle().balle` vaut `undefined`, d'où l'erreur \"Cannot read properties of undefined (reading 'offsetWidth')\"."
+      ]
     },
     {
       "id": "J067",
@@ -5825,7 +5917,12 @@
           "}",
           ""
         ]
-      }
+      },
+      "explication": [
+        "Le tableau Appel / Résultat affiche `NaN` : la boucle va un tour trop loin.",
+        "",
+        "Les index vont de `0` à `prix.length - 1`. Avec `i <= prix.length`, le dernier tour lit `prix[prix.length]`, qui vaut `undefined`, et `nombre + undefined` donne `NaN`. Il faut donc `i < prix.length`."
+      ]
     },
     {
       "id": "C049",
@@ -5959,7 +6056,14 @@
           "</body>",
           "</html>"
         ]
-      }
+      },
+      "explication": [
+        "Le fichier CSS (verrouillé) liste les classes disponibles : `tache` (style de base), `urgente`, `terminee` et `bug`.",
+        "",
+        "Un élément peut avoir **plusieurs classes**, séparées par des espaces dans un seul attribut : `class=\"tache urgente bug\"`.",
+        "",
+        "Piège fréquent : écrire deux attributs `class` sur le même élément ; seul le premier est pris en compte."
+      ]
     },
     {
       "id": "C050",
@@ -6098,7 +6202,14 @@
           "}",
           ""
         ]
-      }
+      },
+      "explication": [
+        "Les 2 sélecteurs fautifs :",
+        "1. les règles de la barre latérale (largeur 180px, fond sombre) visaient `.page` au lieu de `.menu-lateral` : c'était toute la page qui faisait 180px de large ;",
+        "2. les liens sont dans `.menu-lateral`, pas dans `.contenu` : le sélecteur descendant doit être `.menu-lateral .lien`.",
+        "",
+        "Pour repérer ce genre d'erreur : comparer le HTML (où se trouve vraiment l'élément ?) et le sélecteur CSS."
+      ]
     },
     {
       "id": "I052",
@@ -6197,7 +6308,12 @@
           "}",
           ""
         ]
-      }
+      },
+      "explication": [
+        "Le compteur était bien incrémenté, mais le résultat était écrit dans le **bouton** (`bouton.textContent`) au lieu de l'élément `#nb-articles`. Le texte des boutons changeait, sans erreur dans la console.",
+        "",
+        "Une même boucle `for...of` sur `querySelectorAll` permet d'ajouter un écouteur à chaque bouton."
+      ]
     },
     {
       "id": "H054",
@@ -6281,7 +6397,12 @@
           "</body>",
           "</html>"
         ]
-      }
+      },
+      "explication": [
+        "Le navigateur corrige silencieusement beaucoup d'erreurs de HTML : la page s'affiche bien, mais le code reste invalide.",
+        "",
+        "Ici, les `<li>` et le `<p>` n'étaient pas fermés. Chaque élément qui a un contenu doit avoir sa balise fermante (`</li>`, `</p>`). Seuls les éléments vides (`<br>`, `<img>`, `<input>`, `<meta>`…) n'en ont pas."
+      ]
     },
     {
       "id": "H067",
@@ -6356,7 +6477,12 @@
           "</body>",
           "</html>"
         ]
-      }
+      },
+      "explication": [
+        "`<img>` est un élément vide (pas de balise fermante). `src` donne le chemin de l'image et `alt` le texte alternatif, lu par les lecteurs d'écran et affiché si l'image ne se charge pas.",
+        "",
+        "`target=\"_blank\"` ouvre le lien dans un nouvel onglet. Le texte du lien se place entre `<a>` et `</a>`."
+      ]
     },
     {
       "id": "H068",
@@ -6431,7 +6557,14 @@
           "</body>",
           "</html>"
         ]
-      }
+      },
+      "explication": [
+        "Une liste de choix s'écrit avec `<select>`, et chaque choix avec `<option>`.",
+        "",
+        "Le label est relié par `for` = l'`id` de la liste (`for=\"pays\"` ↔ `id=\"pays\"`).",
+        "",
+        "Sans attribut `value`, la valeur envoyée est le texte de l'option."
+      ]
     },
     {
       "id": "C065",
@@ -6501,7 +6634,12 @@
           "}",
           ""
         ]
-      }
+      },
+      "explication": [
+        "`background-color` colore le fond, `color` colore le texte, `border-radius` arrondit les coins.",
+        "",
+        "Piège fréquent : `color: blue` (texte bleu) au lieu de `background-color: blue`."
+      ]
     },
     {
       "id": "C066",
@@ -6568,7 +6706,12 @@
           "}",
           ""
         ]
-      }
+      },
+      "explication": [
+        "`display: none` retire l'élément de l'affichage : il ne prend plus aucune place. À ne pas confondre avec `visibility: hidden`, qui rend l'élément invisible mais **garde sa place**.",
+        "",
+        "`text-transform: uppercase` affiche le texte en majuscules sans modifier le HTML (`lowercase` = minuscules, `capitalize` = première lettre de chaque mot)."
+      ]
     },
     {
       "id": "C067",
@@ -6652,7 +6795,14 @@
           "}",
           ""
         ]
-      }
+      },
+      "explication": [
+        "`display: grid` se met sur le conteneur (`.galerie`).",
+        "",
+        "`grid-template-columns: repeat(3, 1fr)` crée 3 colonnes qui se partagent l'espace à parts égales (équivalent de `1fr 1fr 1fr`). Les 6 cartes se placent ensuite automatiquement sur 2 lignes.",
+        "",
+        "`gap: 10px` ajoute l'espacement entre les lignes **et** entre les colonnes."
+      ]
     },
     {
       "id": "J080",
@@ -6740,7 +6890,13 @@
           "}",
           ""
         ]
-      }
+      },
+      "explication": [
+        "Une chaîne n'a pas de méthode `reverse()`, mais un tableau oui. On enchaîne :",
+        "1. `split(\"\")` découpe le texte en tableau de lettres : `[\"a\", \"b\", \"c\"]` ;",
+        "2. `reverse()` inverse le tableau ;",
+        "3. `join(\"\")` recolle les lettres en une chaîne."
+      ]
     },
     {
       "id": "J081",
@@ -6830,7 +6986,14 @@
           "}",
           ""
         ]
-      }
+      },
+      "explication": [
+        "On enchaîne deux méthodes de tableau :",
+        "- `filter()` garde seulement les éléments pour lesquels la fonction renvoie `true` (ici `p.age >= 18`) ;",
+        "- `map()` transforme chaque élément gardé (ici l'objet devient son nom `p.nom`).",
+        "",
+        "Les deux renvoient un **nouveau** tableau, sans modifier l'original."
+      ]
     },
     {
       "id": "J082",
@@ -6923,7 +7086,12 @@
           "}",
           ""
         ]
-      }
+      },
+      "explication": [
+        "Les 2 erreurs :",
+        "1. `reverse()` renvoie un **tableau** : il faut `join(\"\")` pour obtenir une chaîne. Sinon, on compare une chaîne et un tableau avec `===`, ce qui donne toujours `false` ;",
+        "2. il faut ignorer les majuscules : on passe le mot en minuscules avec `toLowerCase()` **avant** de l'inverser, et on compare les deux versions en minuscules."
+      ]
     },
     {
       "id": "I063",
@@ -6999,7 +7167,16 @@
           "});",
           ""
         ]
-      }
+      },
+      "explication": [
+        "Dans l'écouteur de clic :",
+        "1. on lit le texte du champ avec `.value` (et `trim()` pour ignorer les espaces) ;",
+        "2. si le texte est vide, `return` arrête la fonction : rien n'est ajouté ;",
+        "3. sinon, `document.createElement(\"li\")` crée l'élément, `appendChild` l'ajoute à la fin de la liste, `textContent` lui donne son texte ;",
+        "4. `champ.value = \"\"` vide le champ.",
+        "",
+        "`textContent` est préférable à `innerHTML` pour un texte saisi : le HTML éventuel n'est pas interprété."
+      ]
     },
     {
       "id": "I064",
@@ -7061,7 +7238,14 @@
           "});",
           ""
         ]
-      }
+      },
+      "explication": [
+        "`classList.toggle(\"sombre\")` ajoute la classe si elle est absente, et la retire si elle est présente.",
+        "",
+        "Équivalent plus long : `if (document.body.classList.contains(\"sombre\")) { document.body.classList.remove(\"sombre\"); } else { document.body.classList.add(\"sombre\"); }`.",
+        "",
+        "Le `<body>` s'obtient directement avec `document.body`."
+      ]
     }
   ]
 }

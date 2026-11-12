@@ -207,6 +207,7 @@ Comme à l'examen, le stagiaire voit 3 onglets `index.html`, `style.css`, `scrip
 | `rendu_attendu` | Facultatif : affiche le rendu de la solution à côté du rendu du stagiaire |
 | `verification` | Corps d'une fonction JS exécutée dans la page du stagiaire après le chargement : elle doit retourner `true` si l'exercice est réussi. Les variables `code`, `css` et `js` contiennent le code source des 3 fichiers tel qu'écrit par le stagiaire (utile quand le navigateur corrige le HTML tout seul, ex. un `<tbody>` absent) |
 | `solution` | Uniquement les fichiers à modifier ; affichée dans la correction |
+| `explication` | Explication de la solution (chaîne ou tableau de lignes), affichée avec la solution dans la correction. Les lignes `1.` et `- ` deviennent des listes |
 | `criteres` | Facultatif : liste `{ "nom", "test" }` (même principe que `verification`, un test par critère, exécutés dans l'ordre). Score partiel = % de critères réussis ; l'exercice est réussi si tous le sont |
 
 La console affiche les `console.log`, les erreurs et la **pile d'appels** avec les numéros de ligne de `script.js`.
