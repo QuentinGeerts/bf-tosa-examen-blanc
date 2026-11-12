@@ -1366,7 +1366,18 @@ function graphiqueProgression() {
 // ─── Historique des examens (dans ce navigateur) ───
 const KEY_HIST = "examen-blanc-web-historique";
 function historique() {
-  try { return JSON.parse(localStorage.getItem(KEY_HIST)) || []; } catch (e) { return []; }
+  let hs = [];
+  try { hs = JSON.parse(localStorage.getItem(KEY_HIST)) || []; } catch (e) { return []; }
+  // score recalculé avec le barème actuel quand le détail de l'essai est enregistré (même chiffre que sa page de résultats)
+  const dernier = load();
+  return hs.map((e) => {
+    let essai = null;
+    try { essai = JSON.parse(localStorage.getItem("examen-blanc-web-essai-" + e.id)); } catch (err) {}
+    if (!essai && dernier && dernier.id === e.id) essai = dernier;
+    if (!essai || !Array.isArray(essai.answers)) return e;
+    const sc = score(essai.answers);
+    return { ...e, score: sc, niveau: niveau(sc) };
+  });
 }
 function ajouterHistorique() {
   if (!S || !S.fini || S.histo || S._consultation) return;
