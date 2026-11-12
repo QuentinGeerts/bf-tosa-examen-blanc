@@ -38,7 +38,7 @@ function resume(d) {
     fields: [
       ...Object.keys(CATS).map((c) => ({
         name: CATS[c],
-        value: `${nombre(d.cats?.[c]?.[0], 0, 100)} / ${nombre(d.cats?.[c]?.[1], 0, 100)}`,
+        value: `${nombre(d.cats?.[c]?.[0], 0, 100)} / ${nombre(d.cats?.[c]?.[1], 0, 100)}${d.niveaux?.[c] ? `\n${texte(d.niveaux[c], 20)}` : ""}`,
         inline: true,
       })),
       { name: "✅ Réussies", value: listeQuestions(d.reussies) },

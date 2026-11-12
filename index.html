@@ -173,6 +173,22 @@ pre.code { background: var(--code-bg); color: var(--code-ink); padding: 14px 16p
 @media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
 .cat-row { display: grid; grid-template-columns: 110px 1fr 56px; gap: 12px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
 .cat-row:last-child { border-bottom: 0; }
+.deroule { margin-top: 20px; }
+svg.progression { width: 100%; height: auto; display: block; margin-top: 8px; }
+svg.progression .grille { stroke: var(--line); stroke-width: 1; }
+svg.progression .lbl, svg.progression .num { fill: var(--muted); font: 600 11px "IBM Plex Sans", sans-serif; text-transform: uppercase; }
+svg.progression rect.ok { fill: var(--ok); }
+svg.progression rect.ko { fill: var(--ko); }
+svg.progression rect.sans { fill: var(--ko-soft); stroke: var(--ko); stroke-width: 1.5; }
+svg.progression .niveau { fill: none; stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; opacity: .7; }
+.legende { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: var(--muted); margin-top: 8px; }
+.legende .pt { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+.legende .pt.ok { background: var(--ok); } .legende .pt.ko { background: var(--ko); }
+.legende .pt.sans { background: var(--ko-soft); border: 1.5px solid var(--ko); }
+.legende .pt.ligne { height: 2px; vertical-align: 4px; background: var(--ink); opacity: .7; }
+.cat-row { grid-template-columns: 110px 1fr 56px 100px; }
+.cat-row .niv { font-size: 13px; font-weight: 600; text-align: right; }
+
 .meter { height: 8px; background: var(--line); border-radius: 4px; overflow: hidden; }
 .meter span { display: block; height: 100%; background: currentColor; }
 .cat-row .n { font-family: "IBM Plex Mono", monospace; text-align: right; }
@@ -553,6 +569,7 @@ async function envoyerResultat() {
   const ok = await envoyer({
     type: "fin", id: S.id, nom: S.nom, score: sc, niveau: niveau(sc), ok: st.ok, total: TOTAL,
     cats: Object.fromEntries(Object.keys(CATS).map((c) => [c, [st.parCat[c].ok, st.parCat[c].n]])),
+    niveaux: Object.fromEntries(Object.keys(CATS).map((c) => [c, niveauDomaine(c)])),
     pOk: st.pOk, pN: st.pN,
     duree: Math.round(((S.endedAt || Date.now()) - S.start) / 60000),
     timeout: S.answers.some((a) => a.timeout),
@@ -1098,7 +1115,7 @@ function texteDiscord(sc, st) {
     `Examen blanc - ${S.nom}`,
     `Score estimé : ${sc} / 1000 (${niveau(sc)})`,
     `Bonnes réponses : ${st.ok} / ${TOTAL} (${Math.round(st.ok / TOTAL * 100)} %)`,
-    Object.keys(CATS).map((c) => `${CATS[c]} : ${st.parCat[c].ok}/${st.parCat[c].n}`).join(" · "),
+    Object.keys(CATS).map((c) => `${CATS[c]} : ${st.parCat[c].ok}/${st.parCat[c].n} (${niveauDomaine(c)})`).join(" · "),
     `Exercices pratiques : ${st.pOk}/${st.pN}`,
     `Durée : ${duree} min`,
     `Sorties de l'onglet : ${(S.sorties && S.sorties.n) || 0}`,
@@ -1118,6 +1135,44 @@ function copier(text, btn) {
     if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(() => fini(true), fallback);
     else fallback();
   } catch (e) { fallback(); }
+}
+
+// ─── Rapport : déroulement du test (comme le compte rendu officiel) et niveau par domaine ───
+function niveauDomaine(c) {
+  const rep = S.answers.filter((a) => a.c === c);
+  return rep.length ? niveau(score(rep)) : "—";
+}
+function graphiqueProgression() {
+  const NS = "http://www.w3.org/2000/svg";
+  const el = (tag, attrs) => { const e = document.createElementNS(NS, tag); for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v); return e; };
+  const n = S.answers.length, G = 34, D = 118, W = 760, Hh = 200, haut = 12, pas = (W - G - D) / n;
+  const y = (niv) => haut + Hh - (niv / 5) * Hh;
+  const svg = el("svg", { viewBox: `0 0 ${W} ${haut + Hh + 34}`, class: "progression", role: "img", "aria-label": "Difficulté de chaque question et niveau estimé" });
+  NIVEAUX.forEach((nv, k) => {
+    svg.append(el("line", { x1: G, x2: W - D + 6, y1: y(k + 1), y2: y(k + 1), class: "grille" }));
+    const t = el("text", { x: W - D + 12, y: y(k + 1) + (Hh / 5) / 2 + 4, class: "lbl" }); t.textContent = nv.nom; svg.append(t);
+  });
+  svg.append(el("line", { x1: G, x2: W - D + 6, y1: y(0), y2: y(0), class: "grille" }));
+  const points = [];
+  S.answers.forEach((a, i) => {
+    const q = a.id != null ? BANK[a.id] : null;
+    const diff = q ? q.n : a.level;
+    const x = G + i * pas;
+    const sans = !a.ok && (a.timeout || a.passe || a.choix === null);
+    const r = el("rect", { x: x + pas * 0.15, y: y(diff), width: pas * 0.7, height: y(0) - y(diff), rx: 2, class: a.ok ? "ok" : sans ? "sans" : "ko" });
+    const titre = el("title", {}); titre.textContent = `Q${i + 1}${q ? " · " + q.id : ""} · niveau ${diff} · ${a.ok ? "réussie" : sans ? "sans réponse" : "ratée"}`; r.append(titre);
+    svg.append(r);
+    if (i % 5 === 0 || i === n - 1) { const t = el("text", { x: x + pas / 2, y: y(0) + 16, class: "num", "text-anchor": "middle" }); t.textContent = i + 1; svg.append(t); }
+    points.push(`${x + pas / 2},${y(a.level) + (Hh / 5) / 2}`);
+  });
+  svg.append(el("polyline", { points: points.join(" "), class: "niveau" }));
+  return h("section", { class: "card deroule" },
+    h("h3", {}, "Déroulement du test"),
+    h("p", { class: "muted aide" }, "Chaque barre est une question : sa hauteur indique sa difficulté. La ligne montre le niveau estimé avant chaque question : il monte après une bonne réponse et descend après une erreur."),
+    svg,
+    h("div", { class: "legende" },
+      h("span", {}, h("i", { class: "pt ok" }), "Réussie"), h("span", {}, h("i", { class: "pt ko" }), "Ratée"),
+      h("span", {}, h("i", { class: "pt sans" }), "Sans réponse"), h("span", {}, h("i", { class: "pt ligne" }), "Niveau estimé")));
 }
 
 function renderResultats() {
@@ -1163,13 +1218,14 @@ function renderResultats() {
           h("div", {}, h("b", {}, `${Math.round(((S.endedAt || Date.now()) - S.start) / 60000)} min`), "durée"),
           h("div", {}, h("b", {}, String((S.sorties && S.sorties.n) || 0)), "sortie(s) de l'onglet")),
         h("p", { class: "note" }, "Simulation non officielle : le score est une estimation basée sur la difficulté des questions réussies."))),
+    graphiqueProgression(),
     h("div", { class: "grid2" },
       h("section", { class: "card" },
         h("h3", {}, "Par domaine"),
         Object.keys(CATS).map((c) => {
           const v = st.parCat[c];
           const pct = v.n ? Math.round(v.ok / v.n * 100) : 0;
-          return h("div", { class: "cat-row" }, chip(c), h("div", { class: "meter c-" + c }, h("span", { style: `width:${pct}%` })), h("span", { class: "n" }, `${v.ok}/${v.n}`));
+          return h("div", { class: "cat-row" }, chip(c), h("div", { class: "meter c-" + c }, h("span", { style: `width:${pct}%` })), h("span", { class: "n" }, `${v.ok}/${v.n}`), h("span", { class: "niv" }, niveauDomaine(c)));
         })),
       h("section", { class: "card" },
         h("h3", {}, "Résumé"),
