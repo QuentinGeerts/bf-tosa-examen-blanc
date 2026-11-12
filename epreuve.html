@@ -37,6 +37,8 @@ a { color: var(--accent); }
 .bar-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
 .bar strong { font-size: 17px; }
 .bar a { margin-left: auto; font-size: 14px; }
+.bar a.titre-accueil { margin-left: 0; color: var(--ink); text-decoration: none; font-size: 17px; }
+.bar a.titre-accueil:hover { text-decoration: underline; }
 .theme-btn { font: inherit; font-size: 13px; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); cursor: pointer; white-space: nowrap; }
 
 main { max-width: 900px; margin: 0 auto; padding: 28px 16px 64px; }
@@ -78,9 +80,9 @@ details[open] summary::before { content: "▾ "; }
 <body>
 <header class="bar">
   <div class="bar-inner">
-    <strong>Épreuve blanche commentée</strong>
+    <a href="./" class="titre-accueil"><strong>Examen blanc</strong></a> <span class="muted">· Épreuve blanche commentée</span>
     <span class="muted">Développement web</span>
-    <a href="./">← Examen blanc</a>
+    <a href="./">← Accueil</a>
     <button type="button" class="theme-btn" id="theme">☾ Sombre</button>
   </div>
 </header>

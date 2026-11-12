@@ -67,7 +67,9 @@ button:disabled { cursor: not-allowed; opacity: .5; }
   padding: 10px max(16px, env(safe-area-inset-left)) 10px max(16px, env(safe-area-inset-right));
 }
 .bar-inner { max-width: max(1180px, 80vw); margin: 0 auto; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
-.brand { font-weight: 700; letter-spacing: .01em; margin-right: auto; display: flex; align-items: baseline; gap: 10px; }
+.brand { font-weight: 700; letter-spacing: .01em; margin-right: auto; display: flex; align-items: baseline; gap: 10px; color: var(--ink); text-decoration: none; }
+a.brand:hover { text-decoration: underline; }
+.brand.inactif { pointer-events: none; cursor: default; }
 .brand small { font-weight: 500; color: var(--muted); font-size: 13px; }
 .stat { font-size: 14px; color: var(--muted); }
 .stat b { color: var(--ink); font-weight: 600; }
@@ -317,7 +319,7 @@ table.vf tr.picked td { background: var(--ko-soft); }
 <body>
 <header class="bar">
   <div class="bar-inner">
-    <div class="brand">Examen blanc <small>Développement web · simulation</small></div>
+    <a class="brand" id="accueil" href="#" title="Accueil">Examen blanc <small>Développement web · simulation</small></a>
     <div class="stat" id="who"></div>
     <div class="stat" id="count"></div>
     <div class="timer" id="timer" hidden>90:00</div>
@@ -426,6 +428,7 @@ let previewSink = null;
 let previewReload = null;
 
 const app = document.getElementById("app");
+document.getElementById("accueil").addEventListener("click", (e) => allerAccueil(e));
 
 // ─── Bouton de thème (clair par défaut, choix mémorisé) ───
 (function () {
@@ -732,6 +735,7 @@ function majBarre() {
   const count = document.getElementById("count");
   const timer = document.getElementById("timer");
   const bar = document.getElementById("bar");
+  document.getElementById("accueil").classList.toggle("inactif", !!(S && !S.fini) && location.hash !== "#banque");
   if (!S) { who.textContent = ""; count.textContent = ""; timer.hidden = true; bar.style.width = "0"; return; }
   who.replaceChildren("Candidat : ", h("b", {}, S.nom));
   if (S.fini) {
@@ -1431,7 +1435,7 @@ function renderResultats() {
         h("h3", {}, "Résumé"),
         h("p", { id: "envoi-statut", class: "envoi" }),
         h("textarea", { id: "copy-box", class: "copy-box mono", readonly: true }, txt),
-        h("div", { class: "row", style: "margin-top:10px" }, copyBtn, again))),
+        h("div", { class: "row", style: "margin-top:10px" }, copyBtn, again, h("button", { class: "btn", onclick: allerAccueil }, "← Accueil")))),
     h("div", { class: "section-title" },
       h("h2", {}, "Correction"),
       h("label", { class: "toggle" }, onlyErr, "Seulement mes erreurs")),
@@ -1551,6 +1555,7 @@ function carteBanque(q) {
 
 function renderBanque() {
   document.getElementById("who").textContent = "Mode formateur";
+  document.getElementById("accueil").classList.remove("inactif");
   document.getElementById("count").textContent = "";
   document.getElementById("timer").hidden = true;
   const choix = (label, options) => {
@@ -1582,9 +1587,20 @@ function renderBanque() {
       h("p", { class: "muted" }, "Toutes les questions avec leurs réponses. Les identifiants sont ceux du message Discord et de questions.json."),
       h("div", { class: "filtres" }, fCat, fType, fNiv, fTexte),
       compteur,
-      h("a", { href: "#", class: "btn small" }, "← Retour à l'examen")),
+      h("button", { class: "btn small", onclick: allerAccueil }, S && !S.fini ? "← Retour à l'examen" : "← Accueil")),
     liste);
   maj();
+}
+
+// ─── Retour à l'accueil (impossible pendant le test) ───
+function allerAccueil(e) {
+  if (e) e.preventDefault();
+  const enBanque = location.hash === "#banque";
+  if (enBanque) history.replaceState(null, "", location.pathname + location.search);
+  if (S && !S.fini) { if (enBanque) render(); return; }   // examen en cours : on y reste
+  S = null;
+  render();
+  window.scrollTo(0, 0);
 }
 
 // ─── Démarrage ───
