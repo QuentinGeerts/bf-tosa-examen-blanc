@@ -44,8 +44,8 @@ function resume(d) {
         value: `${nombre(d.cats?.[c]?.[0], 0, 100)} / ${nombre(d.cats?.[c]?.[1], 0, 100)}${d.niveaux?.[c] ? `\n${texte(d.niveaux[c], 20)}` : ""}`,
         inline: true,
       })),
-      { name: "✅ Réussies", value: listeQuestions(d.reussies) },
-      { name: "❌ Ratées", value: listeQuestions(d.erreurs) },
+      ...champsListe("✅ Réussies", d.reussies),
+      ...champsListe("❌ Ratées", d.erreurs),
     ],
     footer: { text: `Examen ${texte(d.id, 12)}` },
   };
@@ -61,8 +61,16 @@ function listeQuestions(liste) {
     const details = [id, temps, score].filter(Boolean).join(" · ");
     return `Q${nombre(e.i, 1, 100)}${details ? ` (${details})` : ""}`;
   });
-  return coupe(items.join(", "), 1024) || "—";
+  // un champ Discord est limité à 1024 caractères : la liste est répartie sur plusieurs champs si besoin
+  const morceaux = [];
+  for (const it of items) {
+    const dernier = morceaux[morceaux.length - 1];
+    if (dernier && dernier.length + 2 + it.length <= 1024) morceaux[morceaux.length - 1] = dernier + ", " + it;
+    else morceaux.push(coupe(it, 1024));
+  }
+  return morceaux.length ? morceaux : ["—"];
 }
+const champsListe = (titre, liste) => listeQuestions(liste).map((value, i) => ({ name: i ? `${titre} (suite)` : titre, value }));
 
 module.exports = async (req, res) => {
   if (req.method !== "POST") return res.status(405).json({ ok: false });
