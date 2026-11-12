@@ -207,3 +207,12 @@ Définie en haut du script de `index.html` : `QUOTA` (questions par catégorie),
 - Une QCM mal formée (catégorie inconnue, pas 4 options…) est ignorée et signalée dans la console.
 - L'examen en cours est enregistré dans le `localStorage` du navigateur du stagiaire, avec les index des questions : éviter de modifier `questions.json` pendant qu'un examen est en cours.
 - Les réponses sont lisibles dans le code source : c'est un outil d'entraînement, pas un examen sécurisé.
+
+## Contrôler la banque après une modification
+
+```bash
+node verifier.js             # structure de toutes les questions (identifiants, réponses, zones, lignes…)
+node verifier.js --extraits  # + résultat réel des extraits JavaScript des QCM, à comparer avec la réponse indiquée
+```
+
+Puis, dans le navigateur, ouvrir la page de l'examen avec `#verifier` à la fin de l'adresse : chaque exercice est corrigé avec sa solution (100/100 attendu) et son code de départ, et chaque question interactive avec sa bonne réponse. Les lignes en rouge signalent un problème.

@@ -1642,13 +1642,55 @@ function renderBanque() {
 // ─── Retour à l'accueil (impossible pendant le test) ───
 function allerAccueil(e) {
   if (e) e.preventDefault();
-  const enBanque = location.hash === "#banque";
+  const enBanque = location.hash === "#banque" || location.hash === "#verifier";
   if (enBanque) history.replaceState(null, "", location.pathname + location.search);
   if (S && !S.fini) { if (enBanque) render(); return; }   // examen en cours : on y reste
   if (S && !S._consultation) { S.vue = "accueil"; save(); }
   S = null;
   render();
   window.scrollTo(0, 0);
+}
+
+// ─── Vérification de la banque dans le navigateur (adresse + #verifier) ───
+function bonneReponse(q) {
+  if (q.t === "vf") return q.aff.map((a) => a[1]);
+  if (q.t === "liste") return q.phr.map((p) => p[2]);
+  if (q.t === "relier") return q.paires.map((_, i) => i);
+  if (q.t === "glisser") return q.etiq.map((e) => q.zones.findIndex((z) => z.rep.includes(e)));
+  if (q.t === "trou") return q.rep.map((v) => v[0]);
+  if (q.t === "lignes") return { lignes: q.fautes.slice(), aucune: !q.fautes.length };
+  if (q.t === "images") return q.a;
+  if (q.t === "multiple") return q.bonnes.slice();
+  return null;
+}
+async function renderVerifier() {
+  document.getElementById("who").textContent = "Vérification";
+  document.getElementById("accueil").classList.remove("inactif");
+  const lignes = h("tbody");
+  const resume = h("p", { class: "muted" }, "Vérification en cours…");
+  app.replaceChildren(h("section", { class: "card" },
+    h("p", { class: "tag" }, "Page formateur"), h("h1", {}, "Vérification de la banque"),
+    h("p", { class: "muted" }, "Chaque exercice est corrigé avec sa solution (doit valoir 100/100) puis avec son code de départ (ne doit pas tout réussir). Chaque question interactive est corrigée avec sa bonne réponse."),
+    resume, h("button", { class: "btn small", onclick: allerAccueil }, "← Accueil")),
+    h("section", { class: "card", style: "margin-top:16px" }, h("div", { class: "table-scroll" }, h("table", { class: "vf histo-table" },
+      h("thead", {}, h("tr", {}, ["Id", "Format", "Solution", "Départ", "Détail"].map((t) => h("th", {}, t)))), lignes))));
+  let ok = 0, ko = 0;
+  for (const q of BANK) {
+    if (!q.p && !q.t) continue;
+    let bon, detail = "";
+    if (q.p) {
+      const sol = await runCheck(q, { ...q.start, ...q.sol }), dep = await runCheck(q, q.start);
+      bon = sol.ok && !dep.ok;
+      detail = (sol.ok ? "" : "critères ratés par la solution : " + nomsCriteres(q).filter((_, k) => !(sol.res && sol.res[k])).join(", ") + ". ") + (dep.ok ? "le code de départ réussit déjà tout." : "");
+      lignes.append(h("tr", { class: bon ? "" : "picked" }, h("td", { class: "mono" }, q.id), h("td", {}, "Exercice"), h("td", {}, sol.ok ? "✓ 100/100" : "✗ " + scoreCriteres(sol.res) + "/100"), h("td", {}, dep.ok ? "✗ 100/100" : "✓ " + scoreCriteres(dep.res) + "/100"), h("td", {}, detail)));
+    } else {
+      bon = corriger(q, bonneReponse(q));
+      lignes.append(h("tr", { class: bon ? "" : "picked" }, h("td", { class: "mono" }, q.id), h("td", {}, TYPES[q.t] || q.t), h("td", {}, bon ? "✓" : "✗ bonne réponse refusée"), h("td", {}, "—"), h("td", {}, "")));
+    }
+    bon ? ok++ : ko++;
+    resume.textContent = `${ok + ko} vérifiée(s)…`;
+  }
+  resume.textContent = ko ? `✗ ${ko} problème(s) sur ${ok + ko} questions vérifiées (lignes en rouge).` : `✓ ${ok} exercices et questions interactives vérifiés, aucun problème.`;
 }
 
 // ─── Démarrage ───
@@ -1671,7 +1713,7 @@ function allerAccueil(e) {
   } else if (saved && saved.fini && saved.vue === "resultats") {
     S = saved;                // la page de résultats reste affichée après un rechargement
   }
-  const router = () => (location.hash === "#banque" ? renderBanque() : render());
+  const router = () => (location.hash === "#banque" ? renderBanque() : location.hash === "#verifier" ? renderVerifier() : render());
   window.addEventListener("hashchange", () => { router(); window.scrollTo(0, 0); });
   router();
 })();
