@@ -252,6 +252,11 @@ button.ligne:hover { background: #2a3445; }
 .doc-banner { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; background: var(--accent-soft); border-radius: 8px; padding: 10px 14px; margin: 12px 0 0; font-size: 14px; }
 .doc-banner a { font-weight: 600; }
 
+.zone-commentaire { margin-top: 18px; font-size: 14px; }
+.zone-commentaire summary { cursor: pointer; color: var(--muted); }
+.zone-commentaire textarea { width: 100%; margin-top: 8px; font: inherit; font-size: 14px; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); resize: vertical; }
+.rv .com { font-size: 14px; background: var(--accent-soft); border-radius: 6px; padding: 6px 10px; margin: 0 0 8px; }
+
 /* Questions interactives */
 .inter { margin-top: 18px; }
 .aide { font-size: 13px; color: var(--muted); margin: 0 0 10px; }
@@ -635,7 +640,9 @@ function preparer() {
 }
 function repondre(ok, extra) {
   const q = BANK[S.cur.id];
-  S.answers.push({ id: S.cur.id, c: q.c, ok, level: S.level, order: S.cur.order, temps: Date.now() - (S.cur.debut || Date.now()), sorties: S.cur.sorties || 0, ...extra });
+  const com = (S.cur.commentaire || "").trim();
+  S.answers.push({ id: S.cur.id, c: q.c, ok, level: S.level, order: S.cur.order, temps: Date.now() - (S.cur.debut || Date.now()), sorties: S.cur.sorties || 0, ...(com ? { commentaire: com } : {}), ...extra });
+  if (com) envoyer({ type: "commentaire", id: S.id, nom: S.nom, i: S.idx + 1, qid: q.id, texte: com });
   S.level = Math.min(5, Math.max(1, S.level + (ok ? 1 : -1)));
   S.idx++;
   S.cur = null;
@@ -800,6 +807,14 @@ function enteteQuestion(q) {
     S.cur && S.cur.deadline ? h("span", { class: "q-timer", id: "q-timer" }, "⏱ " + fmt(S.cur.deadline - Date.now())) : null);
 }
 
+// Commentaire facultatif sur une question (envoyé au formateur avec la réponse)
+function commentaire() {
+  const ta = h("textarea", { class: "commentaire", rows: "2", maxlength: "500", placeholder: "Question ambiguë, erreur dans l'énoncé… (facultatif, envoyé au formateur quand tu valides)" });
+  ta.value = S.cur.commentaire || "";
+  ta.addEventListener("input", () => { S.cur.commentaire = ta.value; });
+  return h("details", { class: "zone-commentaire", open: !!S.cur.commentaire }, h("summary", {}, "💬 Laisser un commentaire sur cette question"), ta);
+}
+
 function renderQcm(q) {
   const next = h("button", { class: "btn primary", disabled: true }, "Valider la réponse");
   const opts = h("div", { class: "opts", role: "radiogroup" });
@@ -820,6 +835,7 @@ function renderQcm(q) {
     rich("h2", q.q),
     q.code ? h("pre", { class: "code" }, h("code", {}, q.code)) : null,
     opts,
+    commentaire(),
     h("div", { class: "actions" }, h("span", { class: "hint" }, "Une réponse validée est définitive."), skip, next))));
 }
 
@@ -1030,6 +1046,7 @@ function renderInteractif(q) {
     q.doc ? h("div", { class: "doc-banner" }, "📖 Question de documentation : tu peux consulter la documentation.", h("a", { href: q.doc.url, target: "_blank", rel: "noopener" }, "Ouvrir « " + q.doc.titre + " » ↗")) : null,
     q.code && q.t !== "trou" ? h("pre", { class: "code" }, h("code", {}, q.code)) : null,
     h("div", { class: "inter" }, corps),
+    commentaire(),
     h("div", { class: "actions" }, h("span", { class: "hint" }, "Une réponse validée est définitive."), skip, valider))));
 }
 
@@ -1173,6 +1190,7 @@ function renderPratique(q) {
         preview,
         h("div", { class: "out-bar" }, "Console"),
         cons)),
+    commentaire(),
     h("div", { class: "actions" }, h("span", { class: "hint" }, "Ton code est vérifié automatiquement à la validation. Pas de retour en arrière."), passer, valider)));
   afficher();
   executer();
@@ -1322,11 +1340,12 @@ function renderResultats() {
 }
 
 function carteCorrection(a, i) {
-  const head = (q) => h("div", { class: "head" },
+  const head = (q) => h("div", {}, h("div", { class: "head" },
     h("span", { class: "mono" }, `Q${i + 1}`), chip(a.c), q && q.id ? h("span", { class: "mono muted qid" }, q.id) : null, h("span", { class: "tag" }, q && q.p ? "Exercice pratique" : (q && TYPES[q.t]) || "QCM"),
     a.temps ? h("span", { class: "muted temps" }, "⏱ " + duree(a.temps)) : null,
     a.sorties ? h("span", { class: "sortie" }, "⚠ " + a.sorties + " sortie(s) d'onglet") : null,
-    h("span", { class: "verdict " + (a.ok ? "ok" : "ko") }, a.ok ? "Réussie" : (a.timeout || a.tempsEcoule) ? "Temps écoulé" : (a.choix === null || a.passe) ? "Sans réponse" : "Ratée"));
+    h("span", { class: "verdict " + (a.ok ? "ok" : "ko") }, a.ok ? "Réussie" : (a.timeout || a.tempsEcoule) ? "Temps écoulé" : (a.choix === null || a.passe) ? "Sans réponse" : "Ratée")),
+    a.commentaire ? h("p", { class: "com" }, "💬 Ton commentaire : " + a.commentaire) : null);
   if (a.id == null) {
     return h("article", { class: "rv bad" }, head(null), h("p", { class: "muted" }, "Question non atteinte avant la fin du temps."));
   }

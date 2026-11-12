@@ -78,6 +78,11 @@ module.exports = async (req, res) => {
       const ok = await poster(webhook, { content: `▶️ **${texte(d.nom, 60) || "Inconnu"}** a commencé l'examen blanc (examen ${texte(d.id, 12)})` });
       return res.status(ok ? 200 : 502).json({ ok });
     }
+    if (d.type === "commentaire") {
+      const id = /^[A-Za-z0-9-]{1,12}$/.test(d.qid || "") ? ` (${d.qid})` : "";
+      const ok = await poster(webhook, { content: `💬 **${texte(d.nom, 60) || "Inconnu"}** — Q${nombre(d.i, 1, 100)}${id} : « ${texte(d.texte, 500)} »` });
+      return res.status(ok ? 200 : 502).json({ ok });
+    }
     if (d.type !== "fin") return res.status(400).json({ ok: false });
 
     const ok = await poster(webhook, { embeds: [resume(d)] });
