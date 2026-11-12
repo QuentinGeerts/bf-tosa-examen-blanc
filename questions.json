@@ -3074,6 +3074,558 @@
       ],
       "reponse": 0,
       "explication": "`querySelectorAll` renvoie une liste : il faut une boucle (`for...of` ou `forEach`) pour agir sur chaque élément."
+    },
+    {
+      "id": "H069",
+      "categorie": "HTML",
+      "niveau": 1,
+      "question": "Quelle balise crée un paragraphe ?",
+      "options": [
+        "`<p>`",
+        "`<para>`",
+        "`<text>`",
+        "`<pg>`"
+      ],
+      "reponse": 0,
+      "explication": "`<p>Mon texte</p>` crée un paragraphe. `<para>`, `<text>` et `<pg>` n'existent pas en HTML."
+    },
+    {
+      "id": "H070",
+      "categorie": "HTML",
+      "niveau": 1,
+      "question": "Quel attribut de `<img>` indique le fichier image à afficher ?",
+      "code": "<img ___=\"chat.jpg\" alt=\"Un chat\">",
+      "options": [
+        "`src`",
+        "`href`",
+        "`alt`",
+        "`link`"
+      ],
+      "reponse": 0,
+      "explication": "`src` (source) donne le chemin du fichier image. `href` sert aux liens (`<a>`, `<link>`), `alt` donne le texte de remplacement, `link` n'est pas un attribut de `<img>`."
+    },
+    {
+      "id": "H071",
+      "categorie": "HTML",
+      "niveau": 5,
+      "question": "Qu'est-ce qui s'affiche dans la page ?",
+      "code": [
+        "<template id=\"modele-carte\">",
+        "  <div class=\"carte\">Nouvelle carte</div>",
+        "</template>",
+        "<p>Fin</p>"
+      ],
+      "options": [
+        "Seulement \"Fin\" : le contenu d'un `<template>` ne s'affiche pas tant qu'on ne l'a pas cloné en JavaScript",
+        "\"Nouvelle carte\" puis \"Fin\"",
+        "\"Nouvelle carte\" en gris, puis \"Fin\"",
+        "Rien : `<template>` bloque l'affichage de la suite de la page"
+      ],
+      "reponse": 0,
+      "explication": "Le contenu d'un `<template>` est inerte : il n'est ni affiché ni exécuté. On le récupère avec `modele.content`, on le clone (`cloneNode(true)`) puis on l'ajoute à la page. La suite de la page s'affiche normalement."
+    },
+    {
+      "id": "H072",
+      "categorie": "HTML",
+      "niveau": 5,
+      "question": "Quelle valeur ce champ accepte-t-il à l'envoi du formulaire ?",
+      "code": "<input type=\"number\" name=\"quantite\" min=\"0\" max=\"10\" step=\"3\">",
+      "options": [
+        "`9`",
+        "`10`",
+        "`5`",
+        "`12`"
+      ],
+      "reponse": 0,
+      "explication": "Les valeurs valides partent de `min` et avancent de `step` en `step` : 0, 3, 6, 9. `10` respecte `max` mais pas le pas : l'envoi est bloqué. `12` dépasse `max`."
+    },
+    {
+      "id": "H073",
+      "categorie": "HTML",
+      "niveau": 5,
+      "question": "Dans ce `srcset`, que signifie `800w` ?",
+      "code": [
+        "<img src=\"photo-400.jpg\"",
+        "     srcset=\"photo-400.jpg 400w, photo-800.jpg 800w\"",
+        "     sizes=\"100vw\"",
+        "     alt=\"Paysage\">"
+      ],
+      "options": [
+        "Le fichier `photo-800.jpg` fait 800 pixels de large",
+        "L'image sera affichée sur 800 pixels de large",
+        "Le fichier est utilisé quand la fenêtre fait au moins 800 pixels de large",
+        "Le fichier pèse 800 Ko"
+      ],
+      "reponse": 0,
+      "explication": "Le descripteur `w` indique la largeur réelle du fichier. Avec `sizes` (la largeur d'affichage prévue), le navigateur choisit lui-même le fichier le plus adapté, en tenant compte de la densité de pixels de l'écran. Ce n'est ni une taille d'affichage ni une media query."
+    },
+    {
+      "id": "H074",
+      "categorie": "HTML",
+      "niveau": 5,
+      "question": "À quoi sert `rel=\"noopener\"` sur ce lien ?",
+      "code": "<a href=\"https://site-externe.com\" target=\"_blank\" rel=\"noopener\">Partenaire</a>",
+      "options": [
+        "À empêcher la page ouverte d'accéder à la page d'origine via `window.opener`",
+        "À demander aux moteurs de recherche de ne pas suivre le lien",
+        "À ouvrir le lien dans le même onglet malgré `target=\"_blank\"`",
+        "À bloquer les fenêtres publicitaires du site ouvert"
+      ],
+      "reponse": 0,
+      "explication": "Sans `noopener`, la page ouverte peut manipuler l'onglet d'origine avec `window.opener` (par exemple le rediriger vers une fausse page). Les navigateurs récents l'appliquent d'office avec `target=\"_blank\"`, mais l'écrire reste une bonne pratique. Ne pas suivre le lien, c'est `rel=\"nofollow\"`."
+    },
+    {
+      "id": "H075",
+      "categorie": "HTML",
+      "niveau": 3,
+      "question": "Quelle balise remplace `___` pour donner une légende à l'image ?",
+      "code": [
+        "<figure>",
+        "  <img src=\"ventes.png\" alt=\"Ventes 2026 par mois\">",
+        "  <___>Fig. 1 - Ventes 2026</___>",
+        "</figure>"
+      ],
+      "options": [
+        "`<figcaption>`",
+        "`<caption>`",
+        "`<legend>`",
+        "`<label>`"
+      ],
+      "reponse": 0,
+      "explication": "Dans un `<figure>`, la légende s'écrit avec `<figcaption>`. `<caption>` donne un titre à un tableau, `<legend>` à un `<fieldset>`, `<label>` à un champ de formulaire."
+    },
+    {
+      "id": "H076",
+      "categorie": "HTML",
+      "niveau": 4,
+      "question": "Quelle balise convient pour une **longue citation** tirée d'une autre source, affichée en bloc ?",
+      "options": [
+        "`<blockquote>`",
+        "`<q>`",
+        "`<cite>`",
+        "`<quote>`"
+      ],
+      "reponse": 0,
+      "explication": "`<blockquote>` = citation longue, en bloc (l'attribut `cite` peut donner l'URL de la source). `<q>` = courte citation dans une phrase, `<cite>` = titre d'une œuvre. `<quote>` n'existe pas."
+    },
+    {
+      "id": "C068",
+      "categorie": "CSS",
+      "niveau": 1,
+      "question": "Quelle propriété change la police d'écriture d'un texte ?",
+      "options": [
+        "`font-family`",
+        "`font-style`",
+        "`text-font`",
+        "`font-weight`"
+      ],
+      "reponse": 0,
+      "explication": "`font-family: Arial, sans-serif;` choisit la police. `font-style` met en italique, `font-weight` en gras ; `text-font` n'existe pas."
+    },
+    {
+      "id": "C069",
+      "categorie": "CSS",
+      "niveau": 1,
+      "question": "Quelle déclaration centre le texte d'un paragraphe ?",
+      "options": [
+        "`text-align: center;`",
+        "`align: center;`",
+        "`text-align: middle;`",
+        "`vertical-align: center;`"
+      ],
+      "reponse": 0,
+      "explication": "`text-align` aligne le texte horizontalement (`left`, `center`, `right`, `justify`). `middle` n'est pas une valeur de `text-align`."
+    },
+    {
+      "id": "C070",
+      "categorie": "CSS",
+      "niveau": 1,
+      "question": "Quelle balise permet d'écrire du CSS directement dans le fichier HTML ?",
+      "options": [
+        "`<style>`",
+        "`<css>`",
+        "`<link>`",
+        "`<script>`"
+      ],
+      "reponse": 0,
+      "explication": "`<style>` se place dans le `<head>` et contient des règles CSS. `<link>` relie un fichier CSS externe ; `<script>` sert au JavaScript."
+    },
+    {
+      "id": "C071",
+      "categorie": "CSS",
+      "niveau": 4,
+      "question": "Quel est l'espace vertical entre les deux paragraphes ?",
+      "code": [
+        "<p class=\"a\">Premier</p>",
+        "<p class=\"b\">Second</p>",
+        "",
+        ".a { margin-bottom: 20px; }",
+        ".b { margin-top: 30px; }"
+      ],
+      "options": [
+        "30px",
+        "50px",
+        "20px",
+        "0px"
+      ],
+      "reponse": 0,
+      "explication": "Les marges verticales de deux blocs voisins **fusionnent** : seule la plus grande est gardée (30px). Elles ne s'additionnent pas."
+    },
+    {
+      "id": "C072",
+      "categorie": "CSS",
+      "niveau": 4,
+      "question": "Un bouton a la déclaration `opacity: 0;`. Que se passe-t-il ?",
+      "options": [
+        "Il est invisible, mais garde sa place et reste cliquable",
+        "Il est invisible et ne prend plus de place",
+        "Il est invisible, garde sa place, mais ne réagit plus aux clics",
+        "Il reste visible : `opacity` agit seulement sur le fond"
+      ],
+      "reponse": 0,
+      "explication": "`opacity: 0` rend l'élément transparent sans le retirer : il occupe sa place et reçoit toujours les clics. `display: none` le retire complètement de la page."
+    },
+    {
+      "id": "C073",
+      "categorie": "CSS",
+      "niveau": 5,
+      "question": "Une liste contient 10 éléments `<li>`. Lesquels sont rouges ?",
+      "code": [
+        "li:nth-child(3n+1) {",
+        "  color: red;",
+        "}"
+      ],
+      "options": [
+        "Le 1er, le 4e, le 7e et le 10e",
+        "Le 3e, le 6e et le 9e",
+        "Le 2e, le 5e et le 8e",
+        "Le 4e, le 7e et le 10e"
+      ],
+      "reponse": 0,
+      "explication": "`3n+1` se calcule avec n = 0, 1, 2, 3… : 1, 4, 7, 10. Le piège : on oublie souvent n = 0. `3n` donnerait 3, 6, 9 et `3n-1` donnerait 2, 5, 8."
+    },
+    {
+      "id": "C074",
+      "categorie": "CSS",
+      "niveau": 5,
+      "question": "Quelle est la largeur de la zone de **contenu** de `.boite` ?",
+      "code": [
+        ".boite {",
+        "  box-sizing: border-box;",
+        "  width: 200px;",
+        "  padding: 20px;",
+        "  border: 5px solid black;",
+        "}"
+      ],
+      "options": [
+        "150px",
+        "200px",
+        "250px",
+        "160px"
+      ],
+      "reponse": 0,
+      "explication": "Avec `border-box`, les 200px incluent padding et bordure : 200 − 2 × 20 − 2 × 5 = 150px. Avec `content-box` (par défaut), la boîte ferait 250px au total."
+    },
+    {
+      "id": "C075",
+      "categorie": "CSS",
+      "niveau": 5,
+      "question": "De quelle couleur est le texte \"Accueil\" ?",
+      "code": [
+        "<ul class=\"menu\">",
+        "  <li class=\"actif\">Accueil</li>",
+        "</ul>",
+        "",
+        ".menu .actif { color: blue; }",
+        "ul li.actif { color: red; }"
+      ],
+      "options": [
+        "Bleu : `.menu .actif` est plus spécifique",
+        "Rouge : la dernière règle écrite l'emporte",
+        "Rouge : `ul li.actif` contient plus de sélecteurs (3 contre 2)",
+        "Noir : les deux règles se contredisent et s'annulent"
+      ],
+      "reponse": 0,
+      "explication": "`.menu .actif` = 2 classes (0, 2, 0). `ul li.actif` = 1 classe + 2 balises (0, 1, 2). Deux classes battent une classe, quel que soit le nombre de balises : l'ordre ne compte qu'à spécificité égale."
+    },
+    {
+      "id": "J083",
+      "categorie": "JavaScript",
+      "niveau": 1,
+      "question": "Que renvoie cette expression ?",
+      "code": "typeof true",
+      "options": [
+        "`\"boolean\"`",
+        "`\"string\"`",
+        "`\"number\"`",
+        "`\"true\"`"
+      ],
+      "reponse": 0,
+      "explication": "`true` et `false` sont les deux valeurs du type booléen. Sans guillemets, `true` n'est pas une chaîne."
+    },
+    {
+      "id": "J084",
+      "categorie": "JavaScript",
+      "niveau": 1,
+      "question": "Laquelle de ces lignes stocke une **chaîne de caractères** dans `nom` ?",
+      "options": [
+        "`const nom = \"Léa\";`",
+        "`const nom = Léa;`",
+        "`const nom = <Léa>;`",
+        "`const nom = (Léa);`"
+      ],
+      "reponse": 0,
+      "explication": "Une chaîne s'écrit entre guillemets (`\"…\"`, `'…'` ou `` `…` ``). Sans guillemets, `Léa` est lu comme un nom de variable."
+    },
+    {
+      "id": "J085",
+      "categorie": "JavaScript",
+      "niveau": 5,
+      "question": "Qu'affiche ce code ?",
+      "code": [
+        "function compteur() {",
+        "  let n = 0;",
+        "  return () => ++n;",
+        "}",
+        "",
+        "const a = compteur();",
+        "const b = compteur();",
+        "a();",
+        "a();",
+        "console.log(a(), b());"
+      ],
+      "options": [
+        "`3 1`",
+        "`3 3`",
+        "`1 1`",
+        "`3 4`",
+        "`2 1`"
+      ],
+      "reponse": 0,
+      "explication": "Chaque appel de `compteur()` crée sa propre variable `n`, gardée par la fonction renvoyée (une fermeture). `a` en est à son 3e appel, `b` à son 1er : les deux compteurs sont indépendants."
+    },
+    {
+      "id": "J086",
+      "categorie": "JavaScript",
+      "niveau": 5,
+      "question": "Qu'affiche ce code ?",
+      "code": [
+        "for (var i = 0; i < 3; i++) {",
+        "  setTimeout(() => console.log(i), 0);",
+        "}"
+      ],
+      "options": [
+        "`3`, `3`, `3`",
+        "`0`, `1`, `2`",
+        "`0`, `0`, `0`",
+        "`2`, `2`, `2`",
+        "`1`, `2`, `3`"
+      ],
+      "reponse": 0,
+      "explication": "Les fonctions de `setTimeout` s'exécutent après la fin de la boucle. Avec `var`, il n'existe qu'une seule variable `i`, qui vaut alors 3. Avec `let`, chaque tour a son propre `i` : on obtiendrait `0`, `1`, `2`."
+    },
+    {
+      "id": "J087",
+      "categorie": "JavaScript",
+      "niveau": 3,
+      "question": "Que vaut `paquets` ?",
+      "code": "const paquets = Math.floor(17 / 5);",
+      "options": [
+        "`3`",
+        "`3.4`",
+        "`4`",
+        "`2`"
+      ],
+      "reponse": 0,
+      "explication": "`17 / 5` vaut `3.4` ; `Math.floor` arrondit à l'entier inférieur : `3`. Pour arrondir à l'entier supérieur : `Math.ceil` (4)."
+    },
+    {
+      "id": "J088",
+      "categorie": "JavaScript",
+      "niveau": 4,
+      "question": "Qu'affiche ce code ?",
+      "code": [
+        "const personne = { nom: \"Léa\", age: 25 };",
+        "const { nom, age = 30, ville } = personne;",
+        "console.log(nom, age, ville);"
+      ],
+      "options": [
+        "`Léa 25 undefined`",
+        "`Léa 30 undefined`",
+        "`Léa 25 Bruxelles`",
+        "Une erreur : `ville` n'existe pas dans l'objet"
+      ],
+      "reponse": 0,
+      "explication": "La déstructuration reprend les propriétés de même nom. La valeur par défaut (`= 30`) ne sert que si la propriété est absente ; une propriété absente sans défaut donne `undefined`, sans erreur."
+    },
+    {
+      "id": "J089",
+      "categorie": "JavaScript",
+      "niveau": 3,
+      "question": "Qu'affiche ce code ?",
+      "code": [
+        "let n = 1;",
+        "while (n < 20) {",
+        "  n = n * 3;",
+        "}",
+        "console.log(n);"
+      ],
+      "options": [
+        "`27`",
+        "`9`",
+        "`20`",
+        "`81`"
+      ],
+      "reponse": 0,
+      "explication": "`n` passe à 3, 9, puis 27. La condition est testée **avant** chaque tour : à 9 la boucle continue, à 27 elle s'arrête."
+    },
+    {
+      "id": "I065",
+      "categorie": "Intégration",
+      "niveau": 1,
+      "question": "Quelle instruction met le texte de l'élément `titre` en rouge ?",
+      "options": [
+        "`titre.style.color = \"red\";`",
+        "`titre.color = \"red\";`",
+        "`titre.css.color = \"red\";`",
+        "`titre.setColor(\"red\");`"
+      ],
+      "reponse": 0,
+      "explication": "La propriété `style` d'un élément donne accès à ses styles CSS. `titre.color` crée juste une propriété JavaScript sans effet sur l'affichage."
+    },
+    {
+      "id": "I066",
+      "categorie": "Intégration",
+      "niveau": 1,
+      "question": "Que représente l'objet `document` en JavaScript ?",
+      "options": [
+        "La page HTML chargée dans l'onglet (le DOM)",
+        "La fenêtre du navigateur, avec tous ses onglets",
+        "Le fichier JavaScript en cours d'exécution",
+        "Le dossier du site sur le serveur"
+      ],
+      "reponse": 0,
+      "explication": "`document` est le point d'entrée du DOM : c'est par lui qu'on cherche les éléments (`document.getElementById`…). La fenêtre, c'est l'objet `window`."
+    },
+    {
+      "id": "I067",
+      "categorie": "Intégration",
+      "niveau": 1,
+      "question": "Quelle fonction affiche une boîte de dialogue qui demande à l'utilisateur de **saisir** un texte ?",
+      "options": [
+        "`prompt()`",
+        "`alert()`",
+        "`confirm()`",
+        "`input()`"
+      ],
+      "reponse": 0,
+      "explication": "`prompt()` renvoie le texte saisi (ou `null` si on annule). `alert()` affiche seulement un message, `confirm()` demande OK / Annuler. `input()` n'existe pas en JavaScript."
+    },
+    {
+      "id": "I068",
+      "categorie": "Intégration",
+      "niveau": 5,
+      "question": "On clique sur le texte \"Accueil\". Qu'affiche la console ?",
+      "code": [
+        "<ul id=\"menu\">",
+        "  <li><a href=\"#\">Accueil</a></li>",
+        "</ul>",
+        "",
+        "const menu = document.getElementById(\"menu\");",
+        "menu.addEventListener(\"click\", (e) => {",
+        "  console.log(e.target.tagName, e.currentTarget.tagName);",
+        "});"
+      ],
+      "options": [
+        "`A UL`",
+        "`UL UL`",
+        "`A A`",
+        "`LI UL`",
+        "`UL A`"
+      ],
+      "reponse": 0,
+      "explication": "`e.target` est l'élément réellement cliqué (le lien `<a>`). `e.currentTarget` est l'élément qui porte l'écouteur (le `<ul>`). En délégation, on teste donc `e.target`."
+    },
+    {
+      "id": "I069",
+      "categorie": "Intégration",
+      "niveau": 5,
+      "question": "Après ce code, sur quels `<li>` un clic affiche-t-il quelque chose dans la console ?",
+      "code": [
+        "const liste = document.getElementById(\"liste\");",
+        "",
+        "for (const nom of [\"Un\", \"Deux\", \"Trois\"]) {",
+        "  liste.innerHTML += `<li>${nom}</li>`;",
+        "  liste.lastElementChild.addEventListener(\"click\", () => console.log(nom));",
+        "}"
+      ],
+      "options": [
+        "Seulement sur \"Trois\"",
+        "Sur les trois `<li>`",
+        "Seulement sur \"Un\"",
+        "Sur aucun",
+        "Une erreur empêche l'ajout des `<li>`"
+      ],
+      "reponse": 0,
+      "explication": "`innerHTML +=` relit le HTML de la liste puis **recrée tous les éléments** : les anciens `<li>` sont remplacés par des copies sans écouteur. Seul le dernier ajouté garde le sien. Solution : `createElement` + `appendChild` (ou `insertAdjacentHTML`)."
+    },
+    {
+      "id": "I070",
+      "categorie": "Intégration",
+      "niveau": 2,
+      "question": "Quelle instruction met le fond de l'élément `boite` en jaune ?",
+      "options": [
+        "`boite.style.backgroundColor = \"yellow\";`",
+        "`boite.style.background-color = \"yellow\";`",
+        "`boite.style.BackgroundColor = \"yellow\";`",
+        "`boite.backgroundColor = \"yellow\";`"
+      ],
+      "reponse": 0,
+      "explication": "En JavaScript, les propriétés CSS à tiret s'écrivent en camelCase : `background-color` devient `backgroundColor`. Avec un tiret, JavaScript lit une soustraction : erreur de syntaxe."
+    },
+    {
+      "id": "I071",
+      "categorie": "Intégration",
+      "niveau": 3,
+      "question": "Que voit l'utilisateur après un clic sur le bouton ?",
+      "code": [
+        "bouton.addEventListener(\"click\", () => {",
+        "  message.textContent = \"Envoi…\";",
+        "  setTimeout(() => {",
+        "    message.textContent = \"Envoyé !\";",
+        "  }, 2000);",
+        "});"
+      ],
+      "options": [
+        "\"Envoi…\" tout de suite, puis \"Envoyé !\" 2 secondes plus tard",
+        "\"Envoyé !\" tout de suite, puis \"Envoi…\" 2 secondes plus tard",
+        "Rien pendant 2 secondes, puis \"Envoyé !\"",
+        "\"Envoyé !\" qui réapparaît toutes les 2 secondes"
+      ],
+      "reponse": 0,
+      "explication": "`setTimeout(fonction, 2000)` exécute la fonction **une seule fois**, après 2000 ms (2 s). Le reste du code continue sans attendre. Pour répéter : `setInterval`."
+    },
+    {
+      "id": "I072",
+      "categorie": "Intégration",
+      "niveau": 3,
+      "question": "Dans cet écouteur, quelle condition détecte l'appui sur la touche Entrée ?",
+      "code": [
+        "champ.addEventListener(\"keydown\", (e) => {",
+        "  if (???) {",
+        "    envoyer();",
+        "  }",
+        "});"
+      ],
+      "options": [
+        "`e.key === \"Enter\"`",
+        "`e.key === 13`",
+        "`e.key === \"enter\"`",
+        "`e.type === \"Enter\"`",
+        "`e.target === \"Enter\"`"
+      ],
+      "reponse": 0,
+      "explication": "`e.key` contient le nom de la touche sous forme de texte, avec une majuscule pour les touches spéciales (`\"Enter\"`, `\"Escape\"`, `\"ArrowUp\"`). `e.type` vaut ici `\"keydown\"`."
     }
   ],
   "interactives": [
@@ -4465,6 +5017,651 @@
         }
       ],
       "explication": "Le `<head>` contient les informations sur la page (titre, encodage, feuilles de style). Le `<body>` contient ce qui s'affiche."
+    },
+    {
+      "type": "vraifaux",
+      "id": "H077",
+      "categorie": "HTML",
+      "niveau": 3,
+      "question": "Pour chaque affirmation sur l'envoi d'un formulaire, indique si elle est vraie.",
+      "affirmations": [
+        {
+          "texte": "Un champ sans attribut `name` n'est pas envoyé avec le formulaire",
+          "vrai": true
+        },
+        {
+          "texte": "L'`id` d'un champ sert de nom à la donnée envoyée",
+          "vrai": false
+        },
+        {
+          "texte": "`type=\"password\"` chiffre la valeur avant l'envoi",
+          "vrai": false
+        },
+        {
+          "texte": "Avec `method=\"post\"`, les données sont envoyées dans le corps de la requête, pas dans l'URL",
+          "vrai": true
+        }
+      ],
+      "explication": "C'est le `name` qui donne le nom de la donnée envoyée ; l'`id` sert au CSS, au JS et au `<label>`. `type=\"password\"` masque seulement l'affichage : la sécurité vient du HTTPS."
+    },
+    {
+      "type": "relier",
+      "id": "H078",
+      "categorie": "HTML",
+      "niveau": 3,
+      "question": "Relie chaque type de champ à ce qu'il affiche.",
+      "paires": [
+        {
+          "gauche": "`type=\"date\"`",
+          "droite": "Un sélecteur de jour, mois et année"
+        },
+        {
+          "gauche": "`type=\"range\"`",
+          "droite": "Un curseur à glisser entre une valeur min et max"
+        },
+        {
+          "gauche": "`type=\"tel\"`",
+          "droite": "Un champ de numéro de téléphone (clavier numérique sur mobile)"
+        },
+        {
+          "gauche": "`type=\"checkbox\"`",
+          "droite": "Une case à cocher"
+        },
+        {
+          "gauche": "`type=\"file\"`",
+          "droite": "Un bouton pour choisir un fichier"
+        }
+      ],
+      "intrus": [
+        "Une liste déroulante d'options"
+      ],
+      "explication": "La liste déroulante n'est pas un `<input>` : c'est `<select>`. Attention : `tel` ne vérifie pas le format du numéro (il faut `pattern`)."
+    },
+    {
+      "type": "trou",
+      "id": "H079",
+      "categorie": "HTML",
+      "niveau": 3,
+      "question": "Complète pour que \"Belgique\" soit choisie par défaut.",
+      "code": [
+        "<select name=\"pays\">",
+        "  <option value=\"fr\">France</option>",
+        "  <option value=\"be\" ___>Belgique</option>",
+        "  <option value=\"ch\">Suisse</option>",
+        "</select>"
+      ],
+      "reponses": [
+        [
+          "selected",
+          "selected=\"selected\"",
+          "selected=\"\"",
+          "selected='selected'",
+          "selected=selected",
+          "selected=''"
+        ]
+      ],
+      "explication": "`selected` est un attribut booléen : sa présence sur l'`<option>` suffit. Pour une case à cocher ou un bouton radio, c'est `checked`."
+    },
+    {
+      "type": "lignes",
+      "id": "H080",
+      "categorie": "HTML",
+      "niveau": 3,
+      "question": "Clique sur toutes les lignes qui contiennent une **erreur de syntaxe HTML**. S'il n'y en a pas, clique sur \"Il n'y a pas d'erreur\".",
+      "lignes": [
+        "<table>",
+        "  <caption>Tarifs</caption>",
+        "  <tr><th>Formule</th><th>Prix</th></tr>",
+        "  <tr><td>Mensuelle</td><td>12 €</th></tr>",
+        "  <tr><td>Annuelle</td><td>120 €</td></tr>",
+        "  <tr><td colspan=\"2>Sans engagement</td></tr>",
+        "</table>"
+      ],
+      "erreurs": [
+        4,
+        6
+      ],
+      "explication": "Ligne 4 : la cellule ouverte avec `<td>` est fermée par `</th>`. Ligne 6 : il manque le guillemet fermant de `colspan=\"2\"`. Les lignes 2 et 3 sont correctes : `<caption>` est le premier enfant du tableau et `<th>` crée des cellules d'en-tête."
+    },
+    {
+      "type": "multiple",
+      "id": "H081",
+      "categorie": "HTML",
+      "niveau": 2,
+      "question": "Quelles balises sont **sémantiques** (leur nom indique le rôle du contenu) ?",
+      "options": [
+        "`<header>`",
+        "`<div>`",
+        "`<article>`",
+        "`<span>`",
+        "`<footer>`"
+      ],
+      "reponses": [
+        0,
+        2,
+        4
+      ],
+      "explication": "`<header>`, `<article>` et `<footer>` décrivent leur contenu. `<div>` (bloc) et `<span>` (en ligne) sont des conteneurs génériques, sans signification."
+    },
+    {
+      "type": "images",
+      "id": "H082",
+      "categorie": "HTML",
+      "niveau": 3,
+      "question": "Quelle image correspond à ce tableau (bordures affichées) ?",
+      "code": [
+        "<table>",
+        "  <tr>",
+        "    <td colspan=\"2\">A</td>",
+        "  </tr>",
+        "  <tr>",
+        "    <td>B</td>",
+        "    <td>C</td>",
+        "  </tr>",
+        "</table>"
+      ],
+      "images": [
+        "<svg viewBox=\"0 0 120 90\" width=\"120\" height=\"90\"><rect width=\"120\" height=\"90\" fill=\"#fff\"/><rect x=\"15\" y=\"15\" width=\"45\" height=\"30\" fill=\"#e3e9f1\" stroke=\"#2867ad\" stroke-width=\"2\"/><text x=\"37.5\" y=\"35.0\" font-size=\"14\" text-anchor=\"middle\" fill=\"#1d2533\" font-family=\"sans-serif\">A</text><rect x=\"15\" y=\"45\" width=\"45\" height=\"30\" fill=\"#e3e9f1\" stroke=\"#2867ad\" stroke-width=\"2\"/><text x=\"37.5\" y=\"65.0\" font-size=\"14\" text-anchor=\"middle\" fill=\"#1d2533\" font-family=\"sans-serif\">B</text><rect x=\"60\" y=\"45\" width=\"45\" height=\"30\" fill=\"#e3e9f1\" stroke=\"#2867ad\" stroke-width=\"2\"/><text x=\"82.5\" y=\"65.0\" font-size=\"14\" text-anchor=\"middle\" fill=\"#1d2533\" font-family=\"sans-serif\">C</text></svg>",
+        "<svg viewBox=\"0 0 120 90\" width=\"120\" height=\"90\"><rect width=\"120\" height=\"90\" fill=\"#fff\"/><rect x=\"15\" y=\"15\" width=\"90\" height=\"30\" fill=\"#e3e9f1\" stroke=\"#2867ad\" stroke-width=\"2\"/><text x=\"60.0\" y=\"35.0\" font-size=\"14\" text-anchor=\"middle\" fill=\"#1d2533\" font-family=\"sans-serif\">A</text><rect x=\"15\" y=\"45\" width=\"45\" height=\"30\" fill=\"#e3e9f1\" stroke=\"#2867ad\" stroke-width=\"2\"/><text x=\"37.5\" y=\"65.0\" font-size=\"14\" text-anchor=\"middle\" fill=\"#1d2533\" font-family=\"sans-serif\">B</text><rect x=\"60\" y=\"45\" width=\"45\" height=\"30\" fill=\"#e3e9f1\" stroke=\"#2867ad\" stroke-width=\"2\"/><text x=\"82.5\" y=\"65.0\" font-size=\"14\" text-anchor=\"middle\" fill=\"#1d2533\" font-family=\"sans-serif\">C</text></svg>",
+        "<svg viewBox=\"0 0 120 90\" width=\"120\" height=\"90\"><rect width=\"120\" height=\"90\" fill=\"#fff\"/><rect x=\"15\" y=\"15\" width=\"45\" height=\"60\" fill=\"#e3e9f1\" stroke=\"#2867ad\" stroke-width=\"2\"/><text x=\"37.5\" y=\"50.0\" font-size=\"14\" text-anchor=\"middle\" fill=\"#1d2533\" font-family=\"sans-serif\">A</text><rect x=\"60\" y=\"15\" width=\"45\" height=\"30\" fill=\"#e3e9f1\" stroke=\"#2867ad\" stroke-width=\"2\"/><text x=\"82.5\" y=\"35.0\" font-size=\"14\" text-anchor=\"middle\" fill=\"#1d2533\" font-family=\"sans-serif\">B</text><rect x=\"60\" y=\"45\" width=\"45\" height=\"30\" fill=\"#e3e9f1\" stroke=\"#2867ad\" stroke-width=\"2\"/><text x=\"82.5\" y=\"65.0\" font-size=\"14\" text-anchor=\"middle\" fill=\"#1d2533\" font-family=\"sans-serif\">C</text></svg>",
+        "<svg viewBox=\"0 0 120 90\" width=\"120\" height=\"90\"><rect width=\"120\" height=\"90\" fill=\"#fff\"/><rect x=\"15\" y=\"30\" width=\"30\" height=\"30\" fill=\"#e3e9f1\" stroke=\"#2867ad\" stroke-width=\"2\"/><text x=\"30.0\" y=\"50.0\" font-size=\"14\" text-anchor=\"middle\" fill=\"#1d2533\" font-family=\"sans-serif\">A</text><rect x=\"45\" y=\"30\" width=\"30\" height=\"30\" fill=\"#e3e9f1\" stroke=\"#2867ad\" stroke-width=\"2\"/><text x=\"60.0\" y=\"50.0\" font-size=\"14\" text-anchor=\"middle\" fill=\"#1d2533\" font-family=\"sans-serif\">B</text><rect x=\"75\" y=\"30\" width=\"30\" height=\"30\" fill=\"#e3e9f1\" stroke=\"#2867ad\" stroke-width=\"2\"/><text x=\"90.0\" y=\"50.0\" font-size=\"14\" text-anchor=\"middle\" fill=\"#1d2533\" font-family=\"sans-serif\">C</text></svg>"
+      ],
+      "reponse": 1,
+      "explication": "`colspan=\"2\"` étale la cellule A sur 2 colonnes : elle occupe toute la largeur de la 1re ligne, au-dessus de B et C. Une cellule A haute de 2 lignes, ce serait `rowspan=\"2\"`."
+    },
+    {
+      "type": "vraifaux",
+      "id": "C076",
+      "categorie": "CSS",
+      "niveau": 3,
+      "question": "Pour chaque affirmation sur le positionnement, indique si elle est vraie.",
+      "affirmations": [
+        {
+          "texte": "`position: relative` décale l'élément, mais sa place d'origine reste réservée",
+          "vrai": true
+        },
+        {
+          "texte": "Un élément en `position: absolute` garde sa place dans le flux",
+          "vrai": false
+        },
+        {
+          "texte": "`position: fixed` place l'élément par rapport à la fenêtre du navigateur",
+          "vrai": true
+        },
+        {
+          "texte": "`position: sticky` colle l'élément au défilement même sans `top` ni `bottom`",
+          "vrai": false
+        }
+      ],
+      "explication": "`absolute` retire l'élément du flux : les autres prennent sa place. `sticky` a besoin d'un seuil (`top: 0`, par exemple) pour savoir quand se coller."
+    },
+    {
+      "type": "liste",
+      "id": "C077",
+      "categorie": "CSS",
+      "niveau": 4,
+      "question": "Flexbox : complète chaque phrase (conteneur en `display: flex`).",
+      "phrases": [
+        {
+          "texte": "Avec `flex-direction: row-reverse`, le premier élément du HTML s'affiche ___",
+          "options": [
+            "à droite",
+            "à gauche",
+            "en haut"
+          ],
+          "reponse": "à droite"
+        },
+        {
+          "texte": "Dans un conteneur en ligne (par défaut), pour centrer les éléments **verticalement**, on utilise ___",
+          "options": [
+            "`align-items: center`",
+            "`justify-content: center`",
+            "`vertical-align: middle`"
+          ],
+          "reponse": "`align-items: center`"
+        },
+        {
+          "texte": "Avec `flex-direction: column`, `justify-content` agit sur l'axe ___",
+          "options": [
+            "vertical",
+            "horizontal",
+            "des deux axes"
+          ],
+          "reponse": "vertical"
+        }
+      ],
+      "explication": "`justify-content` suit toujours l'axe principal (horizontal en `row`, vertical en `column`) ; `align-items` suit l'axe secondaire. `row-reverse` inverse l'ordre : le 1er élément part à droite. `vertical-align` n'a pas d'effet en Flexbox."
+    },
+    {
+      "type": "trou",
+      "id": "C078",
+      "categorie": "CSS",
+      "niveau": 3,
+      "question": "Complète pour créer une grille de **4 colonnes de même largeur**, avec un espace de `10px` entre les cases (lignes et colonnes).",
+      "code": [
+        ".galerie {",
+        "  display: ___;",
+        "  grid-template-columns: ___(4, 1fr);",
+        "  ___: 10px;",
+        "}"
+      ],
+      "reponses": [
+        [
+          "grid"
+        ],
+        [
+          "repeat"
+        ],
+        [
+          "gap",
+          "grid-gap"
+        ]
+      ],
+      "explication": "`display: grid` active la grille, `repeat(4, 1fr)` équivaut à `1fr 1fr 1fr 1fr`, et `gap` règle l'espace entre les cases."
+    },
+    {
+      "type": "glisser",
+      "id": "C079",
+      "categorie": "CSS",
+      "niveau": 1,
+      "question": "Classe chaque sélecteur selon ce qu'il cible.",
+      "etiquettes": [
+        "p",
+        "h1",
+        "nav",
+        ".menu",
+        ".btn-rouge",
+        ".carte",
+        "#entete",
+        "#contact"
+      ],
+      "zones": [
+        {
+          "titre": "Une balise",
+          "reponses": [
+            "p",
+            "h1",
+            "nav"
+          ]
+        },
+        {
+          "titre": "Une classe",
+          "reponses": [
+            ".menu",
+            ".btn-rouge",
+            ".carte"
+          ]
+        },
+        {
+          "titre": "Un id",
+          "reponses": [
+            "#entete",
+            "#contact"
+          ]
+        }
+      ],
+      "explication": "Sans symbole : une balise. Le point `.` : une classe (attribut `class`). Le dièse `#` : un id (attribut `id`)."
+    },
+    {
+      "type": "images",
+      "id": "C080",
+      "categorie": "CSS",
+      "niveau": 3,
+      "question": "Où s'affiche le badge dans la carte ?",
+      "code": [
+        ".carte {",
+        "  position: relative;",
+        "}",
+        "",
+        ".badge {",
+        "  position: absolute;",
+        "  bottom: 0;",
+        "  right: 0;",
+        "}"
+      ],
+      "images": [
+        "<svg viewBox=\"0 0 120 90\" width=\"120\" height=\"90\"><rect width=\"120\" height=\"90\" fill=\"#fff\"/><rect x=\"15\" y=\"10\" width=\"90\" height=\"70\" rx=\"4\" fill=\"#e3e9f1\" stroke=\"#7a8799\"/><rect x=\"15\" y=\"10\" width=\"30\" height=\"14\" fill=\"#c0392b\"/><text x=\"30\" y=\"20\" font-size=\"8\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">Promo</text></svg>",
+        "<svg viewBox=\"0 0 120 90\" width=\"120\" height=\"90\"><rect width=\"120\" height=\"90\" fill=\"#fff\"/><rect x=\"15\" y=\"10\" width=\"90\" height=\"70\" rx=\"4\" fill=\"#e3e9f1\" stroke=\"#7a8799\"/><rect x=\"75\" y=\"10\" width=\"30\" height=\"14\" fill=\"#c0392b\"/><text x=\"90\" y=\"20\" font-size=\"8\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">Promo</text></svg>",
+        "<svg viewBox=\"0 0 120 90\" width=\"120\" height=\"90\"><rect width=\"120\" height=\"90\" fill=\"#fff\"/><rect x=\"15\" y=\"10\" width=\"90\" height=\"70\" rx=\"4\" fill=\"#e3e9f1\" stroke=\"#7a8799\"/><rect x=\"15\" y=\"66\" width=\"30\" height=\"14\" fill=\"#c0392b\"/><text x=\"30\" y=\"76\" font-size=\"8\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">Promo</text></svg>",
+        "<svg viewBox=\"0 0 120 90\" width=\"120\" height=\"90\"><rect width=\"120\" height=\"90\" fill=\"#fff\"/><rect x=\"15\" y=\"10\" width=\"90\" height=\"70\" rx=\"4\" fill=\"#e3e9f1\" stroke=\"#7a8799\"/><rect x=\"75\" y=\"66\" width=\"30\" height=\"14\" fill=\"#c0392b\"/><text x=\"90\" y=\"76\" font-size=\"8\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">Promo</text></svg>"
+      ],
+      "reponse": 3,
+      "explication": "`bottom: 0` colle le badge en bas et `right: 0` à droite. Le parent en `position: relative` sert de repère au badge en `absolute`."
+    },
+    {
+      "type": "multiple",
+      "id": "C081",
+      "categorie": "CSS",
+      "niveau": 2,
+      "question": "Quelles valeurs de couleur sont **valides** en CSS ?",
+      "options": [
+        "`red`",
+        "`#ff0000`",
+        "`rgb(255, 0, 0)`",
+        "`rouge`",
+        "`#gg0000`"
+      ],
+      "reponses": [
+        0,
+        1,
+        2
+      ],
+      "explication": "Les noms de couleurs sont en anglais (`red`, pas `rouge`). Un code hexadécimal n'utilise que 0-9 et a-f : `g` est invalide."
+    },
+    {
+      "type": "vraifaux",
+      "id": "J090",
+      "categorie": "JavaScript",
+      "niveau": 3,
+      "question": "Pour chaque affirmation sur les chaînes de caractères, indique si elle est vraie.",
+      "affirmations": [
+        {
+          "texte": "`\"Bonjour\".length` vaut `7`",
+          "vrai": true
+        },
+        {
+          "texte": "`\"Bonjour\"[0]` vaut `\"B\"`",
+          "vrai": true
+        },
+        {
+          "texte": "Après `texte.toUpperCase()`, la variable `texte` est en majuscules",
+          "vrai": false
+        },
+        {
+          "texte": "`\"abc\"[3]` provoque une erreur",
+          "vrai": false
+        }
+      ],
+      "explication": "Les chaînes ne sont jamais modifiées : `toUpperCase()` renvoie une **nouvelle** chaîne (`texte = texte.toUpperCase()`). Un index hors de la chaîne donne `undefined`, sans erreur."
+    },
+    {
+      "type": "relier",
+      "id": "J091",
+      "categorie": "JavaScript",
+      "niveau": 3,
+      "question": "Relie chaque méthode de chaîne à son effet.",
+      "paires": [
+        {
+          "gauche": "`toUpperCase()`",
+          "droite": "Renvoie le texte en majuscules"
+        },
+        {
+          "gauche": "`trim()`",
+          "droite": "Retire les espaces au début et à la fin"
+        },
+        {
+          "gauche": "`includes(\"a\")`",
+          "droite": "Indique si le texte contient \"a\" (true / false)"
+        },
+        {
+          "gauche": "`indexOf(\"a\")`",
+          "droite": "Donne la position du premier \"a\" (ou -1)"
+        },
+        {
+          "gauche": "`replace(\"a\", \"o\")`",
+          "droite": "Remplace le premier \"a\" par \"o\""
+        }
+      ],
+      "intrus": [
+        "Compte le nombre de mots du texte"
+      ],
+      "explication": "Aucune méthode ne compte les mots directement : on peut écrire `texte.split(\" \").length`. `replaceAll` remplace toutes les occurrences."
+    },
+    {
+      "type": "liste",
+      "id": "J092",
+      "categorie": "JavaScript",
+      "niveau": 3,
+      "question": "Conversions et fonctions de `Math`.",
+      "phrases": [
+        {
+          "texte": "`Number(\"3.5\")` renvoie :",
+          "options": [
+            "3.5",
+            "\"3.5\"",
+            "3",
+            "NaN"
+          ],
+          "reponse": "3.5"
+        },
+        {
+          "texte": "`Math.round(2.5)` renvoie :",
+          "options": [
+            "3",
+            "2",
+            "2.5"
+          ],
+          "reponse": "3"
+        },
+        {
+          "texte": "`Array.isArray([1, 2])` renvoie :",
+          "options": [
+            "true",
+            "false",
+            "\"array\""
+          ],
+          "reponse": "true"
+        }
+      ],
+      "explication": "`Number` convertit toute la chaîne en nombre. `Math.round` arrondit à l'entier le plus proche (`.5` vers le haut). `Array.isArray` est le bon test : `typeof [1, 2]` renvoie `\"object\"`."
+    },
+    {
+      "type": "trou",
+      "id": "J093",
+      "categorie": "JavaScript",
+      "niveau": 2,
+      "question": "Complète pour que la fonction **renvoie** la somme de `a` et `b`.",
+      "code": [
+        "function somme(a, b) {",
+        "  ___ a + b;",
+        "}",
+        "",
+        "const resultat = somme(2, 3); // 5"
+      ],
+      "reponses": [
+        [
+          "return"
+        ]
+      ],
+      "explication": "`return` renvoie la valeur à l'endroit de l'appel : `resultat` vaut `5`. Piège : `console.log(a + b)` affiche la somme, mais la fonction renvoie alors `undefined`."
+    },
+    {
+      "type": "lignes",
+      "id": "J094",
+      "categorie": "JavaScript",
+      "niveau": 4,
+      "question": "Clique sur toutes les lignes qui contiennent une **erreur de syntaxe JavaScript**.",
+      "lignes": [
+        "const prenom = 'Léa';",
+        "const message = \"Bonjour ' + prenom;",
+        "let total = 0",
+        "const 2eme = 10;",
+        "for (let i = 0; i < 3; i++) {",
+        "  total += i;",
+        "}",
+        "console.log(`Total : ${total}`;"
+      ],
+      "erreurs": [
+        2,
+        4,
+        8
+      ],
+      "explication": "Ligne 2 : la chaîne s'ouvre avec `\"` et se ferme avec `'` (guillemets mélangés). Ligne 4 : un nom de variable ne peut pas commencer par un chiffre. Ligne 8 : il manque la parenthèse fermante de `console.log(`. Les apostrophes (ligne 1) et le `;` absent (ligne 3) sont corrects."
+    },
+    {
+      "type": "multiple",
+      "id": "J095",
+      "categorie": "JavaScript",
+      "niveau": 3,
+      "question": "Quelles expressions valent **`true`** ?",
+      "options": [
+        "`5 > 3 && 2 > 1`",
+        "`\"5\" === 5`",
+        "`\"5\" == 5`",
+        "`!true`",
+        "`10 % 2 === 0`"
+      ],
+      "reponses": [
+        0,
+        2,
+        4
+      ],
+      "explication": "`&&` vaut `true` si les deux conditions sont vraies. `==` convertit `\"5\"` en nombre, `===` compare aussi le type (chaîne ≠ nombre). `10 % 2` vaut `0` (reste de la division). `!true` vaut `false`."
+    },
+    {
+      "type": "vraifaux",
+      "id": "I073",
+      "categorie": "Intégration",
+      "niveau": 3,
+      "question": "Pour chaque affirmation sur le `localStorage`, indique si elle est vraie.",
+      "affirmations": [
+        {
+          "texte": "Il enregistre uniquement des chaînes de caractères",
+          "vrai": true
+        },
+        {
+          "texte": "Ses données sont effacées à la fermeture de l'onglet, comme celles de `sessionStorage`",
+          "vrai": false
+        },
+        {
+          "texte": "Chaque site a son propre `localStorage` : un autre site ne peut pas le lire",
+          "vrai": true
+        },
+        {
+          "texte": "`localStorage.getItem(\"cle\")` renvoie `undefined` si la clé n'existe pas",
+          "vrai": false
+        }
+      ],
+      "explication": "Le `localStorage` reste après la fermeture du navigateur ; seul `sessionStorage` est vidé avec l'onglet. Une clé absente donne `null`. Pour un tableau ou un objet : `JSON.stringify` puis `JSON.parse`."
+    },
+    {
+      "type": "glisser",
+      "id": "I074",
+      "categorie": "Intégration",
+      "niveau": 2,
+      "question": "Classe chaque événement dans sa famille.",
+      "etiquettes": [
+        "click",
+        "dblclick",
+        "mouseover",
+        "keydown",
+        "keyup",
+        "submit",
+        "input",
+        "change"
+      ],
+      "zones": [
+        {
+          "titre": "Événements souris",
+          "reponses": [
+            "click",
+            "dblclick",
+            "mouseover"
+          ]
+        },
+        {
+          "titre": "Événements clavier",
+          "reponses": [
+            "keydown",
+            "keyup"
+          ]
+        },
+        {
+          "titre": "Événements de formulaire",
+          "reponses": [
+            "submit",
+            "input",
+            "change"
+          ]
+        }
+      ],
+      "explication": "`mouseover` = la souris entre sur l'élément. `keydown` / `keyup` = touche enfoncée / relâchée. `input` se déclenche à chaque modification d'un champ, `change` quand la valeur est validée, `submit` à l'envoi du formulaire."
+    },
+    {
+      "type": "lignes",
+      "id": "I075",
+      "categorie": "Intégration",
+      "niveau": 3,
+      "question": "Ce code doit afficher \"Merci\" suivi du nom, puis vider le champ. Clique sur toutes les lignes qui **empêchent ce code de fonctionner**.",
+      "lignes": [
+        "const bouton = document.getElementById(\"#envoyer\");",
+        "const champ = document.querySelector(\"#nom\");",
+        "const message = document.querySelector(\".message\");",
+        "bouton.addEventListener(\"click\", () => {",
+        "  message.textContent = \"Merci \" + champ.value;",
+        "  champ.value() = \"\";",
+        "});"
+      ],
+      "erreurs": [
+        1,
+        6
+      ],
+      "explication": "Ligne 1 : `getElementById` reçoit l'id **sans** `#` ; ici il renvoie `null`, et l'`addEventListener` de la ligne 4 plante. Ligne 6 : `value` est une propriété, pas une fonction : `champ.value = \"\";`. Avec `querySelector`, le `#` est obligatoire (lignes 2 et 3 correctes)."
+    },
+    {
+      "type": "multiple",
+      "id": "I076",
+      "categorie": "Intégration",
+      "niveau": 3,
+      "question": "Quelles instructions modifient le **texte affiché dans** le paragraphe `p` ?",
+      "options": [
+        "`p.textContent = \"Salut\";`",
+        "`p.innerText = \"Salut\";`",
+        "`p.innerHTML = \"Salut\";`",
+        "`p.value = \"Salut\";`",
+        "`p.title = \"Salut\";`"
+      ],
+      "reponses": [
+        0,
+        1,
+        2
+      ],
+      "explication": "`textContent`, `innerText` et `innerHTML` remplacent le contenu de l'élément. `value` ne concerne que les champs de formulaire, et `title` définit l'infobulle affichée au survol."
+    },
+    {
+      "type": "liste",
+      "id": "I077",
+      "categorie": "Intégration",
+      "niveau": 4,
+      "question": "Une horloge doit se mettre à jour chaque seconde avec `setInterval`. Utilise la documentation pour répondre.",
+      "documentation": {
+        "lien": "https://developer.mozilla.org/fr/docs/Web/API/Window/setInterval",
+        "titre": "MDN – setInterval()"
+      },
+      "chrono_secondes": 300,
+      "phrases": [
+        {
+          "texte": "Que renvoie `setInterval()` ?",
+          "options": [
+            "Un identifiant numérique de l'intervalle",
+            "Rien (undefined)",
+            "Une promesse",
+            "La fonction passée en paramètre"
+          ],
+          "reponse": "Un identifiant numérique de l'intervalle"
+        },
+        {
+          "texte": "Comment arrêter `const id = setInterval(tic, 1000);` ?",
+          "options": [
+            "clearInterval(id)",
+            "clearInterval(tic)",
+            "stopInterval(id)",
+            "id.stop()"
+          ],
+          "reponse": "clearInterval(id)"
+        },
+        {
+          "texte": "En quelle unité est exprimé le délai `1000` ?",
+          "options": [
+            "En millisecondes",
+            "En secondes",
+            "En images par seconde",
+            "En minutes"
+          ],
+          "reponse": "En millisecondes"
+        }
+      ],
+      "explication": "`setInterval` renvoie un identifiant qu'on garde dans une variable pour pouvoir arrêter la répétition avec `clearInterval(id)`. Le délai est en millisecondes : `1000` = 1 seconde."
     }
   ],
   "pratiques": [
@@ -7245,6 +8442,566 @@
         "Équivalent plus long : `if (document.body.classList.contains(\"sombre\")) { document.body.classList.remove(\"sombre\"); } else { document.body.classList.add(\"sombre\"); }`.",
         "",
         "Le `<body>` s'obtient directement avec `document.body`."
+      ]
+    },
+    {
+      "id": "H083",
+      "categorie": "HTML",
+      "niveau": 3,
+      "enonce": [
+        "Ce HTML n'utilise que des `<div>`. Remplace-les par les balises **sémantiques** adaptées :",
+        "1. un en-tête qui contient le `<h1>` ;",
+        "2. une zone de navigation qui contient les 2 liens ;",
+        "3. le contenu principal de la page, qui contient un article avec son `<h2>` ;",
+        "4. un pied de page avec le copyright."
+      ],
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Mon blog</title>",
+            "</head>",
+            "<body>",
+            "  <div class=\"entete\">",
+            "    <h1>Mon blog</h1>",
+            "  </div>",
+            "  <div class=\"menu\">",
+            "    <a href=\"index.html\">Accueil</a>",
+            "    <a href=\"contact.html\">Contact</a>",
+            "  </div>",
+            "  <div class=\"contenu\">",
+            "    <div class=\"billet\">",
+            "      <h2>Premier article</h2>",
+            "      <p>Bienvenue sur mon blog !</p>",
+            "    </div>",
+            "  </div>",
+            "  <div class=\"pied\">© 2026 Mon blog</div>",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": false
+        },
+        "css": {
+          "code": [
+            "/* Dans cette question, tu n'as pas besoin de modifier le CSS */",
+            ""
+          ],
+          "verrouille": true
+        },
+        "js": {
+          "code": [
+            "// Dans cette question, tu n'as pas besoin de modifier le JavaScript",
+            ""
+          ],
+          "verrouille": true
+        }
+      },
+      "verification": "",
+      "criteres": [
+        {
+          "nom": "Un `<header>` qui contient le `<h1>`",
+          "test": "return !!document.querySelector('header h1');"
+        },
+        {
+          "nom": "Un `<nav>` qui contient les 2 liens",
+          "test": "return document.querySelectorAll('nav a').length === 2;"
+        },
+        {
+          "nom": "Un `<main>` qui contient un `<article>` avec le `<h2>`",
+          "test": "return !!document.querySelector('main article h2');"
+        },
+        {
+          "nom": "Un `<footer>` avec le copyright",
+          "test": "const f = document.querySelector('footer'); return !!f && f.textContent.includes('2026');"
+        }
+      ],
+      "solution": {
+        "html": [
+          "<!DOCTYPE html>",
+          "<html lang=\"fr\">",
+          "<head>",
+          "  <meta charset=\"UTF-8\">",
+          "  <title>Mon blog</title>",
+          "</head>",
+          "<body>",
+          "  <header>",
+          "    <h1>Mon blog</h1>",
+          "  </header>",
+          "  <nav>",
+          "    <a href=\"index.html\">Accueil</a>",
+          "    <a href=\"contact.html\">Contact</a>",
+          "  </nav>",
+          "  <main>",
+          "    <article>",
+          "      <h2>Premier article</h2>",
+          "      <p>Bienvenue sur mon blog !</p>",
+          "    </article>",
+          "  </main>",
+          "  <footer>© 2026 Mon blog</footer>",
+          "</body>",
+          "</html>"
+        ]
+      },
+      "explication": [
+        "Chaque zone de la page a sa balise sémantique :",
+        "- `<header>` : l'en-tête (logo, titre principal) ;",
+        "- `<nav>` : les liens de navigation principaux ;",
+        "- `<main>` : le contenu principal, **un seul** par page ;",
+        "- `<article>` : un contenu autonome (billet, fiche produit) ;",
+        "- `<footer>` : le pied de page.",
+        "",
+        "L'affichage ne change pas : ces balises servent aux lecteurs d'écran et aux moteurs de recherche. Piège fréquent : tout mettre dans `<main>`. L'en-tête, la navigation et le pied de page se répètent sur chaque page : ils restent en dehors du contenu principal."
+      ]
+    },
+    {
+      "id": "C082",
+      "categorie": "CSS",
+      "niveau": 3,
+      "enonce": [
+        "Transforme la liste `.menu` en menu horizontal :",
+        "1. retire les puces ;",
+        "2. affiche les éléments **côte à côte** avec Flexbox ;",
+        "3. laisse un espace de `20px` entre deux éléments."
+      ],
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!-- Dans cette question, tu n'as pas besoin de modifier le HTML -->",
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Menu</title>",
+            "</head>",
+            "<body>",
+            "  <ul class=\"menu\">",
+            "    <li><a href=\"#\">Accueil</a></li>",
+            "    <li><a href=\"#\">Produits</a></li>",
+            "    <li><a href=\"#\">Contact</a></li>",
+            "  </ul>",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": true
+        },
+        "css": {
+          "code": [
+            "a {",
+            "  color: #2867ad;",
+            "}",
+            "",
+            ".menu {",
+            "  /* Ton code ici */",
+            "}",
+            ""
+          ],
+          "verrouille": false
+        },
+        "js": {
+          "code": [
+            "// Dans cette question, tu n'as pas besoin de modifier le JavaScript",
+            ""
+          ],
+          "verrouille": true
+        }
+      },
+      "verification": "",
+      "criteres": [
+        {
+          "nom": "Les puces sont retirées",
+          "test": "const li = document.querySelector('.menu li'); return !!li && getComputedStyle(li).listStyleType === 'none';"
+        },
+        {
+          "nom": "`.menu` en display: flex",
+          "test": "const m = document.querySelector('.menu'); return !!m && getComputedStyle(m).display === 'flex';"
+        },
+        {
+          "nom": "Espace de 20px entre deux éléments",
+          "test": "const l = document.querySelectorAll('.menu li'); if (l.length < 2) return false; const a = l[0].getBoundingClientRect(), b = l[1].getBoundingClientRect(); return Math.abs(a.top - b.top) < 1 && Math.abs(b.left - a.right - 20) < 1;"
+        }
+      ],
+      "solution": {
+        "css": [
+          "a {",
+          "  color: #2867ad;",
+          "}",
+          "",
+          ".menu {",
+          "  list-style: none;",
+          "  display: flex;",
+          "  gap: 20px;",
+          "}",
+          ""
+        ]
+      },
+      "explication": [
+        "Solution :",
+        "1. `list-style: none` sur le `<ul>` retire les puces (les `<li>` en héritent) ;",
+        "2. `display: flex` sur le `<ul>` place ses enfants `<li>` en ligne ;",
+        "3. `gap: 20px` espace les éléments sans marge à gérer sur le dernier.",
+        "",
+        "Piège fréquent : mettre `display: flex` sur les `<li>` au lieu du `<ul>`. C'est le **parent** qui devient conteneur flex."
+      ]
+    },
+    {
+      "id": "J096",
+      "categorie": "JavaScript",
+      "niveau": 2,
+      "enonce": [
+        "Écris une fonction `aire(largeur, hauteur)` qui renvoie l'aire d'un rectangle (largeur × hauteur).",
+        "",
+        "Exemple : `aire(4, 5)` renvoie `20`."
+      ],
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!-- Dans cette question, tu n'as pas besoin de modifier le HTML -->",
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Exercice</title>",
+            "  <style>",
+            "    body { font-family: sans-serif; }",
+            "    table.tests { border-collapse: collapse; margin: 12px; font-family: monospace; }",
+            "    table.tests th, table.tests td { border: 1px solid #999; padding: 4px 10px; text-align: left; }",
+            "  </style>",
+            "</head>",
+            "<body>",
+            "  <!-- Les résultats des tests s'affichent ici quand tu cliques sur Essayer -->",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": true
+        },
+        "css": {
+          "code": [
+            "/* Dans cette question, tu n'as pas besoin de modifier le CSS */",
+            ""
+          ],
+          "verrouille": true
+        },
+        "js": {
+          "code": [
+            "// Ton code ici",
+            ""
+          ],
+          "verrouille": false
+        }
+      },
+      "apres": [
+        "(function () {",
+        "  var appels = [\"aire(4, 5)\", \"aire(3, 3)\", \"aire(2.5, 4)\"];",
+        "  var fmt = function (r) { return typeof r === \"number\" && isNaN(r) ? \"NaN\" : r === undefined ? \"undefined\" : JSON.stringify(r); };",
+        "  var t = document.createElement(\"table\");",
+        "  t.className = \"tests\";",
+        "  t.innerHTML = \"<thead><tr><th>Appel</th><th>Résultat</th></tr></thead>\";",
+        "  var b = t.createTBody();",
+        "  appels.forEach(function (c) {",
+        "    var r;",
+        "    try { r = fmt((0, eval)(c)); } catch (e) { r = e.name + \": \" + e.message; }",
+        "    var tr = b.insertRow();",
+        "    tr.insertCell().textContent = c;",
+        "    tr.insertCell().textContent = r;",
+        "  });",
+        "  document.body.appendChild(t);",
+        "})();"
+      ],
+      "verification": "",
+      "criteres": [
+        {
+          "nom": "aire(4, 5) renvoie 20",
+          "test": "return typeof aire === 'function' && aire(4, 5) === 20;"
+        },
+        {
+          "nom": "aire(3, 3) renvoie 9",
+          "test": "return typeof aire === 'function' && aire(3, 3) === 9;"
+        },
+        {
+          "nom": "aire(2.5, 4) renvoie 10",
+          "test": "return typeof aire === 'function' && aire(2.5, 4) === 10;"
+        }
+      ],
+      "solution": {
+        "js": [
+          "function aire(largeur, hauteur) {",
+          "  return largeur * hauteur;",
+          "}",
+          ""
+        ]
+      },
+      "explication": [
+        "La fonction reçoit deux paramètres et **renvoie** leur produit avec `return`.",
+        "",
+        "- Piège fréquent : écrire `console.log(largeur * hauteur)` au lieu de `return` ; la fonction renvoie alors `undefined`.",
+        "- Le nom de la fonction et l'ordre des paramètres doivent être ceux de l'énoncé."
+      ]
+    },
+    {
+      "id": "J097",
+      "categorie": "JavaScript",
+      "niveau": 4,
+      "enonce": [
+        "Écris une fonction `compter(tab, valeur)` qui renvoie le **nombre de fois** où `valeur` apparaît dans le tableau `tab`.",
+        "",
+        "Exemple : `compter([1, 2, 1, 3, 1], 1)` renvoie `3`."
+      ],
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!-- Dans cette question, tu n'as pas besoin de modifier le HTML -->",
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Exercice</title>",
+            "  <style>",
+            "    body { font-family: sans-serif; }",
+            "    table.tests { border-collapse: collapse; margin: 12px; font-family: monospace; }",
+            "    table.tests th, table.tests td { border: 1px solid #999; padding: 4px 10px; text-align: left; }",
+            "  </style>",
+            "</head>",
+            "<body>",
+            "  <!-- Les résultats des tests s'affichent ici quand tu cliques sur Essayer -->",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": true
+        },
+        "css": {
+          "code": [
+            "/* Dans cette question, tu n'as pas besoin de modifier le CSS */",
+            ""
+          ],
+          "verrouille": true
+        },
+        "js": {
+          "code": [
+            "// Ton code ici",
+            ""
+          ],
+          "verrouille": false
+        }
+      },
+      "apres": [
+        "(function () {",
+        "  var appels = [\"compter([1, 2, 1, 3, 1], 1)\", \"compter([\\\"chat\\\", \\\"chien\\\", \\\"chat\\\"], \\\"chat\\\")\", \"compter([4, 5], 9)\", \"compter([], 1)\"];",
+        "  var fmt = function (r) { return typeof r === \"number\" && isNaN(r) ? \"NaN\" : r === undefined ? \"undefined\" : JSON.stringify(r); };",
+        "  var t = document.createElement(\"table\");",
+        "  t.className = \"tests\";",
+        "  t.innerHTML = \"<thead><tr><th>Appel</th><th>Résultat</th></tr></thead>\";",
+        "  var b = t.createTBody();",
+        "  appels.forEach(function (c) {",
+        "    var r;",
+        "    try { r = fmt((0, eval)(c)); } catch (e) { r = e.name + \": \" + e.message; }",
+        "    var tr = b.insertRow();",
+        "    tr.insertCell().textContent = c;",
+        "    tr.insertCell().textContent = r;",
+        "  });",
+        "  document.body.appendChild(t);",
+        "})();"
+      ],
+      "verification": "",
+      "criteres": [
+        {
+          "nom": "compter([1, 2, 1, 3, 1], 1) renvoie 3",
+          "test": "return typeof compter === 'function' && compter([1, 2, 1, 3, 1], 1) === 3;"
+        },
+        {
+          "nom": "compter([\"chat\", \"chien\", \"chat\"], \"chat\") renvoie 2",
+          "test": "return typeof compter === 'function' && compter([\"chat\", \"chien\", \"chat\"], \"chat\") === 2;"
+        },
+        {
+          "nom": "compter([4, 5], 9) renvoie 0",
+          "test": "return typeof compter === 'function' && compter([4, 5], 9) === 0;"
+        },
+        {
+          "nom": "compter([], 1) renvoie 0",
+          "test": "return typeof compter === 'function' && compter([], 1) === 0;"
+        }
+      ],
+      "solution": {
+        "js": [
+          "function compter(tab, valeur) {",
+          "  let total = 0;",
+          "  for (const element of tab) {",
+          "    if (element === valeur) {",
+          "      total++;",
+          "    }",
+          "  }",
+          "  return total;",
+          "}",
+          ""
+        ]
+      },
+      "explication": [
+        "On initialise un compteur à `0`, on parcourt le tableau et on ajoute 1 à chaque élément égal à `valeur`, puis on renvoie le compteur **après** la boucle.",
+        "",
+        "- Version courte : `return tab.filter((x) => x === valeur).length;`",
+        "- Piège fréquent : placer le `return` dans la boucle ; la fonction s'arrête alors au premier élément.",
+        "- Un tableau vide ou une valeur absente doit renvoyer `0`, pas `undefined`."
+      ]
+    },
+    {
+      "id": "I078",
+      "categorie": "Intégration",
+      "niveau": 2,
+      "enonce": [
+        "Au clic sur le bouton `#cacher`, ajoute la classe `cache` au paragraphe `#texte`.",
+        "",
+        "La classe `cache` est déjà définie dans le CSS."
+      ],
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!-- Dans cette question, tu n'as pas besoin de modifier le HTML -->",
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Cacher</title>",
+            "</head>",
+            "<body>",
+            "  <p id=\"texte\">Ce texte disparaît au clic.</p>",
+            "  <button id=\"cacher\">Cacher</button>",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": true
+        },
+        "css": {
+          "code": [
+            "/* Dans cette question, tu n'as pas besoin de modifier le CSS */",
+            ".cache {",
+            "  display: none;",
+            "}",
+            ""
+          ],
+          "verrouille": true
+        },
+        "js": {
+          "code": [
+            "// Ton code ici",
+            ""
+          ],
+          "verrouille": false
+        }
+      },
+      "verification": "",
+      "criteres": [
+        {
+          "nom": "Au clic, #texte reçoit la classe cache (et pas avant)",
+          "test": "const t = document.getElementById('texte'); const b = document.getElementById('cacher'); if (!t || !b) return false; const avant = !t.classList.contains('cache'); b.click(); return avant && t.classList.contains('cache');"
+        },
+        {
+          "nom": "Le paragraphe n'est plus affiché",
+          "test": "const t = document.getElementById('texte'); return !!t && getComputedStyle(t).display === 'none';"
+        }
+      ],
+      "solution": {
+        "js": [
+          "const texte = document.getElementById(\"texte\");",
+          "",
+          "document.getElementById(\"cacher\").addEventListener(\"click\", () => {",
+          "  texte.classList.add(\"cache\");",
+          "});",
+          ""
+        ]
+      },
+      "explication": [
+        "On récupère le bouton et le paragraphe, puis on ajoute un écouteur `click` sur le bouton. Dans l'écouteur, `classList.add(\"cache\")` ajoute la classe (sans le point du sélecteur CSS).",
+        "- Piège : écrire `classList.add(\".cache\")` ajoute une classe nommée `.cache`, qui ne correspond à rien.",
+        "- Piège : `addEventListener(\"click\", cacher())` exécute la fonction tout de suite au lieu d'attendre le clic."
+      ]
+    },
+    {
+      "id": "I079",
+      "categorie": "Intégration",
+      "niveau": 4,
+      "enonce": [
+        "Crée un filtre de liste : à chaque saisie dans `#recherche`, masque (attribut `hidden`) les `<li>` de `#fruits` qui **ne contiennent pas** le texte saisi, sans tenir compte des majuscules.",
+        "",
+        "Exemple : avec \"an\", seuls Banane et Ananas restent visibles. Si le champ est vide, tous les fruits sont visibles."
+      ],
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!-- Dans cette question, tu n'as pas besoin de modifier le HTML -->",
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Filtre</title>",
+            "</head>",
+            "<body>",
+            "  <input type=\"text\" id=\"recherche\" placeholder=\"Rechercher un fruit\">",
+            "  <ul id=\"fruits\">",
+            "    <li>Pomme</li>",
+            "    <li>Banane</li>",
+            "    <li>Ananas</li>",
+            "    <li>Poire</li>",
+            "    <li>Fraise</li>",
+            "  </ul>",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": true
+        },
+        "css": {
+          "code": [
+            "/* Dans cette question, tu n'as pas besoin de modifier le CSS */",
+            ""
+          ],
+          "verrouille": true
+        },
+        "js": {
+          "code": [
+            "// Ton code ici",
+            ""
+          ],
+          "verrouille": false
+        }
+      },
+      "verification": "",
+      "criteres": [
+        {
+          "nom": "Saisie \"an\" : seuls Banane et Ananas restent visibles",
+          "test": "const vis = () => [...document.querySelectorAll('#fruits li')].filter((li) => getComputedStyle(li).display !== 'none').map((li) => li.textContent.trim()).join(','); const r = document.getElementById('recherche'); if (!r) return false; const saisir = (v) => { r.value = v; r.dispatchEvent(new Event('input', { bubbles: true })); }; saisir('an'); return vis() === 'Banane,Ananas';"
+        },
+        {
+          "nom": "Majuscules ignorées : \"POI\" garde Poire",
+          "test": "const vis = () => [...document.querySelectorAll('#fruits li')].filter((li) => getComputedStyle(li).display !== 'none').map((li) => li.textContent.trim()).join(','); const r = document.getElementById('recherche'); if (!r) return false; const saisir = (v) => { r.value = v; r.dispatchEvent(new Event('input', { bubbles: true })); }; saisir('POI'); return vis() === 'Poire';"
+        },
+        {
+          "nom": "Champ vidé : tous les fruits réapparaissent",
+          "test": "const vis = () => [...document.querySelectorAll('#fruits li')].filter((li) => getComputedStyle(li).display !== 'none').map((li) => li.textContent.trim()).join(','); const r = document.getElementById('recherche'); if (!r) return false; const saisir = (v) => { r.value = v; r.dispatchEvent(new Event('input', { bubbles: true })); }; saisir('fr'); const f = vis(); saisir(''); return f === 'Fraise' && vis() === 'Pomme,Banane,Ananas,Poire,Fraise';"
+        }
+      ],
+      "solution": {
+        "js": [
+          "const recherche = document.getElementById(\"recherche\");",
+          "const fruits = document.querySelectorAll(\"#fruits li\");",
+          "",
+          "recherche.addEventListener(\"input\", () => {",
+          "  const texte = recherche.value.toLowerCase();",
+          "  for (const li of fruits) {",
+          "    li.hidden = !li.textContent.toLowerCase().includes(texte);",
+          "  }",
+          "});",
+          ""
+        ]
+      },
+      "explication": [
+        "On écoute l'événement `input` du champ (déclenché à chaque caractère). À chaque saisie :",
+        "1. on met le texte en minuscules avec `toLowerCase()` ;",
+        "2. pour chaque `<li>`, on compare avec son texte, lui aussi en minuscules, grâce à `includes()` ;",
+        "3. `li.hidden = true` masque le `<li>`, `false` le réaffiche.",
+        "- Piège : oublier de réafficher les `<li>` (seulement `hidden = true`) : ils ne reviennent jamais.",
+        "- Piège : écouter `change` : il ne se déclenche qu'en quittant le champ.",
+        "- Une chaîne vide est contenue dans tous les textes : champ vide = tout est visible, sans cas particulier."
       ]
     }
   ]
