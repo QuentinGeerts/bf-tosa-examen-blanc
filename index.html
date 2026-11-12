@@ -1451,7 +1451,7 @@ function renderResultats() {
         h("button", { class: "btn small", onclick: allerAccueil }, "← Accueil"))
     : null;
 
-  app.replaceChildren(
+  app.replaceChildren(...[
     bandeau,
     h("section", { class: "card hero" },
       h("div", {},
@@ -1486,7 +1486,7 @@ function renderResultats() {
     h("div", { class: "section-title" },
       h("h2", {}, "Correction"),
       h("label", { class: "toggle" }, onlyErr, "Seulement mes erreurs")),
-    review);
+    review].filter(Boolean));
   majStatut();
   envoyerResultat();
 }
