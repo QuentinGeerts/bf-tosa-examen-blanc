@@ -1774,7 +1774,16 @@ async function renderVerifier() {
   } else if (saved && saved.fini && saved.vue === "resultats") {
     S = saved;                // la page de résultats reste affichée après un rechargement
   }
-  const router = () => (location.hash === "#banque" ? renderBanque() : location.hash === "#verifier" ? renderVerifier() : render());
+  const router = () => {
+    if (location.hash === "#abandon") {   // formateur : abandonne l'examen en cours et revient à l'accueil (historique conservé)
+      clearInterval(tick);
+      S = null;
+      clear();
+      history.replaceState(null, "", location.pathname + location.search);
+      return render();
+    }
+    return location.hash === "#banque" ? renderBanque() : location.hash === "#verifier" ? renderVerifier() : render();
+  };
   window.addEventListener("hashchange", () => { router(); window.scrollTo(0, 0); });
   router();
 })();
