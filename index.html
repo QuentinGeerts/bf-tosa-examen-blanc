@@ -273,6 +273,8 @@ svg.courbe .val { fill: var(--ink); font: 600 12px "IBM Plex Mono", monospace; }
 .delta { font-size: 12px; font-weight: 600; }
 .delta.up { color: var(--ok); } .delta.down { color: var(--ko); }
 
+.consultation { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 10px; padding: 12px 16px; margin-bottom: 16px; font-weight: 600; }
+
 /* Questions interactives */
 .inter { margin-top: 18px; }
 .aide { font-size: 13px; color: var(--muted); margin: 0 0 10px; }
@@ -497,7 +499,7 @@ function shuffle(a) {
   return a;
 }
 function token() { return Math.random().toString(36).slice(2) + Date.now().toString(36); }
-function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+function save() { if (S && S._consultation) return; try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
 function load() { try { return JSON.parse(localStorage.getItem(KEY)); } catch (e) { return null; } }
 function clear() { try { localStorage.removeItem(KEY); } catch (e) {} }
 function chip(c) { return h("span", { class: "chip c-" + c }, CATS[c]); }
@@ -610,7 +612,7 @@ async function envoyer(data) {
   }
 }
 async function envoyerResultat() {
-  if (!S || !S.fini || S.envoi === "ok" || envoiEnCours) return;
+  if (!S || !S.fini || S._consultation || S.envoi === "ok" || envoiEnCours) return;
   envoiEnCours = true;
   majStatut();
   const sc = score(S.answers);
@@ -709,6 +711,8 @@ document.addEventListener("visibilitychange", () => {
 
 // ─── Score (estimation adaptative) ───
 function score(answers) {
+  // aucune bonne réponse (ni réussite partielle sur un exercice) : 0 pointé
+  if (!answers.some((a) => a.ok || a.score > 0)) return 0;
   let sw = 0, sl = 0;
   answers.forEach((a, i) => {
     const w = 1 + i / (TOTAL - 1);
@@ -717,8 +721,8 @@ function score(answers) {
     sl += w * (a.level + reussite - 0.5);
   });
   const L = sl / sw;
-  const pts = [[0.5, 1], [1, 150], [2, 450], [3, 640], [4, 800], [5, 940], [5.5, 1000]];
-  if (L <= pts[0][0]) return 1;
+  const pts = [[0.5, 0], [1, 150], [2, 450], [3, 640], [4, 800], [5, 940], [5.5, 1000]];
+  if (L <= pts[0][0]) return 0;
   for (let i = 1; i < pts.length; i++) {
     if (L <= pts[i][0]) {
       const [x0, y0] = pts[i - 1], [x1, y1] = pts[i];
@@ -1307,7 +1311,7 @@ function historique() {
   try { return JSON.parse(localStorage.getItem(KEY_HIST)) || []; } catch (e) { return []; }
 }
 function ajouterHistorique() {
-  if (!S || !S.fini || S.histo) return;
+  if (!S || !S.fini || S.histo || S._consultation) return;
   const sc = score(S.answers), st = stats();
   const h0 = historique().filter((x) => x.id !== S.id);
   h0.push({
@@ -1316,6 +1320,8 @@ function ajouterHistorique() {
     domaines: Object.fromEntries(Object.keys(CATS).map((c) => [c, [st.parCat[c].ok, st.parCat[c].n, niveauDomaine(c)]])),
   });
   try { localStorage.setItem(KEY_HIST, JSON.stringify(h0.slice(-30))); } catch (e) {}
+  // les essais sortis de l'historique (plus de 30) sont supprimés
+  try { h0.slice(0, -30).forEach((x) => localStorage.removeItem(PREFIXE_ESSAI + x.id)); } catch (e) {}
   S.histo = true;
   save();
 }
@@ -1364,7 +1370,7 @@ function renderHistorique() {
     hs.length > 1 ? h("p", { class: "muted" }, `${hs.length} examens · ${delta >= 0 ? "+" : ""}${delta} points depuis le premier (${premier.score} → ${dernier.score})`) : h("p", { class: "muted" }, "Premier examen enregistré : repasse l'examen pour suivre ta progression."),
     courbeHistorique(hs),
     h("div", { class: "table-scroll" }, h("table", { class: "vf histo-table" },
-      h("thead", {}, h("tr", {}, ["#", "Date", "Score", "Niveau", "Bonnes rép.", ...Object.values(CATS), "Exercices", "Durée"].map((t) => h("th", {}, t)))),
+      h("thead", {}, h("tr", {}, ["#", "Date", "Score", "Niveau", "Bonnes rép.", ...Object.values(CATS), "Exercices", "Durée", "Détails"].map((t) => h("th", {}, t)))),
       h("tbody", {}, hs.map((e, i) => {
         const avant = i > 0 ? e.score - hs[i - 1].score : null;
         return h("tr", {},
@@ -1372,14 +1378,46 @@ function renderHistorique() {
           h("td", {}, h("strong", {}, String(e.score)), avant != null ? h("span", { class: avant >= 0 ? "delta up" : "delta down" }, ` ${avant >= 0 ? "+" : ""}${avant}`) : null),
           h("td", {}, e.niveau), h("td", {}, `${e.ok}/${e.total}`),
           ...Object.keys(CATS).map((c) => h("td", {}, e.domaines && e.domaines[c] ? `${e.domaines[c][0]}/${e.domaines[c][1]}` : "—")),
-          h("td", {}, (e.pScore != null ? e.pScore : "—") + "/100"), h("td", {}, e.duree + " min"));
+          h("td", {}, (e.pScore != null ? e.pScore : "—") + "/100"), h("td", {}, e.duree + " min"),
+          h("td", {}, S && S.fini && S.id === e.id
+            ? h("span", { class: "muted" }, "affiché")
+            : essaiDisponible(e.id)
+              ? h("button", { class: "btn small", onclick: () => voirEssai(e.id), disabled: !!(S && !S.fini) }, "Voir")
+              : h("span", { class: "muted", title: "Essai enregistré avant l'ajout des détails" }, "—")));
       })))),
     h("p", { class: "note" }, "L'historique est enregistré dans ce navigateur, sur cet ordinateur."));
+}
+
+// ─── Détail de chaque essai (copie complète de l'examen, pour le consulter plus tard) ───
+const PREFIXE_ESSAI = "examen-blanc-web-essai-";
+function sauverEssai() {
+  if (!S || !S.fini || S._consultation) return;
+  const ecrire = () => localStorage.setItem(PREFIXE_ESSAI + S.id, JSON.stringify(S));
+  try { ecrire(); } catch (e) {
+    // stockage plein : on supprime les essais les plus anciens puis on réessaie
+    try { historique().slice(0, -10).forEach((x) => localStorage.removeItem(PREFIXE_ESSAI + x.id)); ecrire(); } catch (e2) {}
+  }
+}
+function essaiDisponible(id) {
+  try { return id === (load() || {}).id || localStorage.getItem(PREFIXE_ESSAI + id) != null; } catch (e) { return false; }
+}
+function voirEssai(id) {
+  let essai = null;
+  try { essai = JSON.parse(localStorage.getItem(PREFIXE_ESSAI + id)); } catch (e) {}
+  const dernier = load();
+  if (!essai && dernier && dernier.id === id) essai = dernier;
+  if (!essai) return;
+  if (S && !S.fini) return;                       // jamais pendant un examen
+  const estDernier = dernier && dernier.id === id && dernier.fini;
+  S = estDernier ? dernier : { ...essai, _consultation: true };
+  render();
+  window.scrollTo(0, 0);
 }
 
 function renderResultats() {
   if (S.vue !== "resultats") { S.vue = "resultats"; save(); }   // un rechargement réaffiche les résultats
   ajouterHistorique();
+  sauverEssai();
   const sc = score(S.answers);
   const st = stats();
   const nivIdx = NIVEAUX.findIndex((n) => sc <= n.max);
@@ -1406,7 +1444,15 @@ function renderResultats() {
     clear(); S = null; render(); window.scrollTo(0, 0);
   });
 
+  const hs = historique(), rang = hs.findIndex((x) => x.id === S.id);
+  const bandeau = S._consultation
+    ? h("div", { class: "consultation" },
+        h("span", {}, `📂 Tu consultes l'essai n°${rang + 1}${rang >= 0 ? " du " + new Date(hs[rang].date).toLocaleDateString("fr-BE") : ""} (lecture seule).`),
+        h("button", { class: "btn small", onclick: allerAccueil }, "← Accueil"))
+    : null;
+
   app.replaceChildren(
+    bandeau,
     h("section", { class: "card hero" },
       h("div", {},
         h("p", { class: "tag" }, "Score estimé"),
@@ -1436,7 +1482,7 @@ function renderResultats() {
         h("h3", {}, "Résumé"),
         h("p", { id: "envoi-statut", class: "envoi" }),
         h("textarea", { id: "copy-box", class: "copy-box mono", readonly: true }, txt),
-        h("div", { class: "row", style: "margin-top:10px" }, copyBtn, again, h("button", { class: "btn", onclick: allerAccueil }, "← Accueil")))),
+        h("div", { class: "row", style: "margin-top:10px" }, copyBtn, S._consultation ? null : again, h("button", { class: "btn", onclick: allerAccueil }, "← Accueil")))),
     h("div", { class: "section-title" },
       h("h2", {}, "Correction"),
       h("label", { class: "toggle" }, onlyErr, "Seulement mes erreurs")),
@@ -1599,7 +1645,7 @@ function allerAccueil(e) {
   const enBanque = location.hash === "#banque";
   if (enBanque) history.replaceState(null, "", location.pathname + location.search);
   if (S && !S.fini) { if (enBanque) render(); return; }   // examen en cours : on y reste
-  if (S) { S.vue = "accueil"; save(); }
+  if (S && !S._consultation) { S.vue = "accueil"; save(); }
   S = null;
   render();
   window.scrollTo(0, 0);

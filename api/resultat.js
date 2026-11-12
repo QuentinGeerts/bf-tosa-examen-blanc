@@ -21,7 +21,7 @@ function resume(d) {
   const nom = texte(d.nom, 60) || "Inconnu";
   const total = nombre(d.total, 1, 100);
   const ok = nombre(d.ok, 0, total);
-  const score = nombre(d.score, 1, 1000);
+  const score = nombre(d.score, 0, 1000);
   const niveau = texte(d.niveau, 20);
   return {
     title: coupe(`Examen blanc - ${nom}`, 256),
@@ -32,7 +32,7 @@ function resume(d) {
       `Exercices pratiques : ${nombre(d.pOk, 0, 10)}/${nombre(d.pN, 0, 10)} réussis · score moyen ${nombre(d.pScore, 0, 100)}/100`,
       `Durée : ${nombre(d.duree, 0, 600)} min${d.timeout ? " (temps écoulé)" : ""}`,
       d.tentative && nombre(d.tentative.n, 1, 999) > 1
-        ? `📈 Tentative n°${nombre(d.tentative.n, 1, 999)}${d.tentative.precedent != null ? ` · précédente : ${nombre(d.tentative.precedent, 1, 1000)} (${score - nombre(d.tentative.precedent, 1, 1000) >= 0 ? "+" : ""}${score - nombre(d.tentative.precedent, 1, 1000)})` : ""}`
+        ? `📈 Tentative n°${nombre(d.tentative.n, 1, 999)}${d.tentative.precedent != null ? ` · précédente : ${nombre(d.tentative.precedent, 0, 1000)} (${score - nombre(d.tentative.precedent, 0, 1000) >= 0 ? "+" : ""}${score - nombre(d.tentative.precedent, 0, 1000)})` : ""}`
         : "📈 Première tentative",
       nombre(d.sorties, 0, 999)
         ? `⚠️ A quitté l'onglet de l'examen **${nombre(d.sorties, 0, 999)} fois** (${Math.round(nombre(d.sortiesMs, 0, 1e8) / 1000)} s au total)`
