@@ -34,14 +34,14 @@ code, pre { font-family: "IBM Plex Mono", ui-monospace, monospace; }
 pre { background: var(--code-bg); color: var(--code-ink); padding: 12px 14px; border-radius: 8px; overflow-x: auto; font-size: 14px; line-height: 1.55; margin: 12px 0; }
 a { color: var(--accent); }
 .bar { background: var(--surface); border-bottom: 1px solid var(--line); padding: 12px max(16px, env(safe-area-inset-left)); }
-.bar-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.bar-inner { max-width: max(900px, 65vw); margin: 0 auto; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
 .bar strong { font-size: 17px; }
 .bar a { margin-left: auto; font-size: 14px; }
 .bar a.titre-accueil { margin-left: 0; color: var(--ink); text-decoration: none; font-size: 17px; }
 .bar a.titre-accueil:hover { text-decoration: underline; }
 .theme-btn { font: inherit; font-size: 13px; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); cursor: pointer; white-space: nowrap; }
 
-main { max-width: 900px; margin: 0 auto; padding: 28px 16px 64px; }
+main { max-width: max(900px, 65vw); margin: 0 auto; padding: 28px 16px 64px; }
 h1 { font-size: 28px; line-height: 1.2; margin: 0 0 8px; }
 .intro { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 22px 24px; margin-bottom: 28px; }
 .intro ul { margin: 8px 0 0; padding-left: 20px; }
