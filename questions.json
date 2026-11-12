@@ -3381,6 +3381,11 @@
       "categorie": "Intégration",
       "niveau": 4,
       "question": "Accessibilité : on veut masquer un élément décoratif aux lecteurs d'écran, et donner un nom à un bouton qui ne contient qu'une icône.",
+      "documentation": {
+        "lien": "https://developer.mozilla.org/fr/docs/Web/Accessibility/ARIA",
+        "titre": "MDN – ARIA"
+      },
+      "chrono_secondes": 300,
       "phrases": [
         {
           "texte": "Quel attribut masque un élément aux lecteurs d'écran ?",
@@ -3413,6 +3418,11 @@
       "categorie": "Intégration",
       "niveau": 4,
       "question": "Une page affiche la position de l'utilisateur sur une carte Leaflet.",
+      "documentation": {
+        "lien": "https://leafletjs.com/examples/quick-start/",
+        "titre": "Leaflet – Quick Start Guide"
+      },
+      "chrono_secondes": 300,
       "phrases": [
         {
           "texte": "Quelle méthode du navigateur récupère la position GPS ?",
@@ -3443,6 +3453,11 @@
       "categorie": "CSS",
       "niveau": 4,
       "question": "Transitions CSS.",
+      "documentation": {
+        "lien": "https://developer.mozilla.org/fr/docs/Web/CSS/CSS_transitions/Using_CSS_transitions",
+        "titre": "MDN – Utiliser les transitions CSS"
+      },
+      "chrono_secondes": 300,
       "phrases": [
         {
           "texte": "Comment animer `width` en 1 s et `height` en 2 s ?",
@@ -3496,6 +3511,317 @@
         }
       ],
       "explication": "`appendChild` / `removeChild` s'appellent sur le parent."
+    },
+    {
+      "type": "liste",
+      "id": "I053",
+      "categorie": "Intégration",
+      "niveau": 4,
+      "question": "On veut gérer le panier avec le `localStorage`. Utilise la documentation pour répondre.",
+      "documentation": {
+        "lien": "https://developer.mozilla.org/fr/docs/Web/API/Web_Storage_API",
+        "titre": "MDN – API Web Storage"
+      },
+      "chrono_secondes": 300,
+      "phrases": [
+        {
+          "texte": "Quelle méthode supprime une seule clé du stockage ?",
+          "options": [
+            "removeItem()",
+            "deleteItem()",
+            "clear()",
+            "remove()",
+            "pop()"
+          ],
+          "reponse": "removeItem()"
+        },
+        {
+          "texte": "Quelle propriété donne le nombre de clés enregistrées ?",
+          "options": [
+            "length",
+            "size",
+            "count",
+            "keys",
+            "total"
+          ],
+          "reponse": "length"
+        }
+      ],
+      "explication": "`localStorage.removeItem(\"panier\")` supprime une clé, `clear()` les supprime toutes. `localStorage.length` donne le nombre de clés."
+    },
+    {
+      "type": "liste",
+      "id": "C051",
+      "categorie": "CSS",
+      "niveau": 4,
+      "question": "Une image doit remplir un cadre de 300 × 200 sans être déformée. Utilise la documentation de `object-fit`.",
+      "documentation": {
+        "lien": "https://developer.mozilla.org/fr/docs/Web/CSS/object-fit",
+        "titre": "MDN – object-fit"
+      },
+      "chrono_secondes": 300,
+      "phrases": [
+        {
+          "texte": "Quelle valeur remplit tout le cadre, quitte à rogner l'image ?",
+          "options": [
+            "cover",
+            "contain",
+            "fill",
+            "none",
+            "scale-down"
+          ],
+          "reponse": "cover"
+        },
+        {
+          "texte": "Quelle valeur affiche l'image entière, quitte à laisser des bandes vides ?",
+          "options": [
+            "contain",
+            "cover",
+            "fill",
+            "none",
+            "stretch"
+          ],
+          "reponse": "contain"
+        }
+      ],
+      "explication": "`cover` remplit le cadre en rognant, `contain` montre toute l'image, `fill` (par défaut) déforme l'image."
+    },
+    {
+      "type": "trou",
+      "id": "J068",
+      "categorie": "JavaScript",
+      "niveau": 2,
+      "question": "Complète pour afficher uniquement le prix du produit.",
+      "code": [
+        "const produit = { id: 7, nom: \"Clavier\", prix: 49 };",
+        "const prix = ___;",
+        "console.log(\"Prix : \" + prix);"
+      ],
+      "reponses": [
+        [
+          "produit.prix",
+          "produit[\"prix\"]",
+          "produit['prix']"
+        ]
+      ],
+      "explication": "Notation pointée `produit.prix` (ou `produit[\"prix\"]`). La casse compte : `produit.Prix` vaut `undefined`."
+    },
+    {
+      "type": "trou",
+      "id": "I054",
+      "categorie": "Intégration",
+      "niveau": 2,
+      "question": "Complète pour récupérer l'élément d'id `titre`.",
+      "code": "const titre = document.___(\"titre\");",
+      "reponses": [
+        [
+          "getElementById"
+        ]
+      ],
+      "explication": "`getElementById` reçoit l'id sans `#`. Avec `querySelector`, il faudrait `\"#titre\"`."
+    },
+    {
+      "type": "trou",
+      "id": "I055",
+      "categorie": "Intégration",
+      "niveau": 3,
+      "question": "Complète pour réagir au clic sur le bouton.",
+      "code": [
+        "bouton.___(\"click\", () => {",
+        "  console.log(\"Cliqué !\");",
+        "});"
+      ],
+      "reponses": [
+        [
+          "addEventListener"
+        ]
+      ],
+      "explication": "`addEventListener(type, fonction)`."
+    },
+    {
+      "type": "trou",
+      "id": "J069",
+      "categorie": "JavaScript",
+      "niveau": 3,
+      "question": "Complète pour récupérer le **dernier** élément du tableau.",
+      "code": [
+        "const notes = [12, 15, 18];",
+        "const derniere = notes[notes.___ - 1];"
+      ],
+      "reponses": [
+        [
+          "length"
+        ]
+      ],
+      "explication": "Les index vont de 0 à `length - 1`. Version récente : `notes.at(-1)`."
+    },
+    {
+      "type": "trou",
+      "id": "I056",
+      "categorie": "Intégration",
+      "niveau": 3,
+      "question": "Complète pour empêcher le rechargement de la page à l'envoi du formulaire.",
+      "code": [
+        "form.addEventListener(\"submit\", (e) => {",
+        "  e.___();",
+        "  // traitement des champs…",
+        "});"
+      ],
+      "reponses": [
+        [
+          "preventDefault"
+        ]
+      ],
+      "explication": "`e.preventDefault()` bloque le comportement par défaut (l'envoi et le rechargement)."
+    },
+    {
+      "type": "trou",
+      "id": "C052",
+      "categorie": "CSS",
+      "niveau": 3,
+      "question": "Complète pour centrer horizontalement les éléments du menu (flex en ligne).",
+      "code": [
+        ".menu {",
+        "  display: flex;",
+        "  ___: center;",
+        "}"
+      ],
+      "reponses": [
+        [
+          "justify-content"
+        ]
+      ],
+      "explication": "`justify-content` agit sur l'axe principal (horizontal en ligne), `align-items` sur l'axe secondaire."
+    },
+    {
+      "type": "trou",
+      "id": "H055",
+      "categorie": "HTML",
+      "niveau": 2,
+      "question": "Complète le lien pour qu'il ouvre un nouvel e-mail.",
+      "code": "<a href=\"___:contact@exemple.be\">Nous écrire</a>",
+      "reponses": [
+        [
+          "mailto"
+        ]
+      ],
+      "explication": "Préfixe `mailto:`. Pour un appel : `tel:`."
+    },
+    {
+      "type": "trou",
+      "id": "J070",
+      "categorie": "JavaScript",
+      "niveau": 4,
+      "question": "Complète pour transformer le texte JSON en objet, puis l'objet en texte JSON.",
+      "code": [
+        "const objet = JSON.___(texte);",
+        "const retour = JSON.___(objet);"
+      ],
+      "reponses": [
+        [
+          "parse"
+        ],
+        [
+          "stringify"
+        ]
+      ],
+      "explication": "`JSON.parse` : texte → objet. `JSON.stringify` : objet → texte."
+    },
+    {
+      "type": "lignes",
+      "id": "H056",
+      "categorie": "HTML",
+      "niveau": 3,
+      "question": "Clique sur toutes les lignes qui contiennent une **erreur de syntaxe HTML**. S'il n'y en a pas, clique sur « Il n'y a pas d'erreur ».",
+      "lignes": [
+        "<ul class=\"menu\">",
+        "  <li><a href=\"index.html\">Accueil</a></li>",
+        "  <li><a href=\"produits.html\">Produits</a>",
+        "  <li><a href=\"contact.html\">Contact</a></li>",
+        "</ul>",
+        "<p>Bienvenue sur <strong>notre site</p></strong>"
+      ],
+      "erreurs": [
+        3,
+        6
+      ],
+      "explication": "Ligne 3 : il manque `</li>`. Ligne 6 : les balises se ferment dans l'ordre inverse de leur ouverture (`</strong></p>`)."
+    },
+    {
+      "type": "lignes",
+      "id": "H057",
+      "categorie": "HTML",
+      "niveau": 4,
+      "question": "Clique sur toutes les lignes **invalides**. S'il n'y en a pas, clique sur « Il n'y a pas d'erreur ».",
+      "lignes": [
+        "<img src=\"chat.png\" alt=\"Un chat\">",
+        "<input type=\"email\" required></input>",
+        "<br>",
+        "<label for=\"nom\">Nom</label>",
+        "<hr></hr>"
+      ],
+      "erreurs": [
+        2,
+        5
+      ],
+      "explication": "`input` et `hr` sont des éléments vides : jamais de balise fermante. `<img …>` et `<br>` sont corrects."
+    },
+    {
+      "type": "lignes",
+      "id": "J071",
+      "categorie": "JavaScript",
+      "niveau": 3,
+      "question": "Clique sur toutes les lignes qui contiennent une **erreur de syntaxe JavaScript**.",
+      "lignes": [
+        "const age = 20",
+        "if (age >= 18 {",
+        "  console.log(\"Majeur);",
+        "}",
+        "const prenom = \"Léa\";"
+      ],
+      "erreurs": [
+        2,
+        3
+      ],
+      "explication": "Ligne 2 : parenthèse non fermée `(age >= 18)`. Ligne 3 : guillemet non fermé. Le point-virgule manquant ligne 1 n'est pas une erreur (il est facultatif)."
+    },
+    {
+      "type": "lignes",
+      "id": "C053",
+      "categorie": "CSS",
+      "niveau": 3,
+      "question": "Clique sur toutes les lignes CSS **invalides**.",
+      "lignes": [
+        ".carte {",
+        "  color red;",
+        "  margin: 10px 20px;",
+        "  font-size: 16 px;",
+        "  background-color: #fff;",
+        "}"
+      ],
+      "erreurs": [
+        2,
+        4
+      ],
+      "explication": "Ligne 2 : il manque `:`. Ligne 4 : pas d'espace entre le nombre et l'unité (`16px`). Une déclaration invalide est ignorée par le navigateur."
+    },
+    {
+      "type": "lignes",
+      "id": "H058",
+      "categorie": "HTML",
+      "niveau": 3,
+      "question": "Clique sur toutes les lignes qui contiennent une **erreur de syntaxe HTML**. S'il n'y en a pas, clique sur « Il n'y a pas d'erreur ».",
+      "lignes": [
+        "<table>",
+        "  <caption>Horaires</caption>",
+        "  <tr>",
+        "    <th>Jour</th>",
+        "    <td>9h - 17h</td>",
+        "  </tr>",
+        "</table>"
+      ],
+      "erreurs": [],
+      "explication": "Ce tableau est valide : `caption` en premier, une ligne avec une cellule d'en-tête et une cellule de données. (`thead`/`tbody` sont facultatifs.)"
     }
   ],
   "pratiques": [

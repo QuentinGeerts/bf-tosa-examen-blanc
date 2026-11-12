@@ -235,6 +235,23 @@ svg.progression .niveau { fill: none; stroke: var(--ink); stroke-width: 2; strok
 .rv.banque { border-left-color: var(--accent); }
 .rv .verdict.niveau { color: var(--muted); }
 
+pre.code.trou { line-height: 2.1; }
+.trou-input { font: inherit; font-size: 14px; padding: 2px 6px; margin: 0 2px; border: 0; border-bottom: 2px solid #8fb4e3; border-radius: 4px 4px 0 0; background: #2c3646; color: #fff; }
+.trou-input:focus { outline: 2px solid #8fb4e3; }
+.lignes { border-radius: 8px; overflow: hidden; background: var(--code-bg); margin-bottom: 12px; }
+.lignes .ligne { display: flex; align-items: baseline; gap: 12px; width: 100%; border: 0; background: transparent; color: var(--code-ink); text-align: left; padding: 5px 12px; font-size: 14px; border-left: 4px solid transparent; }
+button.ligne { cursor: pointer; }
+button.ligne:hover { background: #2a3445; }
+.lignes .ligne.on { background: #4a2a2a; border-left-color: #f08a84; }
+.lignes .ligne .no { color: #6f7b8f; font-family: "IBM Plex Mono", monospace; font-size: 12px; min-width: 18px; text-align: right; }
+.lignes .ligne code { background: none; color: inherit; padding: 0; white-space: pre; }
+.lignes.correction .ligne.faute { background: #3a2a1d; border-left-color: #f0a650; }
+.lignes.correction .ligne.erreur { background: #4a2a2a; border-left-color: #f08a84; }
+.lignes .mark-ligne { margin-left: auto; font-size: 12px; font-weight: 600; color: #f0c674; white-space: nowrap; }
+.btn.aucune.on { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.doc-banner { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; background: var(--accent-soft); border-radius: 8px; padding: 10px 14px; margin: 12px 0 0; font-size: 14px; }
+.doc-banner a { font-weight: 600; }
+
 /* Questions interactives */
 .inter { margin-top: 18px; }
 .aide { font-size: 13px; color: var(--muted); margin: 0 0 10px; }
@@ -314,13 +331,17 @@ async function chargerQuestions() {
   });
   (data.interactives || []).forEach((q, i) => {
     const c = CODES[q.categorie];
-    const t = { vraifaux: "vf", liste: "liste", relier: "relier", glisser: "glisser" }[q.type];
+    const t = { vraifaux: "vf", liste: "liste", relier: "relier", glisser: "glisser", trou: "trou", lignes: "lignes" }[q.type];
     if (!c || !t || !(q.niveau >= 1 && q.niveau <= 5)) { console.warn("Question interactive ignorée (index " + i + ")"); return; }
     const d = { id: q.id || c + "-i" + i, c, n: q.niveau, t, q: txt(q.question), e: txt(q.explication) };
     if (q.code) d.code = txt(q.code);
     try {
       if (t === "vf") d.aff = q.affirmations.map((a) => [a.texte, a.vrai === true]);
       if (t === "liste") d.phr = q.phrases.map((p) => [p.texte, p.options, p.reponse]);
+      if (t === "trou") d.rep = q.reponses.map((v) => (Array.isArray(v) ? v : [v]));
+      if (t === "lignes") { d.lignes = q.lignes; d.fautes = (q.erreurs || []).map((n) => n - 1); }
+      if (q.documentation) d.doc = { url: q.documentation.lien, titre: q.documentation.titre || q.documentation.lien };
+      if (q.chrono_secondes) d.chrono = q.chrono_secondes;
       if (t === "relier") { d.paires = q.paires.map((p) => [p.gauche, p.droite]); d.intrus = q.intrus || []; }
       if (t === "glisser") {
         d.etiq = q.etiquettes;
@@ -610,7 +631,7 @@ function preparer() {
   S.used.push(id);
   const q = BANK[id];
   S.cur = { id, order: q.o ? shuffle(q.o.map((_, i) => i)) : null, draft: q.p ? { ...q.start } : null, debut: Date.now(), sorties: 0 };
-  if (q.p) S.cur.deadline = Date.now() + DUREE_PRAT;
+  if (q.p || q.chrono) S.cur.deadline = Date.now() + (q.p ? DUREE_PRAT : q.chrono * 1000);
 }
 function repondre(ok, extra) {
   const q = BANK[S.cur.id];
@@ -642,6 +663,7 @@ function duree(ms) {
 }
 document.addEventListener("visibilitychange", () => {
   if (!S || S.fini || !S.cur) return;
+  if (BANK[S.cur.id] && BANK[S.cur.id].doc) return;   // documentation autorisée
   S.sorties = S.sorties || { n: 0, ms: 0 };
   if (document.hidden) {
     S.sorties.debut = Date.now();
@@ -762,7 +784,7 @@ function renderAccueil() {
         h("li", {}, h("span", { class: "k" }, "Exercices"), h("span", {}, "5 min par exercice pratique. Passé ce délai, la question est comptée fausse.")),
         h("li", {}, h("span", { class: "k" }, "Réponses"), h("span", {}, "Une réponse validée est définitive : pas de retour en arrière.")),
         h("li", {}, h("span", { class: "k" }, "Adaptatif"), h("span", {}, "La difficulté s'adapte à tes réponses : une bonne réponse amène une question plus difficile.")),
-        h("li", {}, h("span", { class: "k" }, "Règles"), h("span", {}, "Sans documentation, sans autre onglet et sans aide extérieure."))),
+        h("li", {}, h("span", { class: "k" }, "Règles"), h("span", {}, "Sans documentation, sans autre onglet et sans aide extérieure, sauf pour les questions 📖 de documentation (lien fourni, 5 min). Les sorties de l'onglet sont comptées."))),
       h("div", { class: "field" }, h("label", { for: "nom" }, "Ton nom et prénom"), input),
       h("div", { class: "actions" }, h("span", { class: "hint" }, "Le chronomètre démarre au clic."), go),
       h("p", { class: "note" }, "Simulation d'entraînement non officielle. Le score sur 1000 est une estimation."),
@@ -774,8 +796,8 @@ function renderAccueil() {
 function enteteQuestion(q) {
   return h("div", { class: "meta" }, chip(q.c), h("span", { class: "tag" }, q.p ? "Exercice pratique" : TYPES[q.t] || "QCM"),
     h("span", { class: "qid-exam", title: "Identifiant de la question" }, q.id),
-    q.p ? h("span", { class: "muted q-timer-note" }, "5 min pour cette question") : null,
-    q.p ? h("span", { class: "q-timer", id: "q-timer" }, "⏱ " + fmt(S.cur.deadline - Date.now())) : null);
+    S.cur && S.cur.deadline ? h("span", { class: "muted q-timer-note" }, Math.round((q.p ? DUREE_PRAT : q.chrono * 1000) / 60000) + " min pour cette question") : null,
+    S.cur && S.cur.deadline ? h("span", { class: "q-timer", id: "q-timer" }, "⏱ " + fmt(S.cur.deadline - Date.now())) : null);
 }
 
 function renderQcm(q) {
@@ -802,7 +824,7 @@ function renderQcm(q) {
 }
 
 // ─── Questions interactives : Vrai/Faux, listes déroulantes, relier, glisser-déposer ───
-const TYPES = { vf: "Vrai / Faux", liste: "Listes déroulantes", relier: "Relier", glisser: "Glisser-déposer" };
+const TYPES = { vf: "Vrai / Faux", liste: "Listes déroulantes", relier: "Relier", glisser: "Glisser-déposer", trou: "Texte à compléter", lignes: "Lignes à cliquer" };
 
 function melanger(q) {
   const idx = (n) => shuffle(Array.from({ length: n }, (_, i) => i));
@@ -822,6 +844,14 @@ function corriger(q, rep) {
     const poses = q.etiq.filter((_, i) => rep[i] === zi).sort().join("|");
     return poses === z.rep.slice().sort().join("|");
   });
+  if (q.t === "trou") {
+    const norm = (s) => String(s || "").trim().replace(/;$/, "").replace(/\s+/g, "");
+    return q.rep.every((variantes, i) => variantes.some((v) => norm(v) === norm(rep[i])));
+  }
+  if (q.t === "lignes") {
+    if (!q.fautes.length) return rep.aucune === true;
+    return !rep.aucune && rep.lignes.length === q.fautes.length && q.fautes.every((f) => rep.lignes.includes(f));
+  }
   return false;
 }
 
@@ -952,6 +982,44 @@ function renderInteractif(q) {
     corps = h("div", {}, h("p", { class: "aide" }, "Glisse chaque étiquette dans sa zone, ou clique sur l'étiquette puis sur la zone. Pour retirer une étiquette, remets-la dans la colonne de gauche."), h("div", { class: "gl" }, pool, zonesEl));
   }
 
+  if (q.t === "trou") {
+    rep = q.rep.map(() => "");
+    pret = () => rep.every((v) => v.trim() !== "");
+    const morceaux = q.code.split("___");
+    const pre = h("pre", { class: "code trou" });
+    morceaux.forEach((m, i) => {
+      pre.append(m);
+      if (i < morceaux.length - 1) {
+        const largeur = Math.max(8, ...q.rep[i].map((v) => v.length)) + 2;
+        const champ = h("input", { type: "text", class: "trou-input", spellcheck: "false", autocomplete: "off", autocapitalize: "off", "aria-label": "Texte à compléter " + (i + 1), style: `width:${largeur}ch` });
+        champ.addEventListener("input", () => { rep[i] = champ.value; maj(); });
+        pre.append(champ);
+      }
+    });
+    corps = h("div", {}, h("p", { class: "aide" }, "Écris le texte manquant dans chaque case."), pre);
+  }
+
+  if (q.t === "lignes") {
+    rep = { lignes: [], aucune: false };
+    pret = () => rep.aucune || rep.lignes.length > 0;
+    const aucune = h("button", { type: "button", class: "btn small aucune" }, "Il n'y a pas d'erreur");
+    const boutons = q.lignes.map((l, i) => {
+      const b = h("button", { type: "button", class: "ligne", "aria-pressed": "false" }, h("span", { class: "no" }, String(i + 1)), h("code", {}, l || " "));
+      b.addEventListener("click", () => {
+        rep.aucune = false;
+        rep.lignes = rep.lignes.includes(i) ? rep.lignes.filter((x) => x !== i) : [...rep.lignes, i];
+        dessiner(); maj();
+      });
+      return b;
+    });
+    aucune.addEventListener("click", () => { rep.aucune = !rep.aucune; if (rep.aucune) rep.lignes = []; dessiner(); maj(); });
+    const dessiner = () => {
+      boutons.forEach((b, i) => { const on = rep.lignes.includes(i); b.classList.toggle("on", on); b.setAttribute("aria-pressed", String(on)); });
+      aucune.classList.toggle("on", rep.aucune);
+    };
+    corps = h("div", {}, h("p", { class: "aide" }, "Clique sur une ligne pour la sélectionner (clique à nouveau pour la désélectionner)."), h("div", { class: "lignes" }, boutons), aucune);
+  }
+
   const maj = () => { valider.disabled = !pret(); };
   maj();
   valider.addEventListener("click", () => repondre(corriger(q, rep), { rep: JSON.parse(JSON.stringify(rep)) }));
@@ -959,7 +1027,8 @@ function renderInteractif(q) {
   app.replaceChildren(h("div", { class: q.t === "relier" || q.t === "glisser" ? "" : "narrow" }, h("section", { class: "card" },
     enteteQuestion(q),
     block(q.q),
-    q.code ? h("pre", { class: "code" }, h("code", {}, q.code)) : null,
+    q.doc ? h("div", { class: "doc-banner" }, "📖 Question de documentation : tu peux consulter la documentation.", h("a", { href: q.doc.url, target: "_blank", rel: "noopener" }, "Ouvrir « " + q.doc.titre + " » ↗")) : null,
+    q.code && q.t !== "trou" ? h("pre", { class: "code" }, h("code", {}, q.code)) : null,
     h("div", { class: "inter" }, corps),
     h("div", { class: "actions" }, h("span", { class: "hint" }, "Une réponse validée est définitive."), skip, valider))));
 }
@@ -984,6 +1053,18 @@ function correctionInteractif(q, a) {
       h("strong", {}, (z.titre || z.decor || "Zone " + (zi + 1)) + " : "), inline(h("span"), z.rep.map((x) => "`" + x + "`").join(" ")),
       bon ? null : h("span", { class: "muted" }, " — toi : ", poses.length ? inline(h("span"), poses.map((x) => "`" + x + "`").join(" ")) : "rien"));
   }));
+  if (q.t === "trou") return h("ul", {}, q.rep.map((variantes, i) => {
+    const bon = corriger({ t: "trou", rep: [variantes] }, [r[i]]);
+    return h("li", { class: bon ? "good" : "picked" }, h("span", { class: "mark" }, bon ? ok : ko), "Case " + (i + 1) + " : ",
+      inline(h("span"), "`" + (r[i] || "—") + "`"), bon ? null : h("span", { class: "muted" }, " — attendu : ", inline(h("span"), "`" + variantes[0] + "`")));
+  }));
+  if (q.t === "lignes") return h("div", {},
+    h("div", { class: "lignes correction" }, q.lignes.map((l, i) => {
+      const faute = q.fautes.includes(i), choisie = r.lignes.includes(i);
+      return h("div", { class: "ligne" + (faute ? " faute" : "") + (choisie && !faute ? " erreur" : "") },
+        h("span", { class: "no" }, String(i + 1)), h("code", {}, l || " "), h("span", { class: "mark-ligne" }, faute ? (choisie ? "✓ trouvée" : "✗ oubliée") : choisie ? "✗ pas d'erreur ici" : ""));
+    })),
+    h("p", { class: "muted" }, q.fautes.length ? "Lignes fautives : " + q.fautes.map((f) => f + 1).join(", ") : "Il n'y avait pas d'erreur." + (r.aucune ? " ✓" : "")));
   return null;
 }
 
@@ -1282,7 +1363,7 @@ function carteCorrection(a, i) {
 }
 
 // ─── Mode formateur (caché) : toutes les questions avec leurs réponses — adresse de la page + #banque ───
-const NOMS_TYPES = { qcm: "QCM", vf: "Vrai / Faux", liste: "Listes déroulantes", relier: "Relier", glisser: "Glisser-déposer", pratique: "Exercice pratique" };
+const NOMS_TYPES = { qcm: "QCM", vf: "Vrai / Faux", liste: "Listes déroulantes", trou: "Texte à compléter", lignes: "Lignes à cliquer", relier: "Relier", glisser: "Glisser-déposer", pratique: "Exercice pratique" };
 const typeDe = (q) => (q.p ? "pratique" : q.t || "qcm");
 
 function carteBanque(q) {
@@ -1329,6 +1410,15 @@ function carteBanque(q) {
       h("strong", {}, (z.titre || z.decor || "Zone " + (zi + 1)) + " : "), inline(h("span"), z.rep.map((x) => "`" + x + "`").join(" ")))),
       trop.length ? h("li", { class: "muted" }, "Restent à gauche : ", inline(h("span"), trop.map((x) => "`" + x + "`").join(" "))) : null));
   }
+  if (q.t === "trou") {
+    el.append(h("ul", {}, q.rep.map((v, i) => h("li", { class: "good" }, h("span", { class: "mark" }, "✓"), "Case " + (i + 1) + " : ", inline(h("span"), v.map((x) => "`" + x + "`").join(" ou "))))));
+  }
+  if (q.t === "lignes") {
+    el.append(h("div", { class: "lignes correction" }, q.lignes.map((l, i) => h("div", { class: "ligne" + (q.fautes.includes(i) ? " faute" : "") },
+      h("span", { class: "no" }, String(i + 1)), h("code", {}, l || " "), h("span", { class: "mark-ligne" }, q.fautes.includes(i) ? "✗ erreur" : "")))),
+      h("p", { class: "muted" }, q.fautes.length ? "Lignes fautives : " + q.fautes.map((f) => f + 1).join(", ") : "Aucune erreur : réponse « Il n'y a pas d'erreur »."));
+  }
+  if (q.doc) el.append(h("p", { class: "muted" }, "📖 Documentation autorisée : ", h("a", { href: q.doc.url, target: "_blank", rel: "noopener" }, q.doc.titre), " · " + Math.round(q.chrono / 60) + " min"));
   el.append(rich("p", q.e, "expl"));
   return el;
 }

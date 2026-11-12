@@ -142,6 +142,27 @@ Elles occupent les mêmes places que les QCM dans l'examen. Champs communs : `ty
 
 `aire` suit la syntaxe de `grid-area` : `ligne-début / colonne-début / ligne-fin / colonne-fin`. `decor` est un petit texte indicatif affiché dans la zone.
 
+**Texte à compléter** (`___` dans le code = une case ; plusieurs réponses acceptées par case)
+
+```json
+{ "type": "trou", "categorie": "JavaScript", "niveau": 4, "question": "Complète…",
+  "code": "const objet = JSON.___(texte);", "reponses": [["parse"]], "explication": "..." }
+```
+
+**Lignes à cliquer** (`erreurs` = numéros des lignes fautives, `[]` = « Il n'y a pas d'erreur »)
+
+```json
+{ "type": "lignes", "categorie": "HTML", "niveau": 3, "question": "Clique sur les lignes invalides…",
+  "lignes": ["<ul>", "  <li>Accueil", "</ul>"], "erreurs": [2], "explication": "..." }
+```
+
+**Question de documentation** : n'importe quelle question interactive peut recevoir un lien autorisé et un chrono (la sortie d'onglet n'est alors pas comptée).
+
+```json
+"documentation": { "lien": "https://developer.mozilla.org/fr/docs/Web/CSS/object-fit", "titre": "MDN – object-fit" },
+"chrono_secondes": 300
+```
+
 ### Exercice pratique (3 éditeurs : HTML / CSS / JS)
 
 Comme à l'examen, le stagiaire voit 3 onglets `index.html`, `style.css`, `script.js`. Les fichiers `verrouille: true` sont en lecture seule (ils donnent des informations, ex. les classes disponibles dans le CSS). 5 minutes maximum par exercice.
