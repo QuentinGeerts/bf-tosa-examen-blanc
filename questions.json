@@ -2843,6 +2843,237 @@
       ],
       "reponse": 0,
       "explication": "Pas d'erreur = le code tourne : il faut vérifier où il écrit."
+    },
+    {
+      "id": "H062",
+      "categorie": "HTML",
+      "niveau": 1,
+      "question": "Quelle balise affiche une image ?",
+      "options": [
+        "`<img>`",
+        "`<image>`",
+        "`<picture-src>`",
+        "`<src>`"
+      ],
+      "reponse": 0,
+      "explication": "`<img src=\"photo.jpg\" alt=\"…\">`."
+    },
+    {
+      "id": "H063",
+      "categorie": "HTML",
+      "niveau": 1,
+      "question": "Quelle balise marque un texte **important** (affiché en gras par défaut) ?",
+      "options": [
+        "`<strong>`",
+        "`<important>`",
+        "`<em>`",
+        "`<bold>`"
+      ],
+      "reponse": 0,
+      "explication": "`<strong>` = importance. `<em>` = emphase (italique). `<bold>` n'existe pas (`<b>` existe, sans valeur sémantique)."
+    },
+    {
+      "id": "C059",
+      "categorie": "CSS",
+      "niveau": 1,
+      "question": "Quelle propriété change la taille du texte ?",
+      "options": [
+        "`font-size`",
+        "`text-size`",
+        "`font-weight`",
+        "`size`"
+      ],
+      "reponse": 0,
+      "explication": "`font-weight` change la graisse (gras), pas la taille."
+    },
+    {
+      "id": "C060",
+      "categorie": "CSS",
+      "niveau": 1,
+      "question": "Quelle propriété change la couleur de fond d'un élément ?",
+      "options": [
+        "`background-color`",
+        "`color`",
+        "`bg-color`",
+        "`fill`"
+      ],
+      "reponse": 0,
+      "explication": "`color` = couleur du texte. `fill` sert au SVG."
+    },
+    {
+      "id": "J074",
+      "categorie": "JavaScript",
+      "niveau": 1,
+      "question": "Quel mot-clé déclare une variable dont la valeur peut changer ?",
+      "options": [
+        "`let`",
+        "`const`",
+        "`function`",
+        "`return`"
+      ],
+      "reponse": 0,
+      "explication": "`let` permet la réaffectation, `const` non."
+    },
+    {
+      "id": "J075",
+      "categorie": "JavaScript",
+      "niveau": 1,
+      "question": "Quel opérateur compare la valeur **et** le type ?",
+      "options": [
+        "`===`",
+        "`=`",
+        "`==`",
+        "`=>`"
+      ],
+      "reponse": 0,
+      "explication": "`=` affecte, `==` compare après conversion, `=>` écrit une fonction fléchée."
+    },
+    {
+      "id": "I058",
+      "categorie": "Intégration",
+      "niveau": 1,
+      "question": "Quelle fonction affiche une boîte de dialogue avec un message ?",
+      "options": [
+        "`alert(\"Bonjour\")`",
+        "`print(\"Bonjour\")`",
+        "`message(\"Bonjour\")`",
+        "`window.show(\"Bonjour\")`"
+      ],
+      "reponse": 0,
+      "explication": "`alert` affiche un message, `prompt` demande une saisie, `confirm` demande OK / Annuler."
+    },
+    {
+      "id": "I059",
+      "categorie": "Intégration",
+      "niveau": 1,
+      "question": "Quel nom d'événement correspond au clic de souris ?",
+      "options": [
+        "`\"click\"`",
+        "`\"onclick\"`",
+        "`\"press\"`",
+        "`\"tap\"`"
+      ],
+      "reponse": 0,
+      "explication": "Avec `addEventListener`, on écrit le nom sans « on » : `\"click\"`."
+    },
+    {
+      "id": "H064",
+      "categorie": "HTML",
+      "niveau": 5,
+      "question": "Que fait le navigateur avec ce HTML ?",
+      "code": "<p>Introduction <div>Bloc</div></p>",
+      "options": [
+        "Il ferme le `<p>` avant le `<div>` : le HTML est invalide et la structure change",
+        "Il affiche le `<div>` à l'intérieur du paragraphe sans problème",
+        "Il ignore complètement le `<div>`",
+        "Il affiche une erreur JavaScript"
+      ],
+      "reponse": 0,
+      "explication": "Un `<p>` ne peut contenir que du contenu « en ligne ». Le navigateur ferme le paragraphe avant le `<div>` et le `</p>` final crée un paragraphe vide."
+    },
+    {
+      "id": "H065",
+      "categorie": "HTML",
+      "niveau": 5,
+      "question": "Quel attribut télécharge un script sans bloquer la page et l'exécute **dès qu'il est prêt** (ordre non garanti) ?",
+      "options": [
+        "`async`",
+        "`defer`",
+        "`lazy`",
+        "`await`"
+      ],
+      "reponse": 0,
+      "explication": "`defer` attend la fin du HTML et respecte l'ordre des scripts ; `async` s'exécute dès que possible."
+    },
+    {
+      "id": "C061",
+      "categorie": "CSS",
+      "niveau": 5,
+      "question": "Quelle est la spécificité du sélecteur `#nav .item a` (id, classes, balises) ?",
+      "options": [
+        "(1, 1, 1)",
+        "(0, 2, 1)",
+        "(1, 0, 2)",
+        "(1, 1, 0)"
+      ],
+      "reponse": 0,
+      "explication": "1 id (`#nav`), 1 classe (`.item`), 1 balise (`a`)."
+    },
+    {
+      "id": "C062",
+      "categorie": "CSS",
+      "niveau": 5,
+      "question": "Un en-tête en `position: sticky; top: 0;` ne reste pas collé en haut. Quelle est la cause la plus fréquente ?",
+      "options": [
+        "Un de ses parents a `overflow: hidden`",
+        "Il manque un `z-index`",
+        "`sticky` n'existe pas en CSS",
+        "`top` doit être en pourcentage"
+      ],
+      "reponse": 0,
+      "explication": "`sticky` colle par rapport au conteneur qui défile ; un parent en `overflow: hidden` (ou trop petit) l'en empêche."
+    },
+    {
+      "id": "J076",
+      "categorie": "JavaScript",
+      "niveau": 5,
+      "question": "Que vaut cette expression ?",
+      "code": "[] + []",
+      "options": [
+        "`\"\"` (une chaîne vide)",
+        "`[]`",
+        "`0`",
+        "`undefined`"
+      ],
+      "reponse": 0,
+      "explication": "Avec `+`, les tableaux sont convertis en chaînes : `\"\" + \"\"` = `\"\"`."
+    },
+    {
+      "id": "J077",
+      "categorie": "JavaScript",
+      "niveau": 5,
+      "question": "Que renvoie cette expression ?",
+      "code": "typeof NaN",
+      "options": [
+        "`\"number\"`",
+        "`\"NaN\"`",
+        "`\"undefined\"`",
+        "`\"object\"`"
+      ],
+      "reponse": 0,
+      "explication": "`NaN` (Not a Number) est… une valeur de type number."
+    },
+    {
+      "id": "I060",
+      "categorie": "Intégration",
+      "niveau": 5,
+      "question": "À quoi sert `e.stopPropagation()` dans un écouteur ?",
+      "options": [
+        "À empêcher l'événement de remonter vers les éléments parents",
+        "À annuler l'action par défaut (envoi, lien…)",
+        "À supprimer l'écouteur",
+        "À arrêter tout le script"
+      ],
+      "reponse": 0,
+      "explication": "L'action par défaut, c'est `e.preventDefault()`. Retirer un écouteur : `removeEventListener`."
+    },
+    {
+      "id": "I061",
+      "categorie": "Intégration",
+      "niveau": 5,
+      "question": "Que se passe-t-il ?",
+      "code": [
+        "const cartes = document.querySelectorAll(\".carte\");",
+        "cartes.classList.add(\"visible\");"
+      ],
+      "options": [
+        "Une TypeError : une NodeList n'a pas de `classList`",
+        "La classe est ajoutée à toutes les cartes",
+        "La classe est ajoutée à la première carte",
+        "Rien, sans erreur"
+      ],
+      "reponse": 0,
+      "explication": "`querySelectorAll` renvoie une liste : il faut une boucle (`for...of` ou `forEach`) pour agir sur chaque élément."
     }
   ],
   "interactives": [
@@ -3822,6 +4053,418 @@
       ],
       "erreurs": [],
       "explication": "Ce tableau est valide : `caption` en premier, une ligne avec une cellule d'en-tête et une cellule de données. (`thead`/`tbody` sont facultatifs.)"
+    },
+    {
+      "type": "images",
+      "id": "C054",
+      "categorie": "CSS",
+      "niveau": 3,
+      "question": "Quelle image correspond à ce CSS ?",
+      "code": [
+        ".avatar {",
+        "  width: 80px;",
+        "  height: 80px;",
+        "  background: teal;",
+        "  border-radius: 50%;",
+        "}"
+      ],
+      "images": [
+        "<svg viewBox=\"0 0 120 90\" width=\"120\" height=\"90\"><rect width=\"120\" height=\"90\" fill=\"#fff\"/><rect x=\"30\" y=\"15\" width=\"60\" height=\"60\" rx=\"30\" fill=\"#00897b\"/></svg>",
+        "<svg viewBox=\"0 0 120 90\" width=\"120\" height=\"90\"><rect width=\"120\" height=\"90\" fill=\"#fff\"/><rect x=\"30\" y=\"15\" width=\"60\" height=\"60\" rx=\"12\" fill=\"#00897b\"/></svg>",
+        "<svg viewBox=\"0 0 120 90\" width=\"120\" height=\"90\"><rect width=\"120\" height=\"90\" fill=\"#fff\"/><rect x=\"30\" y=\"15\" width=\"60\" height=\"60\" fill=\"#00897b\"/></svg>",
+        "<svg viewBox=\"0 0 120 90\" width=\"120\" height=\"90\"><rect width=\"120\" height=\"90\" fill=\"#fff\"/><ellipse cx=\"60\" cy=\"45\" rx=\"45\" ry=\"25\" fill=\"#00897b\"/></svg>"
+      ],
+      "reponse": 0,
+      "explication": "`border-radius: 50%` sur un carré donne un cercle. Une valeur fixe (12px) arrondit seulement les coins."
+    },
+    {
+      "type": "images",
+      "id": "C055",
+      "categorie": "CSS",
+      "niveau": 4,
+      "question": "Quelle image correspond à ce conteneur flex ?",
+      "code": [
+        ".barre {",
+        "  display: flex;",
+        "  justify-content: space-between;",
+        "}"
+      ],
+      "images": [
+        "<svg viewBox=\"0 0 120 90\" width=\"120\" height=\"90\"><rect width=\"120\" height=\"90\" fill=\"#fff\"/><rect x=\"6\" y=\"20\" width=\"108\" height=\"42\" fill=\"none\" stroke=\"#999\" stroke-dasharray=\"3 2\"/><rect x=\"8\" y=\"30\" width=\"22\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"19.0\" y=\"45.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">1</text><rect x=\"32\" y=\"30\" width=\"22\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"43.0\" y=\"45.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">2</text><rect x=\"56\" y=\"30\" width=\"22\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"67.0\" y=\"45.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">3</text></svg>",
+        "<svg viewBox=\"0 0 120 90\" width=\"120\" height=\"90\"><rect width=\"120\" height=\"90\" fill=\"#fff\"/><rect x=\"6\" y=\"20\" width=\"108\" height=\"42\" fill=\"none\" stroke=\"#999\" stroke-dasharray=\"3 2\"/><rect x=\"25\" y=\"30\" width=\"22\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"36.0\" y=\"45.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">1</text><rect x=\"49\" y=\"30\" width=\"22\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"60.0\" y=\"45.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">2</text><rect x=\"73\" y=\"30\" width=\"22\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"84.0\" y=\"45.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">3</text></svg>",
+        "<svg viewBox=\"0 0 120 90\" width=\"120\" height=\"90\"><rect width=\"120\" height=\"90\" fill=\"#fff\"/><rect x=\"6\" y=\"20\" width=\"108\" height=\"42\" fill=\"none\" stroke=\"#999\" stroke-dasharray=\"3 2\"/><rect x=\"8\" y=\"30\" width=\"22\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"19.0\" y=\"45.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">1</text><rect x=\"49\" y=\"30\" width=\"22\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"60.0\" y=\"45.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">2</text><rect x=\"90\" y=\"30\" width=\"22\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"101.0\" y=\"45.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">3</text></svg>",
+        "<svg viewBox=\"0 0 120 90\" width=\"120\" height=\"90\"><rect width=\"120\" height=\"90\" fill=\"#fff\"/><rect x=\"6\" y=\"20\" width=\"108\" height=\"42\" fill=\"none\" stroke=\"#999\" stroke-dasharray=\"3 2\"/><rect x=\"17\" y=\"30\" width=\"22\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"28.0\" y=\"45.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">1</text><rect x=\"49\" y=\"30\" width=\"22\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"60.0\" y=\"45.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">2</text><rect x=\"81\" y=\"30\" width=\"22\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"92.0\" y=\"45.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">3</text></svg>"
+      ],
+      "reponse": 2,
+      "explication": "`space-between` colle le premier élément à gauche, le dernier à droite, et répartit l'espace entre eux. `space-around` laisse aussi un espace sur les bords."
+    },
+    {
+      "type": "images",
+      "id": "C056",
+      "categorie": "CSS",
+      "niveau": 3,
+      "question": "Quelle image correspond à ce CSS ?",
+      "code": [
+        ".liste {",
+        "  display: flex;",
+        "  flex-direction: column;",
+        "}"
+      ],
+      "images": [
+        "<svg viewBox=\"0 0 120 90\" width=\"120\" height=\"90\"><rect width=\"120\" height=\"90\" fill=\"#fff\"/><rect x=\"20\" y=\"34\" width=\"22\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"31.0\" y=\"49.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">1</text><rect x=\"49\" y=\"34\" width=\"22\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"60.0\" y=\"49.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">2</text><rect x=\"78\" y=\"34\" width=\"22\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"89.0\" y=\"49.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">3</text></svg>",
+        "<svg viewBox=\"0 0 120 90\" width=\"120\" height=\"90\"><rect width=\"120\" height=\"90\" fill=\"#fff\"/><rect x=\"49\" y=\"8\" width=\"22\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"60.0\" y=\"23.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">1</text><rect x=\"49\" y=\"34\" width=\"22\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"60.0\" y=\"49.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">2</text><rect x=\"49\" y=\"60\" width=\"22\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"60.0\" y=\"75.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">3</text></svg>",
+        "<svg viewBox=\"0 0 120 90\" width=\"120\" height=\"90\"><rect width=\"120\" height=\"90\" fill=\"#fff\"/><rect x=\"78\" y=\"34\" width=\"22\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"89.0\" y=\"49.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">1</text><rect x=\"49\" y=\"34\" width=\"22\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"60.0\" y=\"49.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">2</text><rect x=\"20\" y=\"34\" width=\"22\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"31.0\" y=\"49.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">3</text></svg>",
+        "<svg viewBox=\"0 0 120 90\" width=\"120\" height=\"90\"><rect width=\"120\" height=\"90\" fill=\"#fff\"/><rect x=\"30\" y=\"14\" width=\"22\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"41.0\" y=\"29.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">1</text><rect x=\"68\" y=\"14\" width=\"22\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"79.0\" y=\"29.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">2</text><rect x=\"30\" y=\"50\" width=\"22\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"41.0\" y=\"65.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">3</text></svg>"
+      ],
+      "reponse": 1,
+      "explication": "`flex-direction: column` empile les éléments les uns sous les autres, dans l'ordre du HTML."
+    },
+    {
+      "type": "images",
+      "id": "C057",
+      "categorie": "CSS",
+      "niveau": 4,
+      "question": "Quelle image correspond à cette grille ?",
+      "code": [
+        ".page {",
+        "  display: grid;",
+        "  grid-template-columns: 1fr 2fr;",
+        "}"
+      ],
+      "images": [
+        "<svg viewBox=\"0 0 120 90\" width=\"120\" height=\"90\"><rect width=\"120\" height=\"90\" fill=\"#fff\"/><rect x=\"8\" y=\"30\" width=\"50\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"33.0\" y=\"45.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">1</text><rect x=\"62\" y=\"30\" width=\"50\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"87.0\" y=\"45.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">2</text></svg>",
+        "<svg viewBox=\"0 0 120 90\" width=\"120\" height=\"90\"><rect width=\"120\" height=\"90\" fill=\"#fff\"/><rect x=\"8\" y=\"30\" width=\"32\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"24.0\" y=\"45.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">1</text><rect x=\"44\" y=\"30\" width=\"68\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"78.0\" y=\"45.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">2</text></svg>",
+        "<svg viewBox=\"0 0 120 90\" width=\"120\" height=\"90\"><rect width=\"120\" height=\"90\" fill=\"#fff\"/><rect x=\"8\" y=\"30\" width=\"68\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"42.0\" y=\"45.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">1</text><rect x=\"80\" y=\"30\" width=\"32\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"96.0\" y=\"45.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">2</text></svg>",
+        "<svg viewBox=\"0 0 120 90\" width=\"120\" height=\"90\"><rect width=\"120\" height=\"90\" fill=\"#fff\"/><rect x=\"8\" y=\"30\" width=\"32\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"24.0\" y=\"45.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">1</text><rect x=\"44\" y=\"30\" width=\"32\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"60.0\" y=\"45.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">2</text><rect x=\"80\" y=\"30\" width=\"32\" height=\"22\" rx=\"3\" fill=\"#2867ad\"/><text x=\"96.0\" y=\"45.0\" font-size=\"11\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"sans-serif\">3</text></svg>"
+      ],
+      "reponse": 1,
+      "explication": "`1fr 2fr` crée 2 colonnes : la seconde reçoit deux fois plus d'espace que la première."
+    },
+    {
+      "type": "images",
+      "id": "H059",
+      "categorie": "HTML",
+      "niveau": 4,
+      "question": "Quelle image correspond à ce SVG ?",
+      "code": [
+        "<svg width=\"120\" height=\"90\">",
+        "  <rect x=\"20\" y=\"20\" width=\"60\" height=\"30\" fill=\"orangered\" />",
+        "</svg>"
+      ],
+      "images": [
+        "<svg viewBox=\"0 0 120 90\" width=\"120\" height=\"90\"><rect width=\"120\" height=\"90\" fill=\"#fff\"/><rect x=\"20\" y=\"20\" width=\"60\" height=\"30\" fill=\"#c0531b\"/></svg>",
+        "<svg viewBox=\"0 0 120 90\" width=\"120\" height=\"90\"><rect width=\"120\" height=\"90\" fill=\"#fff\"/><rect x=\"0\" y=\"0\" width=\"60\" height=\"30\" fill=\"#c0531b\"/></svg>",
+        "<svg viewBox=\"0 0 120 90\" width=\"120\" height=\"90\"><rect width=\"120\" height=\"90\" fill=\"#fff\"/><rect x=\"20\" y=\"20\" width=\"30\" height=\"60\" fill=\"#c0531b\"/></svg>",
+        "<svg viewBox=\"0 0 120 90\" width=\"120\" height=\"90\"><rect width=\"120\" height=\"90\" fill=\"#fff\"/><rect x=\"50\" y=\"40\" width=\"60\" height=\"30\" fill=\"#c0531b\"/></svg>"
+      ],
+      "reponse": 0,
+      "explication": "`x` et `y` placent le coin en haut à gauche du rectangle, puis `width` et `height` donnent sa taille."
+    },
+    {
+      "type": "multiple",
+      "id": "H060",
+      "categorie": "HTML",
+      "niveau": 3,
+      "question": "Lesquels de ces éléments sont des **éléments vides** (sans balise fermante) ?",
+      "options": [
+        "`<br>`",
+        "`<img>`",
+        "`<p>`",
+        "`<input>`",
+        "`<span>`"
+      ],
+      "reponses": [
+        0,
+        1,
+        3
+      ],
+      "explication": "`br`, `img`, `input` (et `hr`, `meta`, `link`) n'ont pas de contenu, donc pas de balise fermante."
+    },
+    {
+      "type": "multiple",
+      "id": "J072",
+      "categorie": "JavaScript",
+      "niveau": 2,
+      "question": "Quels mots-clés déclarent une variable dont on peut **changer la valeur** ?",
+      "options": [
+        "`let`",
+        "`var`",
+        "`const`",
+        "`return`"
+      ],
+      "reponses": [
+        0,
+        1
+      ],
+      "explication": "`let` (moderne) et `var` (ancien) permettent la réaffectation. `const` l'interdit."
+    },
+    {
+      "type": "multiple",
+      "id": "I057",
+      "categorie": "Intégration",
+      "niveau": 4,
+      "question": "Quelles méthodes renvoient **un seul élément** (ou `null`) ?",
+      "options": [
+        "`getElementById()`",
+        "`querySelector()`",
+        "`querySelectorAll()`",
+        "`getElementsByClassName()`"
+      ],
+      "reponses": [
+        0,
+        1
+      ],
+      "explication": "`querySelectorAll` renvoie une NodeList et `getElementsByClassName` une HTMLCollection, même s'il n'y a qu'un résultat."
+    },
+    {
+      "type": "multiple",
+      "id": "C058",
+      "categorie": "CSS",
+      "niveau": 3,
+      "question": "Quelles propriétés sont **héritées** par défaut par les enfants ?",
+      "options": [
+        "`color`",
+        "`font-family`",
+        "`margin`",
+        "`border`",
+        "`line-height`"
+      ],
+      "reponses": [
+        0,
+        1,
+        4
+      ],
+      "explication": "Les propriétés de texte sont héritées. Les propriétés de boîte (`margin`, `border`, `padding`) ne le sont pas."
+    },
+    {
+      "type": "multiple",
+      "id": "J073",
+      "categorie": "JavaScript",
+      "niveau": 4,
+      "question": "Quelles valeurs sont **falsy** (considérées comme fausses dans un `if`) ?",
+      "options": [
+        "`0`",
+        "`\"0\"`",
+        "`null`",
+        "`[]`",
+        "`NaN`"
+      ],
+      "reponses": [
+        0,
+        2,
+        4
+      ],
+      "explication": "Falsy : `false`, `0`, `\"\"`, `null`, `undefined`, `NaN`. Une chaîne non vide et un tableau (même vide) sont truthy."
+    },
+    {
+      "type": "multiple",
+      "id": "H061",
+      "categorie": "HTML",
+      "niveau": 4,
+      "question": "Quels attributs sont des **attributs booléens** (leur seule présence suffit) ?",
+      "options": [
+        "`disabled`",
+        "`required`",
+        "`checked`",
+        "`type`",
+        "`value`"
+      ],
+      "reponses": [
+        0,
+        1,
+        2
+      ],
+      "explication": "Pour un attribut booléen, écrire `disabled` suffit ; `disabled=\"false\"` désactive quand même."
+    },
+    {
+      "type": "vraifaux",
+      "id": "C063",
+      "categorie": "CSS",
+      "niveau": 3,
+      "question": "Pour chaque affirmation sur Flexbox et Grid, indique si elle est vraie.",
+      "affirmations": [
+        {
+          "texte": "`display: flex` aligne les enfants sur une ligne par défaut",
+          "vrai": true
+        },
+        {
+          "texte": "`justify-content` agit sur l'axe secondaire",
+          "vrai": false
+        },
+        {
+          "texte": "`gap` fonctionne en Flexbox et en Grid",
+          "vrai": true
+        },
+        {
+          "texte": "`grid-template-columns` s'utilise avec `display: flex`",
+          "vrai": false
+        }
+      ],
+      "explication": "`justify-content` agit sur l'axe principal. `grid-template-columns` ne sert qu'avec `display: grid`."
+    },
+    {
+      "type": "vraifaux",
+      "id": "J078",
+      "categorie": "JavaScript",
+      "niveau": 3,
+      "question": "Pour chaque affirmation sur les tableaux, indique si elle est vraie.",
+      "affirmations": [
+        {
+          "texte": "`map()` renvoie un nouveau tableau",
+          "vrai": true
+        },
+        {
+          "texte": "`push()` renvoie le tableau modifié",
+          "vrai": false
+        },
+        {
+          "texte": "`filter()` peut renvoyer un tableau vide",
+          "vrai": true
+        },
+        {
+          "texte": "Le premier élément est à l'index 1",
+          "vrai": false
+        }
+      ],
+      "explication": "`push()` renvoie la nouvelle longueur. Les index commencent à 0."
+    },
+    {
+      "type": "relier",
+      "id": "C064",
+      "categorie": "CSS",
+      "niveau": 3,
+      "question": "Relie chaque unité CSS à ce qu'elle mesure.",
+      "paires": [
+        {
+          "gauche": "`px`",
+          "droite": "Pixels, taille fixe"
+        },
+        {
+          "gauche": "`rem`",
+          "droite": "Taille de police de l'élément racine"
+        },
+        {
+          "gauche": "`em`",
+          "droite": "Taille de police du parent (pour font-size)"
+        },
+        {
+          "gauche": "`%`",
+          "droite": "Pourcentage de la taille du parent"
+        },
+        {
+          "gauche": "`vw`",
+          "droite": "Pourcentage de la largeur de la fenêtre"
+        }
+      ],
+      "intrus": [
+        "Nombre de caractères affichés"
+      ],
+      "explication": "`ch` mesure la largeur du caractère « 0 », pas un nombre de caractères."
+    },
+    {
+      "type": "relier",
+      "id": "I062",
+      "categorie": "Intégration",
+      "niveau": 3,
+      "question": "Relie chaque méthode du DOM à son effet.",
+      "paires": [
+        {
+          "gauche": "`createElement(\"li\")`",
+          "droite": "Crée un nouvel élément en mémoire"
+        },
+        {
+          "gauche": "`appendChild(el)`",
+          "droite": "Ajoute un élément à la fin d'un parent"
+        },
+        {
+          "gauche": "`remove()`",
+          "droite": "Retire l'élément de la page"
+        },
+        {
+          "gauche": "`setAttribute(\"href\", url)`",
+          "droite": "Modifie la valeur d'un attribut"
+        }
+      ],
+      "intrus": [
+        "Copie l'élément dans le presse-papiers"
+      ],
+      "explication": "`cloneNode()` copie un élément (dans le DOM, pas dans le presse-papiers)."
+    },
+    {
+      "type": "glisser",
+      "id": "J079",
+      "categorie": "JavaScript",
+      "niveau": 4,
+      "question": "Classe chaque méthode selon qu'elle **modifie le tableau** d'origine ou **renvoie un nouveau tableau**.",
+      "etiquettes": [
+        "push",
+        "pop",
+        "sort",
+        "splice",
+        "map",
+        "filter",
+        "slice",
+        "concat"
+      ],
+      "zones": [
+        {
+          "titre": "Modifie le tableau",
+          "reponses": [
+            "push",
+            "pop",
+            "sort",
+            "splice"
+          ]
+        },
+        {
+          "titre": "Renvoie un nouveau tableau",
+          "reponses": [
+            "map",
+            "filter",
+            "slice",
+            "concat"
+          ]
+        }
+      ],
+      "explication": "`slice` (copie une partie) ne modifie pas le tableau, contrairement à `splice` (retire / insère). `sort` trie le tableau sur place."
+    },
+    {
+      "type": "glisser",
+      "id": "H066",
+      "categorie": "HTML",
+      "niveau": 2,
+      "question": "Classe chaque balise selon l'endroit où elle se place.",
+      "etiquettes": [
+        "title",
+        "meta",
+        "link",
+        "h1",
+        "nav",
+        "footer",
+        "p",
+        "style"
+      ],
+      "zones": [
+        {
+          "titre": "Dans <head>",
+          "reponses": [
+            "title",
+            "meta",
+            "link",
+            "style"
+          ]
+        },
+        {
+          "titre": "Dans <body>",
+          "reponses": [
+            "h1",
+            "nav",
+            "footer",
+            "p"
+          ]
+        }
+      ],
+      "explication": "Le `<head>` contient les informations sur la page (titre, encodage, feuilles de style). Le `<body>` contient ce qui s'affiche."
     }
   ],
   "pratiques": [
@@ -5637,6 +6280,786 @@
           "  <p>Notre boutique ouvre bientôt.</p>",
           "</body>",
           "</html>"
+        ]
+      }
+    },
+    {
+      "id": "H067",
+      "categorie": "HTML",
+      "niveau": 2,
+      "enonce": [
+        "Dans le `<body>` :",
+        "1. ajoute l'image `chat.jpg` avec le texte alternatif « Un chat » ;",
+        "2. ajoute un lien « Exemple » vers `https://exemple.be` qui s'ouvre dans un **nouvel onglet**."
+      ],
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Exercice</title>",
+            "</head>",
+            "<body>",
+            "  ",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": false
+        },
+        "css": {
+          "code": [
+            "/* Dans cette question, tu n'as pas besoin de modifier le CSS */",
+            ""
+          ],
+          "verrouille": true
+        },
+        "js": {
+          "code": [
+            "// Dans cette question, tu n'as pas besoin de modifier le JavaScript",
+            ""
+          ],
+          "verrouille": true
+        }
+      },
+      "verification": "",
+      "criteres": [
+        {
+          "nom": "Image chat.jpg",
+          "test": "const i = document.querySelector('img'); return !!i && i.getAttribute('src') === 'chat.jpg';"
+        },
+        {
+          "nom": "Texte alternatif « Un chat »",
+          "test": "const i = document.querySelector('img'); return !!i && i.getAttribute('alt') === 'Un chat';"
+        },
+        {
+          "nom": "Lien vers https://exemple.be",
+          "test": "const a = document.querySelector('a'); return !!a && a.getAttribute('href') === 'https://exemple.be';"
+        },
+        {
+          "nom": "Ouverture dans un nouvel onglet",
+          "test": "const a = document.querySelector('a'); return !!a && a.getAttribute('target') === '_blank';"
+        }
+      ],
+      "solution": {
+        "html": [
+          "<!DOCTYPE html>",
+          "<html lang=\"fr\">",
+          "<head>",
+          "  <meta charset=\"UTF-8\">",
+          "  <title>Exercice</title>",
+          "</head>",
+          "<body>",
+          "  <img src=\"chat.jpg\" alt=\"Un chat\">",
+          "  <a href=\"https://exemple.be\" target=\"_blank\">Exemple</a>",
+          "</body>",
+          "</html>"
+        ]
+      }
+    },
+    {
+      "id": "H068",
+      "categorie": "HTML",
+      "niveau": 3,
+      "enonce": [
+        "Crée une liste de choix « Pays » :",
+        "1. un `<select>` d'id `pays` avec 3 options : Belgique, France, Suisse ;",
+        "2. un `<label>` « Pays » relié à cette liste."
+      ],
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Exercice</title>",
+            "</head>",
+            "<body>",
+            "  ",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": false
+        },
+        "css": {
+          "code": [
+            "/* Dans cette question, tu n'as pas besoin de modifier le CSS */",
+            ""
+          ],
+          "verrouille": true
+        },
+        "js": {
+          "code": [
+            "// Dans cette question, tu n'as pas besoin de modifier le JavaScript",
+            ""
+          ],
+          "verrouille": true
+        }
+      },
+      "verification": "",
+      "criteres": [
+        {
+          "nom": "Un select d'id pays",
+          "test": "return !!document.querySelector('select#pays');"
+        },
+        {
+          "nom": "3 options : Belgique, France, Suisse",
+          "test": "const o = [...document.querySelectorAll('#pays option')].map((x) => x.textContent.trim()); return o.length === 3 && ['Belgique', 'France', 'Suisse'].every((p) => o.includes(p));"
+        },
+        {
+          "nom": "Label « Pays » relié à la liste",
+          "test": "const s = document.getElementById('pays'); return !!s && s.labels.length > 0 && s.labels[0].textContent.trim() === 'Pays';"
+        }
+      ],
+      "solution": {
+        "html": [
+          "<!DOCTYPE html>",
+          "<html lang=\"fr\">",
+          "<head>",
+          "  <meta charset=\"UTF-8\">",
+          "  <title>Exercice</title>",
+          "</head>",
+          "<body>",
+          "  <label for=\"pays\">Pays</label>",
+          "  <select id=\"pays\">",
+          "    <option>Belgique</option>",
+          "    <option>France</option>",
+          "    <option>Suisse</option>",
+          "  </select>",
+          "</body>",
+          "</html>"
+        ]
+      }
+    },
+    {
+      "id": "C065",
+      "categorie": "CSS",
+      "niveau": 2,
+      "enonce": [
+        "Complète le CSS du bouton `.btn` :",
+        "1. fond bleu (`blue`) ;",
+        "2. texte blanc ;",
+        "3. coins arrondis de `8px`."
+      ],
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!-- Dans cette question, tu n'as pas besoin de modifier le HTML -->",
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Bouton</title>",
+            "</head>",
+            "<body>",
+            "  <button class=\"btn\">Valider</button>",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": true
+        },
+        "css": {
+          "code": [
+            ".btn {",
+            "  /* Ton code ici */",
+            "}",
+            ""
+          ],
+          "verrouille": false
+        },
+        "js": {
+          "code": [
+            "// Dans cette question, tu n'as pas besoin de modifier le JavaScript",
+            ""
+          ],
+          "verrouille": true
+        }
+      },
+      "verification": "",
+      "criteres": [
+        {
+          "nom": "Fond bleu",
+          "test": "return getComputedStyle(document.querySelector('.btn')).backgroundColor === 'rgb(0, 0, 255)';"
+        },
+        {
+          "nom": "Texte blanc",
+          "test": "return getComputedStyle(document.querySelector('.btn')).color === 'rgb(255, 255, 255)';"
+        },
+        {
+          "nom": "Coins arrondis de 8px",
+          "test": "return getComputedStyle(document.querySelector('.btn')).borderTopLeftRadius === '8px';"
+        }
+      ],
+      "solution": {
+        "css": [
+          ".btn {",
+          "  background-color: blue;",
+          "  color: white;",
+          "  border-radius: 8px;",
+          "}",
+          ""
+        ]
+      }
+    },
+    {
+      "id": "C066",
+      "categorie": "CSS",
+      "niveau": 3,
+      "enonce": [
+        "Complète le CSS :",
+        "1. le paragraphe `.secret` ne doit plus s'afficher **ni prendre de place** ;",
+        "2. le texte de `.important` doit s'afficher en majuscules (sans modifier le HTML)."
+      ],
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!-- Dans cette question, tu n'as pas besoin de modifier le HTML -->",
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Affichage</title>",
+            "</head>",
+            "<body>",
+            "  <p class=\"important\">Lis bien ceci</p>",
+            "  <p class=\"secret\">Message caché</p>",
+            "  <p>Fin de la page</p>",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": true
+        },
+        "css": {
+          "code": [
+            "/* Ton code ici */",
+            ""
+          ],
+          "verrouille": false
+        },
+        "js": {
+          "code": [
+            "// Dans cette question, tu n'as pas besoin de modifier le JavaScript",
+            ""
+          ],
+          "verrouille": true
+        }
+      },
+      "verification": "",
+      "criteres": [
+        {
+          "nom": "`.secret` masqué sans prendre de place",
+          "test": "return getComputedStyle(document.querySelector('.secret')).display === 'none';"
+        },
+        {
+          "nom": "`.important` en majuscules",
+          "test": "return getComputedStyle(document.querySelector('.important')).textTransform === 'uppercase';"
+        }
+      ],
+      "solution": {
+        "css": [
+          ".secret {",
+          "  display: none;",
+          "}",
+          "",
+          ".important {",
+          "  text-transform: uppercase;",
+          "}",
+          ""
+        ]
+      }
+    },
+    {
+      "id": "C067",
+      "categorie": "CSS",
+      "niveau": 4,
+      "enonce": "Avec **CSS Grid**, dispose les 6 cartes de `.galerie` sur **3 colonnes de même largeur**, avec un espacement de `10px`.",
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!-- Dans cette question, tu n'as pas besoin de modifier le HTML -->",
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Galerie</title>",
+            "</head>",
+            "<body>",
+            "  <div class=\"galerie\">",
+            "    <div class=\"carte\">1</div>",
+            "    <div class=\"carte\">2</div>",
+            "    <div class=\"carte\">3</div>",
+            "    <div class=\"carte\">4</div>",
+            "    <div class=\"carte\">5</div>",
+            "    <div class=\"carte\">6</div>",
+            "  </div>",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": true
+        },
+        "css": {
+          "code": [
+            ".carte {",
+            "  background: #e3e9f1;",
+            "  padding: 20px;",
+            "  text-align: center;",
+            "}",
+            "",
+            ".galerie {",
+            "  /* Ton code ici */",
+            "}",
+            ""
+          ],
+          "verrouille": false
+        },
+        "js": {
+          "code": [
+            "// Dans cette question, tu n'as pas besoin de modifier le JavaScript",
+            ""
+          ],
+          "verrouille": true
+        }
+      },
+      "verification": "",
+      "criteres": [
+        {
+          "nom": "`.galerie` en display: grid",
+          "test": "return getComputedStyle(document.querySelector('.galerie')).display === 'grid';"
+        },
+        {
+          "nom": "3 colonnes de même largeur",
+          "test": "const c = getComputedStyle(document.querySelector('.galerie')).gridTemplateColumns.split(' ').map(parseFloat); return c.length === 3 && Math.max(...c) - Math.min(...c) < 1;"
+        },
+        {
+          "nom": "Espacement de 10px",
+          "test": "const s = getComputedStyle(document.querySelector('.galerie')); return s.columnGap === '10px' && s.rowGap === '10px';"
+        }
+      ],
+      "solution": {
+        "css": [
+          ".carte {",
+          "  background: #e3e9f1;",
+          "  padding: 20px;",
+          "  text-align: center;",
+          "}",
+          "",
+          ".galerie {",
+          "  display: grid;",
+          "  grid-template-columns: repeat(3, 1fr);",
+          "  gap: 10px;",
+          "}",
+          ""
+        ]
+      }
+    },
+    {
+      "id": "J080",
+      "categorie": "JavaScript",
+      "niveau": 3,
+      "enonce": [
+        "Écris une fonction `inverser(texte)` qui renvoie le texte à l'envers.",
+        "",
+        "Exemple : `inverser(\"abc\")` renvoie `\"cba\"`."
+      ],
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!-- Dans cette question, tu n'as pas besoin de modifier le HTML -->",
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Exercice</title>",
+            "  <style>",
+            "    body { font-family: sans-serif; }",
+            "    table.tests { border-collapse: collapse; margin: 12px; font-family: monospace; }",
+            "    table.tests th, table.tests td { border: 1px solid #999; padding: 4px 10px; text-align: left; }",
+            "  </style>",
+            "</head>",
+            "<body>",
+            "  <!-- Les résultats des tests s'affichent ici quand tu cliques sur Essayer -->",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": true
+        },
+        "css": {
+          "code": [
+            "/* Dans cette question, tu n'as pas besoin de modifier le CSS */",
+            ""
+          ],
+          "verrouille": true
+        },
+        "js": {
+          "code": [
+            "// Ton code ici",
+            ""
+          ],
+          "verrouille": false
+        }
+      },
+      "apres": [
+        "(function () {",
+        "  var appels = [\"inverser(\\\"abc\\\")\", \"inverser(\\\"Bonjour\\\")\", \"inverser(\\\"\\\")\"];",
+        "  var fmt = function (r) { return typeof r === \"number\" && isNaN(r) ? \"NaN\" : r === undefined ? \"undefined\" : JSON.stringify(r); };",
+        "  var t = document.createElement(\"table\");",
+        "  t.className = \"tests\";",
+        "  t.innerHTML = \"<thead><tr><th>Appel</th><th>Résultat</th></tr></thead>\";",
+        "  var b = t.createTBody();",
+        "  appels.forEach(function (c) {",
+        "    var r;",
+        "    try { r = fmt((0, eval)(c)); } catch (e) { r = e.name + \": \" + e.message; }",
+        "    var tr = b.insertRow();",
+        "    tr.insertCell().textContent = c;",
+        "    tr.insertCell().textContent = r;",
+        "  });",
+        "  document.body.appendChild(t);",
+        "})();"
+      ],
+      "verification": "",
+      "criteres": [
+        {
+          "nom": "inverser(\"abc\") renvoie \"cba\"",
+          "test": "return typeof inverser === 'function' && inverser(\"abc\") === \"cba\";"
+        },
+        {
+          "nom": "inverser(\"Bonjour\") renvoie \"ruojnoB\"",
+          "test": "return typeof inverser === 'function' && inverser(\"Bonjour\") === \"ruojnoB\";"
+        },
+        {
+          "nom": "inverser(\"\") renvoie \"\"",
+          "test": "return typeof inverser === 'function' && inverser(\"\") === \"\";"
+        }
+      ],
+      "solution": {
+        "js": [
+          "function inverser(texte) {",
+          "  return texte.split(\"\").reverse().join(\"\");",
+          "}",
+          ""
+        ]
+      }
+    },
+    {
+      "id": "J081",
+      "categorie": "JavaScript",
+      "niveau": 4,
+      "enonce": [
+        "Écris une fonction `majeurs(personnes)` qui reçoit un tableau d'objets `{ nom, age }` et renvoie le tableau des **noms** des personnes de 18 ans ou plus.",
+        "",
+        "Exemple : `majeurs([{ nom: \"Léa\", age: 20 }, { nom: \"Tom\", age: 15 }])` renvoie `[\"Léa\"]`."
+      ],
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!-- Dans cette question, tu n'as pas besoin de modifier le HTML -->",
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Exercice</title>",
+            "  <style>",
+            "    body { font-family: sans-serif; }",
+            "    table.tests { border-collapse: collapse; margin: 12px; font-family: monospace; }",
+            "    table.tests th, table.tests td { border: 1px solid #999; padding: 4px 10px; text-align: left; }",
+            "  </style>",
+            "</head>",
+            "<body>",
+            "  <!-- Les résultats des tests s'affichent ici quand tu cliques sur Essayer -->",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": true
+        },
+        "css": {
+          "code": [
+            "/* Dans cette question, tu n'as pas besoin de modifier le CSS */",
+            ""
+          ],
+          "verrouille": true
+        },
+        "js": {
+          "code": [
+            "// Ton code ici",
+            ""
+          ],
+          "verrouille": false
+        }
+      },
+      "apres": [
+        "(function () {",
+        "  var appels = [\"majeurs([{ nom: \\\"Léa\\\", age: 20 }, { nom: \\\"Tom\\\", age: 15 }])\", \"majeurs([{ nom: \\\"Ali\\\", age: 18 }])\", \"majeurs([])\"];",
+        "  var fmt = function (r) { return typeof r === \"number\" && isNaN(r) ? \"NaN\" : r === undefined ? \"undefined\" : JSON.stringify(r); };",
+        "  var t = document.createElement(\"table\");",
+        "  t.className = \"tests\";",
+        "  t.innerHTML = \"<thead><tr><th>Appel</th><th>Résultat</th></tr></thead>\";",
+        "  var b = t.createTBody();",
+        "  appels.forEach(function (c) {",
+        "    var r;",
+        "    try { r = fmt((0, eval)(c)); } catch (e) { r = e.name + \": \" + e.message; }",
+        "    var tr = b.insertRow();",
+        "    tr.insertCell().textContent = c;",
+        "    tr.insertCell().textContent = r;",
+        "  });",
+        "  document.body.appendChild(t);",
+        "})();"
+      ],
+      "verification": "",
+      "criteres": [
+        {
+          "nom": "majeurs([{ nom: \"Léa\", age: 20 }, { nom: \"Tom\", age: 15 }]) renvoie [\"Léa\"]",
+          "test": "return typeof majeurs === 'function' && JSON.stringify(majeurs([{ nom: \"Léa\", age: 20 }, { nom: \"Tom\", age: 15 }])) === JSON.stringify([\"Léa\"]);"
+        },
+        {
+          "nom": "majeurs([{ nom: \"Ali\", age: 18 }]) renvoie [\"Ali\"]",
+          "test": "return typeof majeurs === 'function' && JSON.stringify(majeurs([{ nom: \"Ali\", age: 18 }])) === JSON.stringify([\"Ali\"]);"
+        },
+        {
+          "nom": "majeurs([]) renvoie []",
+          "test": "return typeof majeurs === 'function' && JSON.stringify(majeurs([])) === JSON.stringify([]);"
+        }
+      ],
+      "solution": {
+        "js": [
+          "function majeurs(personnes) {",
+          "  return personnes",
+          "    .filter((p) => p.age >= 18)",
+          "    .map((p) => p.nom);",
+          "}",
+          ""
+        ]
+      }
+    },
+    {
+      "id": "J082",
+      "categorie": "JavaScript",
+      "niveau": 5,
+      "enonce": [
+        "La fonction `estPalindrome(mot)` doit renvoyer `true` si le mot se lit de la même façon dans les deux sens, **sans tenir compte des majuscules** (« Radar » est un palindrome).",
+        "",
+        "Elle contient **2 erreurs** : corrige-les."
+      ],
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!-- Dans cette question, tu n'as pas besoin de modifier le HTML -->",
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Exercice</title>",
+            "  <style>",
+            "    body { font-family: sans-serif; }",
+            "    table.tests { border-collapse: collapse; margin: 12px; font-family: monospace; }",
+            "    table.tests th, table.tests td { border: 1px solid #999; padding: 4px 10px; text-align: left; }",
+            "  </style>",
+            "</head>",
+            "<body>",
+            "  <!-- Les résultats des tests s'affichent ici quand tu cliques sur Essayer -->",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": true
+        },
+        "css": {
+          "code": [
+            "/* Dans cette question, tu n'as pas besoin de modifier le CSS */",
+            ""
+          ],
+          "verrouille": true
+        },
+        "js": {
+          "code": [
+            "function estPalindrome(mot) {",
+            "  const envers = mot.split(\"\").reverse();",
+            "  return mot === envers;",
+            "}",
+            ""
+          ],
+          "verrouille": false
+        }
+      },
+      "apres": [
+        "(function () {",
+        "  var appels = [\"estPalindrome(\\\"kayak\\\")\", \"estPalindrome(\\\"Radar\\\")\", \"estPalindrome(\\\"chat\\\")\"];",
+        "  var fmt = function (r) { return typeof r === \"number\" && isNaN(r) ? \"NaN\" : r === undefined ? \"undefined\" : JSON.stringify(r); };",
+        "  var t = document.createElement(\"table\");",
+        "  t.className = \"tests\";",
+        "  t.innerHTML = \"<thead><tr><th>Appel</th><th>Résultat</th></tr></thead>\";",
+        "  var b = t.createTBody();",
+        "  appels.forEach(function (c) {",
+        "    var r;",
+        "    try { r = fmt((0, eval)(c)); } catch (e) { r = e.name + \": \" + e.message; }",
+        "    var tr = b.insertRow();",
+        "    tr.insertCell().textContent = c;",
+        "    tr.insertCell().textContent = r;",
+        "  });",
+        "  document.body.appendChild(t);",
+        "})();"
+      ],
+      "verification": "",
+      "criteres": [
+        {
+          "nom": "estPalindrome(\"kayak\") renvoie true",
+          "test": "return typeof estPalindrome === 'function' && estPalindrome(\"kayak\") === true;"
+        },
+        {
+          "nom": "estPalindrome(\"Radar\") renvoie true",
+          "test": "return typeof estPalindrome === 'function' && estPalindrome(\"Radar\") === true;"
+        },
+        {
+          "nom": "estPalindrome(\"chat\") renvoie false",
+          "test": "return typeof estPalindrome === 'function' && estPalindrome(\"chat\") === false;"
+        }
+      ],
+      "solution": {
+        "js": [
+          "function estPalindrome(mot) {",
+          "  const minuscule = mot.toLowerCase();                       // 2. ignorer les majuscules",
+          "  const envers = minuscule.split(\"\").reverse().join(\"\");   // 1. join : reverse() renvoie un tableau",
+          "  return minuscule === envers;",
+          "}",
+          ""
+        ]
+      }
+    },
+    {
+      "id": "I063",
+      "categorie": "Intégration",
+      "niveau": 4,
+      "enonce": [
+        "Au clic sur « Ajouter » :",
+        "1. ajoute le texte du champ `#tache` comme nouvel élément `<li>` dans `#liste` ;",
+        "2. vide le champ ;",
+        "3. n'ajoute rien si le champ est vide."
+      ],
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!-- Dans cette question, tu n'as pas besoin de modifier le HTML -->",
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Tâches</title>",
+            "</head>",
+            "<body>",
+            "  <input type=\"text\" id=\"tache\" placeholder=\"Nouvelle tâche\">",
+            "  <button id=\"ajouter\">Ajouter</button>",
+            "  <ul id=\"liste\"></ul>",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": true
+        },
+        "css": {
+          "code": [
+            "/* Dans cette question, tu n'as pas besoin de modifier le CSS */",
+            ""
+          ],
+          "verrouille": true
+        },
+        "js": {
+          "code": [
+            "// Ton code ici",
+            ""
+          ],
+          "verrouille": false
+        }
+      },
+      "verification": "",
+      "criteres": [
+        {
+          "nom": "La tâche est ajoutée dans un <li>",
+          "test": "const c = document.getElementById('tache'); c.value = 'Réviser'; document.getElementById('ajouter').click(); const l = document.querySelectorAll('#liste li'); return l.length === 1 && l[0].textContent.trim() === 'Réviser';"
+        },
+        {
+          "nom": "Le champ est vidé",
+          "test": "return document.getElementById('tache').value === '';"
+        },
+        {
+          "nom": "Rien n'est ajouté si le champ est vide",
+          "test": "const c = document.getElementById('tache'); c.value = ''; document.getElementById('ajouter').click(); return document.querySelectorAll('#liste li').length === 1;"
+        }
+      ],
+      "solution": {
+        "js": [
+          "const champ = document.getElementById(\"tache\");",
+          "const liste = document.getElementById(\"liste\");",
+          "",
+          "document.getElementById(\"ajouter\").addEventListener(\"click\", () => {",
+          "  const texte = champ.value.trim();",
+          "  if (texte === \"\") return;",
+          "",
+          "  const li = liste.appendChild(document.createElement(\"li\"));",
+          "  li.textContent = texte;",
+          "  champ.value = \"\";",
+          "});",
+          ""
+        ]
+      }
+    },
+    {
+      "id": "I064",
+      "categorie": "Intégration",
+      "niveau": 3,
+      "enonce": "Au clic sur `#bouton-theme`, la classe `sombre` doit être **ajoutée** au `<body>` si elle est absente, et **retirée** si elle est présente.",
+      "fichiers": {
+        "html": {
+          "code": [
+            "<!-- Dans cette question, tu n'as pas besoin de modifier le HTML -->",
+            "<!DOCTYPE html>",
+            "<html lang=\"fr\">",
+            "<head>",
+            "  <meta charset=\"UTF-8\">",
+            "  <title>Thème</title>",
+            "</head>",
+            "<body>",
+            "  <h1>Mon site</h1>",
+            "  <button id=\"bouton-theme\">Changer de thème</button>",
+            "</body>",
+            "</html>"
+          ],
+          "verrouille": true
+        },
+        "css": {
+          "code": [
+            "/* Dans cette question, tu n'as pas besoin de modifier le CSS */",
+            "body.sombre {",
+            "  background: #1d2533;",
+            "  color: white;",
+            "}",
+            ""
+          ],
+          "verrouille": true
+        },
+        "js": {
+          "code": [
+            "// Ton code ici",
+            ""
+          ],
+          "verrouille": false
+        }
+      },
+      "verification": "",
+      "criteres": [
+        {
+          "nom": "1er clic : classe sombre ajoutée",
+          "test": "document.getElementById('bouton-theme').click(); return document.body.classList.contains('sombre');"
+        },
+        {
+          "nom": "2e clic : classe sombre retirée",
+          "test": "document.getElementById('bouton-theme').click(); return !document.body.classList.contains('sombre');"
+        }
+      ],
+      "solution": {
+        "js": [
+          "document.getElementById(\"bouton-theme\").addEventListener(\"click\", () => {",
+          "  document.body.classList.toggle(\"sombre\");",
+          "});",
+          ""
         ]
       }
     }

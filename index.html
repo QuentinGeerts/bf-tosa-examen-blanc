@@ -275,6 +275,14 @@ svg.courbe .val { fill: var(--ink); font: 600 12px "IBM Plex Mono", monospace; }
 
 .consultation { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 10px; padding: 12px 16px; margin-bottom: 16px; font-weight: 600; }
 
+.images { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.image-opt { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-2); cursor: pointer; font-weight: 600; }
+.image-opt:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); outline: 2px solid var(--accent); }
+.image-opt.good { border-color: var(--ok); background: var(--ok-soft); }
+.image-opt.picked { border-color: var(--ko); background: var(--ko-soft); }
+.image-opt .svg-img { width: 100%; max-width: 160px; height: auto; background: #fff; border-radius: 4px; }
+.image-opt input { accent-color: var(--accent); }
+
 /* Questions interactives */
 .inter { margin-top: 18px; }
 .aide { font-size: 13px; color: var(--muted); margin: 0 0 10px; }
@@ -354,7 +362,7 @@ async function chargerQuestions() {
   });
   (data.interactives || []).forEach((q, i) => {
     const c = CODES[q.categorie];
-    const t = { vraifaux: "vf", liste: "liste", relier: "relier", glisser: "glisser", trou: "trou", lignes: "lignes" }[q.type];
+    const t = { vraifaux: "vf", liste: "liste", relier: "relier", glisser: "glisser", trou: "trou", lignes: "lignes", images: "images", multiple: "multiple" }[q.type];
     if (!c || !t || !(q.niveau >= 1 && q.niveau <= 5)) { console.warn("Question interactive ignorée (index " + i + ")"); return; }
     const d = { id: q.id || c + "-i" + i, c, n: q.niveau, t, q: txt(q.question), e: txt(q.explication) };
     if (q.code) d.code = txt(q.code);
@@ -362,6 +370,8 @@ async function chargerQuestions() {
       if (t === "vf") d.aff = q.affirmations.map((a) => [a.texte, a.vrai === true]);
       if (t === "liste") d.phr = q.phrases.map((p) => [p.texte, p.options, p.reponse]);
       if (t === "trou") d.rep = q.reponses.map((v) => (Array.isArray(v) ? v : [v]));
+      if (t === "images") { d.images = q.images.map(txt); d.a = q.reponse; }
+      if (t === "multiple") { d.o = q.options; d.bonnes = q.reponses; }
       if (t === "lignes") { d.lignes = q.lignes; d.fautes = (q.erreurs || []).map((n) => n - 1); }
       if (q.documentation) d.doc = { url: q.documentation.lien, titre: q.documentation.titre || q.documentation.lien };
       if (q.chrono_secondes) d.chrono = q.chrono_secondes;
@@ -713,15 +723,17 @@ document.addEventListener("visibilitychange", () => {
 function score(answers) {
   // aucune bonne réponse (ni réussite partielle sur un exercice) : 0 pointé
   if (!answers.some((a) => a.ok || a.score > 0)) return 0;
-  let sw = 0, sl = 0;
+  // niveau moyen atteint + bonus / malus selon le taux de réussite (les dernières questions comptent plus)
+  let sw = 0, sl = 0, sr = 0;
   answers.forEach((a, i) => {
     const w = 1 + i / (TOTAL - 1);
     sw += w;
-    const reussite = a.score != null ? a.score / 100 : a.ok ? 1 : 0;   // score partiel des exercices
-    sl += w * (a.level + reussite - 0.5);
+    sl += w * a.level;
+    sr += w * (a.score != null ? a.score / 100 : a.ok ? 1 : 0);   // score partiel des exercices
   });
-  const L = sl / sw;
-  const pts = [[0.5, 0], [1, 150], [2, 450], [3, 640], [4, 800], [5, 940], [5.5, 1000]];
+  const L = sl / sw + 0.5 + 1.5 * (sr / sw - 0.85);
+  // repères : 2 bonnes réponses sur 3 ≈ 820 (Avancé), 1 erreur sur 5 ≈ 895 (Expert), tout juste = 1000
+  const pts = [[0.5, 0], [1, 150], [2, 400], [3, 580], [4, 700], [5, 860], [5.5, 1000]];
   if (L <= pts[0][0]) return 0;
   for (let i = 1; i < pts.length; i++) {
     if (L <= pts[i][0]) {
@@ -871,13 +883,15 @@ function renderQcm(q) {
 }
 
 // ─── Questions interactives : Vrai/Faux, listes déroulantes, relier, glisser-déposer ───
-const TYPES = { vf: "Vrai / Faux", liste: "Listes déroulantes", relier: "Relier", glisser: "Glisser-déposer", trou: "Texte à compléter", lignes: "Lignes à cliquer" };
+const TYPES = { vf: "Vrai / Faux", liste: "Listes déroulantes", relier: "Relier", glisser: "Glisser-déposer", trou: "Texte à compléter", lignes: "Lignes à cliquer", images: "QCM en images", multiple: "Plusieurs réponses" };
 
 function melanger(q) {
   const idx = (n) => shuffle(Array.from({ length: n }, (_, i) => i));
   if (q.t === "relier") return { g: idx(q.paires.length), d: idx(q.paires.length + q.intrus.length) };
   if (q.t === "glisser") return { e: idx(q.etiq.length) };
   if (q.t === "liste") return { o: q.phr.map((p) => idx(p[1].length)) };
+  if (q.t === "images") return { ordre: idx(q.images.length) };
+  if (q.t === "multiple") return { ordre: idx(q.o.length) };
   return null;
 }
 const droites = (q) => q.paires.map((p) => p[1]).concat(q.intrus);
@@ -891,6 +905,8 @@ function corriger(q, rep) {
     const poses = q.etiq.filter((_, i) => rep[i] === zi).sort().join("|");
     return poses === z.rep.slice().sort().join("|");
   });
+  if (q.t === "images") return rep === q.a;
+  if (q.t === "multiple") return Array.isArray(rep) && rep.length === q.bonnes.length && q.bonnes.every((b) => rep.includes(b));
   if (q.t === "trou") {
     const norm = (s) => String(s || "").trim().replace(/;$/, "").replace(/\s+/g, "");
     return q.rep.every((variantes, i) => variantes.some((v) => norm(v) === norm(rep[i])));
@@ -900,6 +916,13 @@ function corriger(q, rep) {
     return !rep.aucune && rep.lignes.length === q.fautes.length && q.fautes.every((f) => rep.lignes.includes(f));
   }
   return false;
+}
+
+// Image SVG affichée sans risque (balise <img>, aucun script exécuté)
+function imageSvg(svg, alt) {
+  let s = String(svg).trim();
+  if (!/xmlns=/.test(s)) s = s.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+  return h("img", { src: "data:image/svg+xml;charset=utf-8," + encodeURIComponent(s), alt, class: "svg-img" });
 }
 
 function renderInteractif(q) {
@@ -1067,9 +1090,30 @@ function renderInteractif(q) {
     corps = h("div", {}, h("p", { class: "aide" }, "Clique sur une ligne pour la sélectionner (clique à nouveau pour la désélectionner)."), h("div", { class: "lignes" }, boutons), aucune);
   }
 
+  if (q.t === "images") {
+    rep = null;
+    pret = () => rep !== null;
+    corps = h("div", { class: "images", role: "radiogroup" }, m.ordre.map((oi, k) => {
+      const r = h("input", { type: "radio", name: "img", value: String(oi) });
+      r.addEventListener("change", () => { rep = oi; maj(); });
+      return h("label", { class: "image-opt" }, imageSvg(q.images[oi], "Proposition " + "ABCDE"[k]), h("span", {}, r, " " + "ABCDE"[k]));
+    }));
+  }
+
+  if (q.t === "multiple") {
+    rep = [];
+    pret = () => rep.length > 0;
+    corps = h("div", {}, h("p", { class: "aide" }, "Plusieurs réponses possibles : coche toutes les bonnes réponses."),
+      h("div", { class: "opts" }, m.ordre.map((oi, k) => {
+        const c = h("input", { type: "checkbox", value: String(oi) });
+        c.addEventListener("change", () => { rep = c.checked ? [...rep, oi] : rep.filter((x) => x !== oi); maj(); });
+        return h("label", { class: "opt" }, c, h("span", { class: "letter" }, "ABCDE"[k]), rich("span", q.o[oi]));
+      })));
+  }
+
   const maj = () => { valider.disabled = !pret(); };
   maj();
-  valider.addEventListener("click", () => repondre(corriger(q, rep), { rep: JSON.parse(JSON.stringify(rep)) }));
+  valider.addEventListener("click", () => repondre(corriger(q, rep), { rep: JSON.parse(JSON.stringify(rep)), ...(m && m.ordre ? { order: m.ordre } : {}) }));
 
   app.replaceChildren(h("div", { class: q.t === "relier" || q.t === "glisser" ? "" : "narrow" }, h("section", { class: "card" },
     enteteQuestion(q),
@@ -1100,6 +1144,17 @@ function correctionInteractif(q, a) {
     return h("li", { class: bon ? "good" : "picked" }, h("span", { class: "mark" }, bon ? ok : ko),
       h("strong", {}, (z.titre || z.decor || "Zone " + (zi + 1)) + " : "), inline(h("span"), z.rep.map((x) => "`" + x + "`").join(" ")),
       bon ? null : h("span", { class: "muted" }, " — toi : ", poses.length ? inline(h("span"), poses.map((x) => "`" + x + "`").join(" ")) : "rien"));
+  }));
+  if (q.t === "images") return h("div", { class: "images" }, (a.order || q.images.map((_, i) => i)).map((oi, k) =>
+    h("div", { class: "image-opt" + (oi === q.a ? " good" : oi === r ? " picked" : "") }, imageSvg(q.images[oi], "Proposition " + "ABCDE"[k]),
+      h("span", {}, (oi === q.a ? "✓ " : oi === r ? "✗ " : "") + "ABCDE"[k] + (oi === r ? " — ta réponse" : "")))));
+  if (q.t === "multiple") return h("ul", {}, q.o.map((o, k) => {
+    const bonne = q.bonnes.includes(k), cochee = r.includes(k);
+    const li = h("li", { class: bonne ? (cochee ? "good" : "picked") : cochee ? "picked" : "" },
+      h("span", { class: "mark" }, bonne ? (cochee ? "✓" : "✗") : cochee ? "✗" : "·"), " ");
+    inline(li, o);
+    li.append(h("span", { class: "muted" }, bonne ? (cochee ? " — cochée" : " — oubliée") : cochee ? " — cochée à tort" : ""));
+    return li;
   }));
   if (q.t === "trou") return h("ul", {}, q.rep.map((variantes, i) => {
     const bon = corriger({ t: "trou", rep: [variantes] }, [r[i]]);
@@ -1540,7 +1595,7 @@ function carteCorrection(a, i) {
 }
 
 // ─── Mode formateur (caché) : toutes les questions avec leurs réponses — adresse de la page + #banque ───
-const NOMS_TYPES = { qcm: "QCM", vf: "Vrai / Faux", liste: "Listes déroulantes", trou: "Texte à compléter", lignes: "Lignes à cliquer", relier: "Relier", glisser: "Glisser-déposer", pratique: "Exercice pratique" };
+const NOMS_TYPES = { qcm: "QCM", images: "QCM en images", multiple: "Plusieurs réponses", vf: "Vrai / Faux", liste: "Listes déroulantes", trou: "Texte à compléter", lignes: "Lignes à cliquer", relier: "Relier", glisser: "Glisser-déposer", pratique: "Exercice pratique" };
 const typeDe = (q) => (q.p ? "pratique" : q.t || "qcm");
 
 function carteBanque(q) {
@@ -1586,6 +1641,12 @@ function carteBanque(q) {
     el.append(h("ul", {}, q.zones.map((z, zi) => h("li", { class: "good" }, h("span", { class: "mark" }, "✓"),
       h("strong", {}, (z.titre || z.decor || "Zone " + (zi + 1)) + " : "), inline(h("span"), z.rep.map((x) => "`" + x + "`").join(" ")))),
       trop.length ? h("li", { class: "muted" }, "Restent à gauche : ", inline(h("span"), trop.map((x) => "`" + x + "`").join(" "))) : null));
+  }
+  if (q.t === "images") {
+    el.append(h("div", { class: "images" }, q.images.map((im, k) => h("div", { class: "image-opt" + (k === q.a ? " good" : "") }, imageSvg(im, "Proposition " + "ABCDE"[k]), h("span", {}, (k === q.a ? "✓ " : "") + "ABCDE"[k])))));
+  }
+  if (q.t === "multiple") {
+    el.append(h("ul", {}, q.o.map((o, k) => inline(h("li", { class: q.bonnes.includes(k) ? "good" : "" }, h("span", { class: "mark" }, q.bonnes.includes(k) ? "✓" : "ABCDE"[k])), o))));
   }
   if (q.t === "trou") {
     el.append(h("ul", {}, q.rep.map((v, i) => h("li", { class: "good" }, h("span", { class: "mark" }, "✓"), "Case " + (i + 1) + " : ", inline(h("span"), v.map((x) => "`" + x + "`").join(" ou "))))));

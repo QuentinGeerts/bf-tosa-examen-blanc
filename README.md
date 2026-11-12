@@ -156,6 +156,21 @@ Elles occupent les mêmes places que les QCM dans l'examen. Champs communs : `ty
   "lignes": ["<ul>", "  <li>Accueil", "</ul>"], "erreurs": [2], "explication": "..." }
 ```
 
+**QCM en images** (`images` = 4 dessins SVG, `reponse` = index de la bonne image ; mélangées à l'affichage)
+
+```json
+{ "type": "images", "categorie": "CSS", "niveau": 3, "question": "Quelle image correspond à ce CSS ?",
+  "code": ".avatar { border-radius: 50%; }",
+  "images": ["<svg viewBox=\"0 0 120 90\">…</svg>", "…", "…", "…"], "reponse": 0, "explication": "..." }
+```
+
+**Plusieurs réponses** (`reponses` = index des bonnes options ; juste seulement si toutes les bonnes sont cochées, et aucune autre)
+
+```json
+{ "type": "multiple", "categorie": "HTML", "niveau": 3, "question": "Lesquels sont des éléments vides ?",
+  "options": ["`<br>`", "`<img>`", "`<p>`", "`<input>`"], "reponses": [0, 1, 3], "explication": "..." }
+```
+
 **Question de documentation** : n'importe quelle question interactive peut recevoir un lien autorisé et un chrono (la sortie d'onglet n'est alors pas comptée).
 
 ```json
