@@ -185,6 +185,8 @@ pre.code { background: var(--code-bg); color: var(--code-ink); padding: 14px 16p
 .rv.bad { border-left-color: var(--ko); }
 .rv .head { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; font-size: 14px; }
 .rv .qid { font-size: 12px; }
+.rv .temps { font-size: 12px; font-family: "IBM Plex Mono", monospace; }
+.rv .sortie { font-size: 12px; font-weight: 600; color: var(--warn); }
 .rv .verdict { margin-left: auto; font-weight: 700; font-size: 13px; }
 .rv .verdict.ok { color: var(--ok); } .rv .verdict.ko { color: var(--ko); }
 .rv ul { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 4px; font-size: 15px; }
@@ -344,7 +346,8 @@ async function chargerQuestions() {
 const CATS = { H: "HTML", C: "CSS", J: "JavaScript", I: "Intégration" };
 const TOTAL = 35;
 const DUREE = 90 * 60 * 1000;
-const DUREE_PRAT = 5 * 60 * 1000;   // temps maximum par exercice pratique
+const DUREE_PRAT = 5 * 60 * 1000;
+const PART_INTERACTIVES = 0.35;   // part des questions interactives parmi les questions hors exercices   // temps maximum par exercice pratique
 const QUOTA = { H: 8, C: 9, J: 11, I: 7 };
 const PRAT_POS = [4, 10, 16, 22, 28, 33];          // positions (index 0) des exercices pratiques
 const PRAT_CATS = ["H", "C", "J", "J", "I", "I"];
@@ -520,8 +523,11 @@ function nouvelExamen(nom) {
   const seq = [];
   for (let i = 0; i < TOTAL; i++) {
     if (pratOK && PRAT_POS.includes(i)) seq.push({ c: pc.pop(), p: true });
-    else seq.push({ c: qcm.pop(), p: false });
+    else seq.push({ c: qcm.pop(), p: false, i: false });
   }
+  // environ une place sur trois (hors exercices) pour les questions interactives (Vrai/Faux, listes, relier, glisser…)
+  const places = shuffle(seq.filter((s) => !s.p));
+  places.slice(0, Math.round(places.length * PART_INTERACTIVES)).forEach((s) => { s.i = true; });
   S = { id: token().slice(0, 6), nom, seq, idx: 0, level: 2, used: [], answers: [], cur: null, start: Date.now(), end: Date.now() + DUREE, fini: false };
   preparer();
   save();
@@ -550,8 +556,10 @@ async function envoyerResultat() {
     pOk: st.pOk, pN: st.pN,
     duree: Math.round(((S.endedAt || Date.now()) - S.start) / 60000),
     timeout: S.answers.some((a) => a.timeout),
-    reussies: S.answers.map((a, i) => ({ a, i })).filter(({ a }) => a.ok).map(({ a, i }) => ({ i: i + 1, id: a.id != null ? BANK[a.id].id : null })),
-    erreurs: S.answers.map((a, i) => ({ a, i })).filter(({ a }) => !a.ok).map(({ a, i }) => ({ i: i + 1, id: a.id != null ? BANK[a.id].id : null })),
+    reussies: S.answers.map((a, i) => ({ a, i })).filter(({ a }) => a.ok).map(({ a, i }) => ({ i: i + 1, id: a.id != null ? BANK[a.id].id : null, t: Math.round((a.temps || 0) / 1000) })),
+    erreurs: S.answers.map((a, i) => ({ a, i })).filter(({ a }) => !a.ok).map(({ a, i }) => ({ i: i + 1, id: a.id != null ? BANK[a.id].id : null, t: Math.round((a.temps || 0) / 1000) })),
+    sorties: (S.sorties && S.sorties.n) || 0,
+    sortiesMs: (S.sorties && S.sorties.ms) || 0,
   });
   envoiEnCours = false;
   S.envoi = ok ? "ok" : "echec";
@@ -569,8 +577,12 @@ function majStatut() {
 }
 function choisir(slot) {
   const libre = (i) => !S.used.includes(i);
-  let pool = BANK.map((q, i) => i).filter((i) => BANK[i].c === slot.c && !!BANK[i].p === slot.p && libre(i));
-  if (!pool.length) pool = BANK.map((q, i) => i).filter((i) => !!BANK[i].p === slot.p && libre(i));
+  const genre = (q) => (q.p ? "p" : q.t ? "i" : "q");
+  const voulu = slot.p ? "p" : slot.i ? "i" : "q";
+  const tous = BANK.map((q, i) => i).filter(libre);
+  let pool = tous.filter((i) => BANK[i].c === slot.c && genre(BANK[i]) === voulu);
+  if (!pool.length) pool = tous.filter((i) => genre(BANK[i]) === voulu);                     // autre domaine
+  if (!pool.length && !slot.p) pool = tous.filter((i) => genre(BANK[i]) !== "p");           // autre format
   const dist = (i) => Math.abs(BANK[i].n - S.level);
   const min = Math.min(...pool.map(dist));
   const best = pool.filter((i) => dist(i) === min);
@@ -580,12 +592,12 @@ function preparer() {
   const id = choisir(S.seq[S.idx]);
   S.used.push(id);
   const q = BANK[id];
-  S.cur = { id, order: q.o ? shuffle(q.o.map((_, i) => i)) : null, draft: q.p ? { ...q.start } : null };
+  S.cur = { id, order: q.o ? shuffle(q.o.map((_, i) => i)) : null, draft: q.p ? { ...q.start } : null, debut: Date.now(), sorties: 0 };
   if (q.p) S.cur.deadline = Date.now() + DUREE_PRAT;
 }
 function repondre(ok, extra) {
   const q = BANK[S.cur.id];
-  S.answers.push({ id: S.cur.id, c: q.c, ok, level: S.level, order: S.cur.order, ...extra });
+  S.answers.push({ id: S.cur.id, c: q.c, ok, level: S.level, order: S.cur.order, temps: Date.now() - (S.cur.debut || Date.now()), sorties: S.cur.sorties || 0, ...extra });
   S.level = Math.min(5, Math.max(1, S.level + (ok ? 1 : -1)));
   S.idx++;
   S.cur = null;
@@ -596,7 +608,7 @@ function terminer() {
   while (S.answers.length < TOTAL) {
     const i = S.answers.length;
     const id = S.cur && S.answers.length === S.idx ? S.cur.id : null;
-    S.answers.push({ id, c: S.seq[i].c, ok: false, level: S.level, order: S.cur ? S.cur.order : null, timeout: true });
+    S.answers.push({ id, c: S.seq[i].c, ok: false, level: S.level, order: S.cur ? S.cur.order : null, timeout: true, temps: S.cur && S.cur.debut ? Math.min(Date.now(), S.end) - S.cur.debut : 0 });
     S.cur = null;
   }
   S.fini = true;
@@ -605,6 +617,25 @@ function terminer() {
   render();
   window.scrollTo(0, 0);
 }
+
+// ─── Sorties de l'onglet pendant l'examen (changement d'onglet, fenêtre réduite) ───
+function duree(ms) {
+  const s = Math.round(ms / 1000);
+  return s < 60 ? s + " s" : Math.floor(s / 60) + " min " + String(s % 60).padStart(2, "0");
+}
+document.addEventListener("visibilitychange", () => {
+  if (!S || S.fini || !S.cur) return;
+  S.sorties = S.sorties || { n: 0, ms: 0 };
+  if (document.hidden) {
+    S.sorties.debut = Date.now();
+  } else if (S.sorties.debut) {
+    S.sorties.n++;
+    S.sorties.ms += Date.now() - S.sorties.debut;
+    S.sorties.debut = null;
+    S.cur.sorties = (S.cur.sorties || 0) + 1;
+  }
+  save();
+});
 
 // ─── Score (estimation adaptative) ───
 function score(answers) {
@@ -1070,6 +1101,7 @@ function texteDiscord(sc, st) {
     Object.keys(CATS).map((c) => `${CATS[c]} : ${st.parCat[c].ok}/${st.parCat[c].n}`).join(" · "),
     `Exercices pratiques : ${st.pOk}/${st.pN}`,
     `Durée : ${duree} min`,
+    `Sorties de l'onglet : ${(S.sorties && S.sorties.n) || 0}`,
   ].join("\n");
 }
 
@@ -1128,7 +1160,8 @@ function renderResultats() {
           h("div", {}, h("b", {}, `${st.ok}/${TOTAL}`), "bonnes réponses"),
           h("div", {}, h("b", {}, `${Math.round(st.ok / TOTAL * 100)} %`), "de réussite"),
           h("div", {}, h("b", {}, `${st.pOk}/${st.pN}`), "exercices pratiques"),
-          h("div", {}, h("b", {}, `${Math.round(((S.endedAt || Date.now()) - S.start) / 60000)} min`), "durée")),
+          h("div", {}, h("b", {}, `${Math.round(((S.endedAt || Date.now()) - S.start) / 60000)} min`), "durée"),
+          h("div", {}, h("b", {}, String((S.sorties && S.sorties.n) || 0)), "sortie(s) de l'onglet")),
         h("p", { class: "note" }, "Simulation non officielle : le score est une estimation basée sur la difficulté des questions réussies."))),
     h("div", { class: "grid2" },
       h("section", { class: "card" },
@@ -1154,6 +1187,8 @@ function renderResultats() {
 function carteCorrection(a, i) {
   const head = (q) => h("div", { class: "head" },
     h("span", { class: "mono" }, `Q${i + 1}`), chip(a.c), q && q.id ? h("span", { class: "mono muted qid" }, q.id) : null, h("span", { class: "tag" }, q && q.p ? "Exercice pratique" : (q && TYPES[q.t]) || "QCM"),
+    a.temps ? h("span", { class: "muted temps" }, "⏱ " + duree(a.temps)) : null,
+    a.sorties ? h("span", { class: "sortie" }, "⚠ " + a.sorties + " sortie(s) d'onglet") : null,
     h("span", { class: "verdict " + (a.ok ? "ok" : "ko") }, a.ok ? "Réussie" : (a.timeout || a.tempsEcoule) ? "Temps écoulé" : (a.choix === null || a.passe) ? "Sans réponse" : "Ratée"));
   if (a.id == null) {
     return h("article", { class: "rv bad" }, head(null), h("p", { class: "muted" }, "Question non atteinte avant la fin du temps."));

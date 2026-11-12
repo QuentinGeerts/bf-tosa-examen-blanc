@@ -31,6 +31,9 @@ function resume(d) {
       `Bonnes réponses : **${ok} / ${total}** (${Math.round((ok / total) * 100)} %)`,
       `Exercices pratiques : ${nombre(d.pOk, 0, 10)}/${nombre(d.pN, 0, 10)}`,
       `Durée : ${nombre(d.duree, 0, 600)} min${d.timeout ? " (temps écoulé)" : ""}`,
+      nombre(d.sorties, 0, 999)
+        ? `⚠️ A quitté l'onglet de l'examen **${nombre(d.sorties, 0, 999)} fois** (${Math.round(nombre(d.sortiesMs, 0, 1e8) / 1000)} s au total)`
+        : "Onglet de l'examen : jamais quitté",
     ].join("\n"),
     fields: [
       ...Object.keys(CATS).map((c) => ({
@@ -48,8 +51,11 @@ function resume(d) {
 // « Q1 (H017), Q4 (C034), … »
 function listeQuestions(liste) {
   const items = (Array.isArray(liste) ? liste : []).slice(0, 100).map((e) => {
-    const id = /^[A-Za-z0-9-]{1,12}$/.test(e.id || "") ? ` (${e.id})` : "";
-    return `Q${nombre(e.i, 1, 100)}${id}`;
+    const id = /^[A-Za-z0-9-]{1,12}$/.test(e.id || "") ? e.id : "";
+    const t = nombre(e.t, 0, 6000);
+    const temps = t ? (t < 60 ? `${t} s` : `${Math.floor(t / 60)} min ${String(t % 60).padStart(2, "0")}`) : "";
+    const details = [id, temps].filter(Boolean).join(" · ");
+    return `Q${nombre(e.i, 1, 100)}${details ? ` (${details})` : ""}`;
   });
   return coupe(items.join(", "), 1024) || "—";
 }
