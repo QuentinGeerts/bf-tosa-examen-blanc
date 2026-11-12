@@ -259,6 +259,18 @@ button.ligne:hover { background: #2a3445; }
 .zone-commentaire textarea { width: 100%; margin-top: 8px; font: inherit; font-size: 14px; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); resize: vertical; }
 .rv .com { font-size: 14px; background: var(--accent-soft); border-radius: 6px; padding: 6px 10px; margin: 0 0 8px; }
 
+.historique { margin-top: 20px; }
+svg.courbe { width: 100%; height: auto; display: block; margin: 6px 0 10px; }
+svg.courbe .grille { stroke: var(--line); }
+svg.courbe .lbl { fill: var(--muted); font: 600 11px "IBM Plex Sans", sans-serif; text-transform: uppercase; }
+svg.courbe .trait { fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linejoin: round; }
+svg.courbe .pt { fill: var(--surface); stroke: var(--accent); stroke-width: 2.5; }
+svg.courbe .val { fill: var(--ink); font: 600 12px "IBM Plex Mono", monospace; }
+.table-scroll { overflow-x: auto; }
+.histo-table { font-size: 14px; white-space: nowrap; }
+.delta { font-size: 12px; font-weight: 600; }
+.delta.up { color: var(--ok); } .delta.down { color: var(--ko); }
+
 /* Questions interactives */
 .inter { margin-top: 18px; }
 .aide { font-size: 13px; color: var(--muted); margin: 0 0 10px; }
@@ -605,6 +617,7 @@ async function envoyerResultat() {
     cats: Object.fromEntries(Object.keys(CATS).map((c) => [c, [st.parCat[c].ok, st.parCat[c].n]])),
     niveaux: Object.fromEntries(Object.keys(CATS).map((c) => [c, niveauDomaine(c)])),
     pOk: st.pOk, pN: st.pN, pScore: st.pScore,
+    tentative: infosTentative(),
     duree: Math.round(((S.endedAt || Date.now()) - S.start) / 60000),
     timeout: S.answers.some((a) => a.timeout),
     reussies: S.answers.map((a, i) => ({ a, i })).filter(({ a }) => a.ok).map(({ a, i }) => ({ i: i + 1, id: a.id != null ? BANK[a.id].id : null, t: Math.round((a.temps || 0) / 1000), s: a.score })),
@@ -790,6 +803,7 @@ function renderAccueil() {
 
   app.replaceChildren(h("div", { class: "narrow" },
     reprise,
+    renderHistorique(),
     h("section", { class: "card" },
       h("p", { class: "tag" }, "Préparation à la certification"),
       h("h1", {}, "Examen blanc · Développement web"),
@@ -1283,7 +1297,84 @@ function graphiqueProgression() {
       h("span", {}, h("i", { class: "pt sans" }), "Sans réponse"), h("span", {}, h("i", { class: "pt ligne" }), "Niveau estimé")));
 }
 
+// ─── Historique des examens (dans ce navigateur) ───
+const KEY_HIST = "examen-blanc-web-historique";
+function historique() {
+  try { return JSON.parse(localStorage.getItem(KEY_HIST)) || []; } catch (e) { return []; }
+}
+function ajouterHistorique() {
+  if (!S || !S.fini || S.histo) return;
+  const sc = score(S.answers), st = stats();
+  const h0 = historique().filter((x) => x.id !== S.id);
+  h0.push({
+    id: S.id, nom: S.nom, date: S.endedAt || Date.now(), score: sc, niveau: niveau(sc), ok: st.ok, total: TOTAL, pScore: st.pScore,
+    duree: Math.round(((S.endedAt || Date.now()) - S.start) / 60000),
+    domaines: Object.fromEntries(Object.keys(CATS).map((c) => [c, [st.parCat[c].ok, st.parCat[c].n, niveauDomaine(c)]])),
+  });
+  try { localStorage.setItem(KEY_HIST, JSON.stringify(h0.slice(-30))); } catch (e) {}
+  S.histo = true;
+  save();
+}
+function infosTentative() {
+  const hs = historique(), i = hs.findIndex((x) => x.id === S.id);
+  return { n: i >= 0 ? i + 1 : hs.length + 1, precedent: i > 0 ? hs[i - 1].score : null };
+}
+function courbeHistorique(hs) {
+  const NS = "http://www.w3.org/2000/svg";
+  const el = (tag, attrs) => { const e = document.createElementNS(NS, tag); for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v); return e; };
+  const W = 640, Hh = 160, G = 40, D = 110, haut = 24, n = hs.length;
+  const x = (i) => G + (n === 1 ? (W - G - D) / 2 : (i * (W - G - D)) / (n - 1));
+  const y = (s) => haut + Hh - (s / 1000) * Hh;
+  const svg = el("svg", { viewBox: `0 0 ${W} ${haut + Hh + 26}`, class: "courbe", role: "img", "aria-label": "Évolution du score" });
+  let bas = 0;
+  NIVEAUX.forEach((nv) => {
+    svg.append(el("line", { x1: G, x2: W - D + 6, y1: y(nv.max), y2: y(nv.max), class: "grille" }));
+    const t = el("text", { x: W - D + 12, y: (y(nv.max) + y(bas)) / 2 + 4, class: "lbl" }); t.textContent = nv.nom; svg.append(t);
+    bas = nv.max;
+  });
+  svg.append(el("line", { x1: G, x2: W - D + 6, y1: y(0), y2: y(0), class: "grille" }));
+  svg.append(el("polyline", { points: hs.map((e, i) => `${x(i)},${y(e.score)}`).join(" "), class: "trait" }));
+  hs.forEach((e, i) => {
+    const c = el("circle", { cx: x(i), cy: y(e.score), r: 5, class: "pt" });
+    const ti = el("title", {}); ti.textContent = `${new Date(e.date).toLocaleDateString("fr-BE")} : ${e.score} / 1000 (${e.niveau})`; c.append(ti); svg.append(c);
+    const v = el("text", { x: x(i), y: y(e.score) - 10, class: "val", "text-anchor": "middle" }); v.textContent = e.score; svg.append(v);
+    const t = el("text", { x: x(i), y: y(0) + 18, class: "lbl", "text-anchor": "middle" }); t.textContent = "#" + (i + 1); svg.append(t);
+  });
+  return svg;
+}
+function renderHistorique() {
+  const hs = historique();
+  if (!hs.length) return null;
+  const fmtDate = (d) => new Date(d).toLocaleDateString("fr-BE", { day: "2-digit", month: "2-digit" }) + " " + new Date(d).toLocaleTimeString("fr-BE", { hour: "2-digit", minute: "2-digit" });
+  let armed = false;
+  const effacer = h("button", { class: "btn small danger" }, "Effacer l'historique");
+  effacer.addEventListener("click", () => {
+    if (!armed) { armed = true; effacer.textContent = "Confirmer ?"; setTimeout(() => { armed = false; effacer.textContent = "Effacer l'historique"; }, 3000); return; }
+    try { localStorage.removeItem(KEY_HIST); } catch (e) {}
+    render();
+  });
+  const dernier = hs[hs.length - 1], premier = hs[0];
+  const delta = dernier.score - premier.score;
+  return h("section", { class: "card historique" },
+    h("div", { class: "row", style: "justify-content:space-between" }, h("h3", {}, "Ton évolution"), effacer),
+    hs.length > 1 ? h("p", { class: "muted" }, `${hs.length} examens · ${delta >= 0 ? "+" : ""}${delta} points depuis le premier (${premier.score} → ${dernier.score})`) : h("p", { class: "muted" }, "Premier examen enregistré : repasse l'examen pour suivre ta progression."),
+    courbeHistorique(hs),
+    h("div", { class: "table-scroll" }, h("table", { class: "vf histo-table" },
+      h("thead", {}, h("tr", {}, ["#", "Date", "Score", "Niveau", "Bonnes rép.", ...Object.values(CATS), "Exercices", "Durée"].map((t) => h("th", {}, t)))),
+      h("tbody", {}, hs.map((e, i) => {
+        const avant = i > 0 ? e.score - hs[i - 1].score : null;
+        return h("tr", {},
+          h("td", {}, String(i + 1)), h("td", {}, fmtDate(e.date)),
+          h("td", {}, h("strong", {}, String(e.score)), avant != null ? h("span", { class: avant >= 0 ? "delta up" : "delta down" }, ` ${avant >= 0 ? "+" : ""}${avant}`) : null),
+          h("td", {}, e.niveau), h("td", {}, `${e.ok}/${e.total}`),
+          ...Object.keys(CATS).map((c) => h("td", {}, e.domaines && e.domaines[c] ? `${e.domaines[c][0]}/${e.domaines[c][1]}` : "—")),
+          h("td", {}, (e.pScore != null ? e.pScore : "—") + "/100"), h("td", {}, e.duree + " min"));
+      })))),
+    h("p", { class: "note" }, "L'historique est enregistré dans ce navigateur, sur cet ordinateur."));
+}
+
 function renderResultats() {
+  ajouterHistorique();
   const sc = score(S.answers);
   const st = stats();
   const nivIdx = NIVEAUX.findIndex((n) => sc <= n.max);
@@ -1327,6 +1418,7 @@ function renderResultats() {
           h("div", {}, h("b", {}, String((S.sorties && S.sorties.n) || 0)), "sortie(s) de l'onglet")),
         h("p", { class: "note" }, "Simulation non officielle : le score est une estimation basée sur la difficulté des questions réussies."))),
     graphiqueProgression(),
+    renderHistorique(),
     h("div", { class: "grid2" },
       h("section", { class: "card" },
         h("h3", {}, "Par domaine"),
