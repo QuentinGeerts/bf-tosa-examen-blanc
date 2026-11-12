@@ -1777,7 +1777,9 @@ async function renderVerifier() {
   const router = () => (location.hash === "#banque" ? renderBanque() : location.hash === "#verifier" ? renderVerifier() : render());
   // formateur : Ctrl + Alt + Maj + Q abandonne l'examen en cours et revient à l'accueil (historique conservé)
   document.addEventListener("keydown", (e) => {
-    if (!(e.ctrlKey && e.altKey && e.shiftKey && e.code === "KeyQ") || !S || S.fini) return;
+    // la lettre tapée (AZERTY comme QWERTY) ; la position physique seulement si la touche ne donne pas une lettre (ex. Option sur Mac)
+    const q = /^[a-z]$/i.test(e.key) ? e.key.toLowerCase() === "q" : e.code === "KeyQ";
+    if (!(e.ctrlKey && e.altKey && e.shiftKey && q) || !S || S.fini) return;
     e.preventDefault();
     clearInterval(tick);
     S = null;
